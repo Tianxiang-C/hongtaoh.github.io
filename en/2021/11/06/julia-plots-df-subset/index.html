@@ -1,0 +1,146 @@
+<a name=top></a><!doctype html>
+<html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>郝鸿涛：Hongtao Hao</title>
+<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css>
+<link rel=stylesheet href=/css/style.css>
+<link rel=stylesheet href=/css/fonts.css>
+<link href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css rel=stylesheet>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/bash.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/python.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/vega@5.17.0></script>
+<script src=https://cdn.jsdelivr.net/npm/vega-lite@4.17.0></script>
+<script src=https://cdn.jsdelivr.net/npm/vega-embed@6.12.2></script>
+<script>hljs.initHighlightingOnLoad()</script>
+<link rel=icon href=https://hongtaoh.com/ht10.ico>
+</head>
+<body>
+<div class=wrapper>
+<header class=header>
+<nav class=nav>
+<a href=/ class=nav-logo>
+<img src=/media/ht10.png width=50 height=50 alt="Hongtao Hao">
+</a>
+<ul class=nav-links>
+<li><a href=/>Home</a></li>
+<li><a href=/en/vitae/>Vitae</a></li>
+<li><a href=/en/projects/>Projects</a></li>
+<li><a href=/en/blog/>Blog</a></li>
+<li><a href=/en/apad/>APAD</a></li>
+<li><a href=/cn/blog/>中文</a></li>
+</ul>
+</nav>
+</header>
+<main class=content role=main>
+<div style=text-align:center>
+<h1>Julia: How to Plot A Subset of A DataFrame</h1>
+<p>Hongtao Hao
+/ 2021-11-06 </p>
+<hr>
+</div>
+<span class=article-toolbar>
+<a href=https://github.com/hongtaoh/hongtaoh.github.io/edit/sources/content/en/blog/2021-11-06-julia-plot-df-subset.md style=font-size:24px;color:#000 target=_blank><i class="fa fa-edit" aria-hidden=true title="Suggest an edit of this page"></i>
+</a>
+</span>
+<div class="body-text list-text">
+<p>This post also answers the question of &ldquo;How to plot timeseries in Julia Plots&rdquo;.</p>
+<pre tabindex=0><code>using DataFrames, Dates, Plots, StatsPlots
+</code></pre><pre tabindex=0><code>time = collect(Date(2016,1,1):Year(1):Date(2021,1,1))
+</code></pre><pre tabindex=0><code>6-element Vector{Date}:
+ 2016-01-01
+ 2017-01-01
+ 2018-01-01
+ 2019-01-01
+ 2020-01-01
+ 2021-01-01
+</code></pre><pre tabindex=0><code>df = DataFrame(A=time, B=rand(6), C=rand(6), D=10*rand(6))
+</code></pre><pre tabindex=0><code>6×4 DataFrame
+ Row │ A           B          C         D       
+     │ Date        Float64    Float64   Float64 
+─────┼──────────────────────────────────────────
+   1 │ 2016-01-01  0.0514108  0.621983  1.89575
+   2 │ 2017-01-01  0.0424919  0.7281    4.25318
+   3 │ 2018-01-01  0.435236   0.228105  7.55767
+   4 │ 2019-01-01  0.489223   0.809564  8.02765
+   5 │ 2020-01-01  0.223332   0.405445  7.78306
+   6 │ 2021-01-01  0.426019   0.950642  1.43597
+</code></pre><p>It&rsquo;s Okay if you just want to plot one column, say, Column B:</p>
+<pre tabindex=0><code>plot(df.A, df.B, label=&quot;B&quot;)
+</code></pre><figure itemprop=associatedMedia itemscope itemtype=http://schema.org/ImageObject>
+<a href=/media/enblog/julia-tutorial/julia-plots-df-subset-B.png itemprop=contentUrl>
+<img itemprop=thumbnail src=/media/enblog/julia-tutorial/julia-plots-df-subset-B.png>
+</a>
+</figure>
+<p>However, if you want to plot all other columns, you&rsquo;ll see an error:</p>
+<pre tabindex=0><code>plot(df.A, df[:, 2:4])
+</code></pre><pre tabindex=0><code>Cannot convert DataFrame to series data for plotting
+...
+...
+</code></pre><p>We see this error because we need to <a href=https://docs.juliaplots.org/latest/input_data/#columns-are-series target=_blank rel="noreferrer noopener">use matrices (rather than a DataFrame) if we want to plot multiple columns</a>
+.</p>
+<p>So what we need is:</p>
+<pre tabindex=0><code>df_matrix = Matrix(df[:, 2:4])
+plot(df.A, df_matrix)
+</code></pre><figure itemprop=associatedMedia itemscope itemtype=http://schema.org/ImageObject>
+<a href=/media/enblog/julia-tutorial/julia-plots-df-subset-2.png itemprop=contentUrl>
+<img itemprop=thumbnail src=/media/enblog/julia-tutorial/julia-plots-df-subset-2.png>
+</a>
+</figure>
+<p>That&rsquo;s good. But, what about the legends?</p>
+<p>We can do this:</p>
+<pre tabindex=0><code>plot(df.A, df_matrix, labels=[&quot;B&quot; &quot;C&quot; &quot;D&quot;])
+plot!(size = (750, 400))
+</code></pre><figure itemprop=associatedMedia itemscope itemtype=http://schema.org/ImageObject>
+<a href=/media/enblog/julia-tutorial/julia-plots-df-subset-3.png itemprop=contentUrl>
+<img itemprop=thumbnail src=/media/enblog/julia-tutorial/julia-plots-df-subset-3.png>
+</a>
+</figure>
+<p>But what if you have a lot of columns, say, 100? It&rsquo;s impractical for you to manually enter their labels. What should we do then?</p>
+<p>When we check, we can see that <code>["B" "C" "D"]</code> is a 1×3 Matrix:</p>
+<pre tabindex=0><code>julia&gt; [&quot;B&quot; &quot;C&quot; &quot;D&quot;]
+1×3 Matrix{String}:
+ &quot;B&quot;  &quot;C&quot;  &quot;D&quot;
+</code></pre><p>So we need a matrix of all the column names for the <code>label</code> parameter.</p>
+<p>First, let&rsquo;s get the column names:</p>
+<pre tabindex=0><code>label_names = names(df[:, 2:4])
+</code></pre><pre tabindex=0><code>3-element Vector{String}:
+ &quot;B&quot;
+ &quot;C&quot;
+ &quot;D&quot;
+</code></pre><p>Then, let&rsquo;s transform this vector to a 1×3 Matrix:</p>
+<pre tabindex=0><code>label_matrix = reshape(label_names, 1, length(label_names))
+</code></pre><pre tabindex=0><code>1×3 Matrix{String}:
+ &quot;B&quot;  &quot;C&quot;  &quot;D&quot;
+</code></pre><p>Then, we just pass the <code>label_matrix</code> to <code>label</code>:</p>
+<pre tabindex=0><code>plot(df.A, df_matrix, labels=label_matrix)
+</code></pre>
+<p style=color:#777>Last modified on 2021-11-08</p>
+</div>
+<a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>
+</main>
+<footer class=footer>
+<script src=https://utteranc.es/client.js repo=hongtaoh/hongtaoh.github.io issue-term=pathname theme=github-light crossorigin=anonymous async></script>
+<script type=text/javascript src=/js/math-code.js></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type=text/javascript src=/js/center-img.js></script>
+<ul class=footer-links>
+<li><a href=/en/blog/index.xml type=application/rss+xml title="RSS feed">
+Subscribe </a>
+</li>
+<li>
+<a href=http://creativecommons.org/licenses/by-nc-sa/4.0/ target=_blank>
+License
+<i class="fa fa-cc" aria-hidden=true title="Attribution-NonCommercial-ShareAlike 4.0 International"></i>
+</a>
+</li>
+</ul>
+<div class=copyright-text>
+©
+Hongtao Hao
+2020-2021
+</div>
+</footer>
