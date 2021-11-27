@@ -1,4 +1,26 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>郝鸿涛：Hongtao Hao</title><link>https://hongtaoh.com/</link><description>Recent content on 郝鸿涛：Hongtao Hao</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="https://hongtaoh.com/index.xml" rel="self" type="application/rss+xml"/><item><title>Julia Plots: How to Do Without Legends</title><link>https://hongtaoh.com/en/2021/11/06/julia-plots-no-legends/</link><pubDate>Sat, 06 Nov 2021 09:46:04 -0500</pubDate><guid>https://hongtaoh.com/en/2021/11/06/julia-plots-no-legends/</guid><description>Just pass label = nothing:
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>郝鸿涛：Hongtao Hao</title><link>https://hongtaoh.com/</link><description>Recent content on 郝鸿涛：Hongtao Hao</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="https://hongtaoh.com/index.xml" rel="self" type="application/rss+xml"/><item><title>curl: (60) SSL certificate problem: certificate has expired</title><link>https://hongtaoh.com/en/2021/11/21/ssl-certificate/</link><pubDate>Sun, 21 Nov 2021 08:36:37 -0600</pubDate><guid>https://hongtaoh.com/en/2021/11/21/ssl-certificate/</guid><description>I encountered this error message when I tried to install TinyTex in R.
+curl: (60) SSL certificate problem: certificate has expired More details here: https://curl.haxx.se/docs/sslcerts.html I&amp;rsquo;m using macOS (10.14.6).
+This gave me quite a headache for quite a long time. Fortunately, I finally found a solution here .
+To repeat:
+open your Terminal and enter open -a Finder /etc/ssl/. As Bri Bri suggested , rename cert.pem to something else. Go to https://curl.</description></item><item><title>My Notes on Dalio's Book of Principles</title><link>https://hongtaoh.com/en/2021/11/20/principles/</link><pubDate>Sat, 20 Nov 2021 19:41:54 -0600</pubDate><guid>https://hongtaoh.com/en/2021/11/20/principles/</guid><description>Most importnat lessons I have learned from this book:
+Extremely Truthful. Extremely Honest. Extremely Open. Learn from your mistakes. Learn from your pain. &amp;ldquo;Most learning comes from making mistakes and experiencing the pain of them.&amp;rdquo; &amp;ldquo;Pain + Reflection = Progress&amp;rdquo; Accept your realities, however harsh they might be. For example, accept you are poor, short, and ugly. Introduction There are &amp;ldquo;laws of life&amp;rdquo;.
+We need to learn how to interact with life or reality more effectively.</description></item><item><title>《原则读书笔记》</title><link>https://hongtaoh.com/cn/2021/11/20/principles/</link><pubDate>Sat, 20 Nov 2021 19:29:46 -0600</pubDate><guid>https://hongtaoh.com/cn/2021/11/20/principles/</guid><description>我的主要收获：
+我觉得眼前的难题让我头疼，那是因为我智慧不够。如果智慧够，我可以从容应付任何难题。 不逃避痛苦。遇到痛苦，马上反思，然后之后改进。 导言 正确地失败：从痛苦的经验中吸取教训 做决策时，写下你所奉行的原则 总结你自己的原则，将它们写下来，特别是如果你和别人共事。 极度求真、极度透明，实现有意义的工作和有意义的人际关系。 第一部分，我的历程 如何做决定影响我们的人生轨迹。 当政府决策者向你承诺他们不会允许货币贬值发生时，不要相信他们。
+最好假设自己看到的并不是全部。
+永远不要自以为是。要保持谦逊的态度。
+最重要的事情不是预知未来，而是知道在每一个时间点上如何针对可获得的信息做出合理的回应。
+上面这句话不仅适用于投资，我觉得更适用于人生。我在做重大决策时，总是埋冤上天，为什么不能让我预知未来，这样我就知道该如何做出最正确的决定了。2020 年疫情期间，各种不确定，我在决定是回国还是申请 OPT 在美国呆一年时，父亲对我说，不要想太远，只根据眼前做出你觉得最好的决定就行。父亲的这句话让我非常受用。
+&amp;ldquo;8:从更高的层面回顾&amp;quot;这一章节我觉得干货非常多：
+经验少时，每当你碰到困难和挫折，都像是生死攸关的难题，但当经验丰富时，你会觉得这不过是往日情景再现。就算你没经历过当前的困难，肯定有人曾经经历过。 在现实中遇到任何困难，不要抱怨，而是积极寻找建设性的解决方法。（我自己加一句：不管遇到什么困难，这个世界上总会有相应的应对方法。） 痛苦是为了让你学习。你可以从你经历的痛苦中提炼出你自己的原则，然后用它来减少未来的痛苦。 成功的人在实现伟大的梦想之后并不比普通人更快乐。他们往往有同样多甚至更多的痛苦。 成功的喜悦不在实现目标那一刻，而在追逐梦想的过程。 达里奥说的这句话我非常同意：
+尽管一个人可以给其他人带来很多有益影响，但相对来看，这种影响又可以小到忽略不计。
+我经常有帮助别人的愿望。我想帮很多很多人。但我就像我在《苏东坡传》读后感中写的那样，我慢慢觉得每个人都有自己要去经历的事情。你给患白血病的人捐款、捐物甚至捐你自己的身体，但你有没有想过，这名白血病患者原本想在生命中经历一次彻底的绝望以及对死亡的极度恐惧。你帮他/她摆脱这个痛苦，只是你自以为在帮忙，实际上并不是在帮他。我总是见不得别人受苦，但受苦是个人的选择，我无权干涉别人的人生。
+发现自己的性格，过与性格相适应的生活，才是最幸福的。
+第二部分，生活原则 达里奥说“任何遵循这些原则的人都有可能创造大体相同的结果“。对这个观点，我持保留意见。
+拥抱现实，应对现实 和大自然的智慧相比，人类的智慧微不足道。试着通过观察大自然来了解人类自身、认识现实规律。
+判断一个事物是好是坏时，要考虑它是否有利于整体进化。
+没有完美这件事。任何东西都不是完美的，因为完美意味着停滞和死亡。
+现实如果没有满足你的愿望，你会失望。但是，这通常是因为你对自己想要什么有先入为主的观念。再次，现实没有满足你愿望这回事如果从宇宙大背景下考虑的话，对整体而言是一件好事，而不是坏事。为什么？我有两个解释：
+第一，现实没有满足你，说明你做的不够，或者做的不对，你还有要学习的东西； 第二，即使你把该做的、能做的都做了，现实仍然不给予你想要的东西，只能说明不给予你这些对整体的进化是好的。 痛苦让人清醒，帮人进步。</description></item><item><title>Julia Plots: How to Do Without Legends</title><link>https://hongtaoh.com/en/2021/11/06/julia-plots-no-legends/</link><pubDate>Sat, 06 Nov 2021 09:46:04 -0500</pubDate><guid>https://hongtaoh.com/en/2021/11/06/julia-plots-no-legends/</guid><description>Just pass label = nothing:
 x = 1:6; y = rand(6, 2) plot(x, y, label = nothing) I learned the trick from here .</description></item><item><title>Julia: How to Plot A Subset of A DataFrame</title><link>https://hongtaoh.com/en/2021/11/06/julia-plots-df-subset/</link><pubDate>Sat, 06 Nov 2021 09:30:38 -0500</pubDate><guid>https://hongtaoh.com/en/2021/11/06/julia-plots-df-subset/</guid><description>This post also answers the question of &amp;ldquo;How to plot timeseries in Julia Plots&amp;rdquo;.
 using DataFrames, Dates, Plots, StatsPlots time = collect(Date(2016,1,1):Year(1):Date(2021,1,1)) 6-element Vector{Date}: 2016-01-01 2017-01-01 2018-01-01 2019-01-01 2020-01-01 2021-01-01 df = DataFrame(A=time, B=rand(6), C=rand(6), D=10*rand(6)) 6×4 DataFrame Row │ A B C D │ Date Float64 Float64 Float64 ─────┼────────────────────────────────────────── 1 │ 2016-01-01 0.0514108 0.621983 1.89575 2 │ 2017-01-01 0.0424919 0.7281 4.25318 3 │ 2018-01-01 0.435236 0.228105 7.55767 4 │ 2019-01-01 0.</description></item><item><title>Julia Error: character literal contains multiple characters</title><link>https://hongtaoh.com/en/2021/11/03/julia-multiple-char/</link><pubDate>Wed, 03 Nov 2021 09:06:50 -0500</pubDate><guid>https://hongtaoh.com/en/2021/11/03/julia-multiple-char/</guid><description>syntax: character literal contains multiple characters If you see the above error, it&amp;rsquo;s because there are multiple characters within ' '. You need to use &amp;quot; &amp;quot; instead.</description></item><item><title>Julia: How to Use Conda Virtual Environments in PyCall</title><link>https://hongtaoh.com/en/2021/11/03/julia-conda-envs/</link><pubDate>Wed, 03 Nov 2021 08:59:43 -0500</pubDate><guid>https://hongtaoh.com/en/2021/11/03/julia-conda-envs/</guid><description>The following solution is based on this discussion .
 Suppose you are using a Mac. Open your Terminal and use the following codes:
@@ -241,7 +263,7 @@ data = [ { &amp;#34;date&amp;#34; : &amp;#39;2013-01-01&amp;#39;, &amp;#34;value
 会会（我家的一个亲戚）跟我说，二叔叔跟她提到，他有长期性的头痛，一直治不好。不知道这是否也是一个症状。
 五 二叔叔去世后，我回想往事，感觉他一直跟一个孩子一样。
 在我可能只有五六岁的时候，二叔叔带着我和他女儿一起到我们村后的一座山上。我忘了是什么日子，山上有不少人。他带着我们下山的场景我现在都记得，很美好，脚下以及一眼望去全是花草。由于太久远，我都分不清这个场景是真实发生，还是只在我的梦里出现过。
-依然是我七岁以前，他那时应该将近三十岁。我记得他喜欢在家里用那种很大的录音机很大声地放当时的流行歌曲来听。
+依然是我七岁以前，他那时应该将近三十岁。我记得他喜欢在家里用那种很大的录音机很大声地放当时的流行歌曲来听。我印象比较深的是那首「九妹」。
 还有一次，我在他家看电视，当时正在播新闻联播，有则新闻是关于复旦大学的。他对我和他女儿说，希望我们能考到复旦大学。
 他很喜欢做一些小东西吃。有次过年，可能是我上初中时，我正在奶奶屋子里看春节联欢晚会，他找到我，说“鸿涛，来尝尝我做的东西”。我忘了是啥，应该是他炒了什么，非常好吃，所以我现在还有印象。他脸上那种“好吃吧”的表情很像一个孩子。
 有次初中暑假，我在村里老家，当时二叔叔一家也在。他采了野菜，我不知道叫什么名字。他把野菜炒了炒，很好吃。
@@ -741,26 +763,27 @@ Suppose you have a folder named A within Desktop. The A folder has the following
 打开终端 (Terminal) 输入 sudo pico /etc/hosts， 然后回车。你可能会被要求输入密码。输入你的开机密码就好。需要注意的是，也许是为了安全，你输入的内容不会被显示出来。输入完密码后，点击回车。 进入 nano 文本编辑器后, 光标移动到 localhost 部分的最后一行，输入 127.0.0.1 www.baidu.com 需要注意的是，不需要 https://
 按 Ctrl + O，然后回车 按 Ctrl + X 退出 nano 编辑器，回到终端 在终端输入 sudo dscacheutil -flushcache，然后回车 重启浏览器，百度应该就打不开了 如果无效，可以考虑 SelfControl App 。</description></item><item><title>如何走出沉迷</title><link>https://hongtaoh.com/cn/2021/01/17/addiction/</link><pubDate>Sun, 17 Jan 2021 13:19:34 -0500</pubDate><guid>https://hongtaoh.com/cn/2021/01/17/addiction/</guid><description>当今这个时代，令人沉迷的东西越来越多，时政新闻、娱乐八卦、电影、电视剧、音乐、短视频、综艺、动漫、网络小说、游戏、色情视频、手淫、烟、酒精、赌博、毒品。有些项目虽然令人沉迷，但社会大体可以接受，游戏之前的大体都属于这类，烟、酒精也属于这类。涉及到黄、赌、毒的就属于社会不可接受的项目了。
 不管何种沉迷，其本质都是人对快感的追逐。听到喜欢的音乐，内心汹涌澎湃；看网络小说，止不住幻想自己的未来如帝王般伟大；看电影、电视剧、动漫，以及打游戏时，你会短暂地从把你压的喘不过气来的困境中逃出来，去体验别人虚构出来的美好世界。带来快感越强烈的东西，自然成瘾性越强。
-不是所有的沉迷都给人很强的痛苦，也不是所有的人都想从沉迷中走出来。成瘾性越低，危害越小，出逃的动机自然也越小。成瘾性越大，危害越大，出逃的动机越大，但同时出逃的难度也越大。出逃的动机也要看一个人对沉迷容忍度的高低。我对沉迷的容忍度非常低，假使我看到自己因为遇到困难，就去看电影、电视剧、刷抖音，我会非常痛恨自己，会有非常强烈的出逃心。但我相信肯定有人允许自己沉如此迷。容忍度越低，痛苦自然也越越大。
+不是所有的沉迷都给人很强的痛苦，也不是所有的人都想从沉迷中走出来。成瘾性越低，危害越小，出逃的动机自然也越小。成瘾性越大，危害越大，出逃的动机越大，但同时出逃的难度也越大。出逃的动机也要看一个人对沉迷容忍度的高低。我对沉迷的容忍度非常低，假使我看到自己因为遇到困难，就去看电影、电视剧、刷抖音，我会非常痛恨自己，会有非常强烈的出逃心。但我相信肯定有人允许自己沉如此迷。容忍度越低，痛苦自然也越大。
 接下来我会简单介绍一下我自己摸索出来的方法，帮助你走出沉迷，不过我不保证对所有人以及所有的沉迷都有用。
 我把这个方法总结为七个字：逃、生、计、惩、读、静、省。
+不要和黑暗纠缠，而是去寻找光明。
 逃 就是字面意思。沉迷的时候，要认识到，你是在和人类追求快感的天性在做斗争。基本上你是打不过自己的天性的，所以第一步是「逃」，也就是远离令你沉迷的东西。
 如果你沉迷游戏，就把所有下载的游戏都删除、屏蔽在线游戏网站、拒绝和经常邀请你打游戏的朋友联络、搬到离网吧远的地方住；如果你沉迷网络小说，把所有下载的小说都删除、买的书扔掉、经常访问的网站屏蔽掉。如果你沉迷色情视频和手淫，请删除所有的本地黄色视频、彻底屏蔽色情网站、拒绝和损友交往， 并且远离 KTV、酒吧、夜总会之类的场所。
-如果沉迷的时间很久，你追追快感的倾向已经固化，除了要逃离你所沉迷的内容，最好把能引起你轻微快感的东西一并去除。如果你沉迷色情视频，除了黄色网站要屏蔽，最好可以在一段时间内杜绝看电影、电视剧、综艺、动漫、短视频，期间最好也不要听任何音乐。为什么呢？因为走出沉迷的本质是拒绝用之前的方式获取快感。你对色情视频、手淫上瘾，说明你对快感的追逐很强烈，这时候看电影、电视剧、综艺节目、动漫，你只是换了一种方式去追追快感。但只要这个追逐快感的心存在，你就没跨出第一步。
-做第一步的「逃」时，不用去担忧自己可能很快又会回到老状态。你需要做的只是在当下拥有出逃心以及和往日所沉迷的内容彻底决裂的魄力。之后是不是又再回到之前的状态并不是你现在要担心的事。
+如果沉迷的时间很久，你追逐快感的倾向已经固化，除了要逃离你所沉迷的内容，最好把能引起你轻微快感的东西一并去除。如果你沉迷色情视频，除了黄色网站要屏蔽，最好可以在一段时间内杜绝看电影、电视剧、综艺、动漫、短视频，期间最好也不要听任何音乐。为什么呢？因为走出沉迷的本质是拒绝用之前的方式获取快感。你对色情视频、手淫上瘾，说明你对快感的追逐很强烈，这时候看电影、电视剧、综艺节目、动漫，你只是换了一种方式去获取快感。只要这个追逐快感的心仍然存在，你就还没跨出第一步。
+做第一步的「逃」时，不用去担忧自己可能很快又会回到老状态。你需要做的只是在当下拥有出逃心以及和往日所沉迷的内容彻底决裂的魄力。之后是不是又再回到之前的状态并不是你现在需要担心的事。
 生 你可以把「生」理解为生命、生机、生活。往日沉迷的日子，你不快乐，缺乏生机，也很难说有鲜活又清醒的生命。走出了第一步，暂时逃离了所沉迷之物，接下来要做的是给自己一个暂新的生活方式。
 想要走出沉迷，你要做的最重要的一件事是在你的生活中引入新的东西。「新东西」巩固之后，老旧的习惯就难以在你的生活中立足，所谓的沉迷也就没有了。这里的一个核心思想是：积极地引进新东西，而不必过多地与之前的坏习惯搏斗。
 沉迷的人要把什么「新东西」引入生活呢？积极向上的生活习惯。
 这些好习惯的内容因人而异，包括但不限于：早睡早起、锻炼身体（不一定非要去健身房，每天多去外面走走，轻微跑跑步都算）、孝顺父母、多读好书、每天反省自己、少聊天多学习，等等。这些习惯的作用是把光引到你的人生中。光一到，黑暗自然退去。
 计 「计」是计划。计划虽然不一定都能付诸现实，但一定要有计划。往大了说，你的人生究竟最想要什么？诚实地问问你自己。目前不知道没关系，大多数人虽然看起来很忙，但很少有人清楚地了知自己这一生究竟想要什么。我也在探索的路上。
-太过长远计划暂时做不出来的话，就想想自己未来一年、一个月、一周之内想要得到什么。不知道自己往哪里走，努力也就无从谈起。
+太过长远的计划暂时做不出来的话，就想想自己未来一年、一个月、一周之内想要得到什么。不知道自己往哪里走，努力也就无从谈起。
 计划之所以重要，是因为沉迷的主要原因就是目标的丧失（当然也可能是目标太难，用沉迷来麻醉自己）。有目标才有清晰的头脑。
-心里大概知道自己想要什么、想做什么之后，就要指定详尽和具体的计划。比如，每天背单词30分钟、做2个小时的题、听30分钟的听力等等。规定一定要具体。可以给自己列一个清单，做完一项划掉它，每日往复不断。对第二步的「生」，最好也制定规定。比如，必须10点躺在床上，6点离开床、每天必须散步半小时、必须写100字的日记等等。
+心里大概知道自己想要什么、想做什么之后，就要制定详尽和具体的计划。比如，每天背单词30分钟、做2个小时的题、听30分钟的听力等等。规定一定要具体。可以给自己列一个清单，做完一项划掉它，每日往复不断。对第二步的「生」，最好也制定规定。比如，必须10点躺在床上，6点离开床、每天必须散步半小时、必须写100字的日记等等。
 最好的状态是，一睁眼你就知道自己今天都有哪些要干的事情。
 惩 「惩」是惩罚。
 需要注意的是，这个惩罚不针对自己所要逃离的沉迷。比如，你沉迷色情视频，那么即使你今天又去看这些视频，也不用惩罚自己。如果靠单纯惩罚就能摆脱沉迷的话，你的执行力很强，也就没必要看这篇文章。
 那什么时候惩罚自己呢？做不到自己第三步所制定的计划时。比如，你说了6点前离开床，那多一分钟你就要给自己惩罚。说了每天要写100字的日记、看半小时单词，那不管自己当天身体多么累、心情多么低落，也要按部就班地把事情做完，不给自己任何借口。做不到就惩罚自己。
-具体怎么惩罚自己，因人而已。这个惩罚不应该对自己的身体造成永久性的损伤（千万不要自虐！），但是每当想起这个惩罚的时候，你就浑身打哆嗦。比如，一天不吃饭、给希望工程捐款自己一周的生活费等等。
+具体怎么惩罚自己，因人而已。这个惩罚不应该对自己的身体造成永久性的损伤（请不要自虐，更不要自残！），但是每当想起这个惩罚的时候，你就浑身打哆嗦。比如，一天不吃饭、给希望工程捐款自己一周的生活费等等。
 读 「读」就是读书。专业书不算，而是读能让你对人生有思考的书。有些书不会给你带来立马的收获，但能给你心灵的力量。可读的范围包括但不限于名人传记（如张宏杰写的《曾国藩传》）、中国传统文化、时间管理等。这部分可以参考豆瓣的高分榜单。
 这部分最好也可以包含在你每日的计划里，比如规定自己每天读书半小时。
 我读书的体会，用曾国藩的话来说，就是「用功不求太猛，但求有恒」。买下书之后，猛地读半天，这很容易，但是要每天不管发生什么事都坚持读半小时的书，这就需要毅力和恒心了。
