@@ -1,0 +1,177 @@
+<a name=top></a><!doctype html>
+<html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>郝鸿涛：Hongtao Hao</title>
+<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css>
+<link rel=stylesheet href=/css/style.css>
+<link rel=stylesheet href=/css/fonts.css>
+<link href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css rel=stylesheet>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/bash.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/python.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/vega@5.17.0></script>
+<script src=https://cdn.jsdelivr.net/npm/vega-lite@4.17.0></script>
+<script src=https://cdn.jsdelivr.net/npm/vega-embed@6.12.2></script>
+<script>hljs.initHighlightingOnLoad()</script>
+<link rel=icon href=https://hongtaoh.com/ht10.ico>
+</head>
+<body>
+<div class=wrapper>
+<header class=header>
+<nav class=nav>
+<a href=/ class=nav-logo>
+<img src=/media/ht10.png width=50 height=50 alt="Hongtao Hao">
+</a>
+<ul class=nav-links>
+<li><a href=/>Home</a></li>
+<li><a href=/en/vitae/>Vitae</a></li>
+<li><a href=/en/projects/>Projects</a></li>
+<li><a href=/en/blog/>Blog</a></li>
+<li><a href=/en/apad/>APAD</a></li>
+<li><a href=/cn/blog/>中文</a></li>
+</ul>
+</nav>
+</header>
+<main class=content role=main>
+<div style=text-align:center>
+<h1>A Beginner's Guide to Snakemake </h1>
+<p>Hongtao Hao
+/ 2022-01-04 </p>
+<hr>
+</div>
+<span class=article-toolbar>
+<a href=https://github.com/hongtaoh/hongtaoh.github.io/edit/sources/content/en/blog/2022-01-04-snakemake-tutorial.md style=font-size:24px;color:#000 target=_blank><i class="fa fa-edit" aria-hidden=true title="Suggest an edit of this page"></i>
+</a>
+</span>
+<div class="body-text list-text">
+<div class=info>
+<p>Please refer to the README.md in <a href=https://github.com/hongtaoh/snakemake-tutorial target=_blank rel="noreferrer noopener">hongtaoh/snakemake-tutorial</a>
+for updated instructions. This blog post might be outdated.
+</div></p>
+<p>Prerequisit: You&rsquo;ve installed conda or miniconda.</p>
+<p>I also assume you are using a Mac or Linux. If you are using Windows, refer to <a href=https://snakemake.readthedocs.io/en/stable/tutorial/setup.html#windows-subsystem-for-linux target=_blank rel="noreferrer noopener">here</a>
+first.</p>
+<p>Let&rsquo;s say you already have a project folder. Take <a href=https://github.com/hongtaoh/snakemake-tutorial target=_blank rel="noreferrer noopener">snakemake-tutorial</a>
+as an example.</p>
+<h2 id=install-snakemake>Install snakemake<a href=#install-snakemake class=header-anchor arialabel=Anchor> # </a></h2>
+<p>First, create a virtual environment for your project.</p>
+<pre tabindex=0><code>cd snakemake-tutorial
+conda create --name s-tutorial python=3.8
+conda activate s-tutorial
+</code></pre><p>Then, we install packages into this virtual environment. For simplicity, I will only use <code>pandas</code>.</p>
+<pre tabindex=0><code>conda install pandas
+</code></pre><p>Then, install snakemake:</p>
+<pre tabindex=0><code>pip3 install &quot;git+https://github.com/ashwinvis/datrie.git@python3.8-cythonize&quot;
+pip3 install snakemake
+</code></pre><p>The above code came from <a href=https://github.com/snakemake/snakemake/issues/246 target=_blank rel="noreferrer noopener">here</a>
+</p>
+<h2 id=create-a-snakefile>Create a Snakefile<a href=#create-a-snakefile class=header-anchor arialabel=Anchor> # </a></h2>
+<p>Let&rsquo;s say, we have this raw data, <code>data/raw/raw_data.csv</code> :</p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>year,value
+2001,4
+2002,5
+2003,6
+</code></pre></div><p>We want a <code>python</code> script that select only rows whose <code>year</code> is equal to or greater than <code>2002</code>. Let&rsquo;s say we name this <code>Python</code> script as <code>get_since_2002.py</code>. We will place it in the folder of <code>scripts</code>.</p>
+<p>This script, <code>scripts/get_since_2002.py</code>, will generate an output named <code>since_2002.csv</code> based on the input: <code>data/raw/raw_data.csv</code>. And, we want to place this output file to the folder of <code>data/derived</code>.</p>
+<p>Based on the above information, we will have this <code>Snakefile</code>:</p>
+<pre tabindex=0><code>ffrom os.path import join as pjoin
+
+DATA_DIR = &quot;data/&quot;
+RAW_DATA_DIR = pjoin(DATA_DIR, &quot;raw&quot;)
+DERIVED_DATA_DIR = pjoin(DATA_DIR, &quot;derived&quot;)
+
+###############################################################################
+# Raw datasets
+###############################################################################
+
+RAW_DATA = pjoin(RAW_DATA_DIR, 'raw_data.csv')
+
+###############################################################################
+# Final outputs
+###############################################################################
+
+SINCE_2002 = pjoin(DERIVED_DATA_DIR, 'since_2002.csv')
+
+###############################################################################
+# Workflows
+###############################################################################
+
+rule get_since_2002:
+    input: RAW_DATA
+    output: SINCE_2002
+    shell: &quot;python scripts/get_since_2002.py {input} {output}&quot;
+</code></pre><h2 id=create-python-scripts>Create python scripts<a href=#create-python-scripts class=header-anchor arialabel=Anchor> # </a></h2>
+<p>As described above, we&rsquo;ll name it as <code>get_since_2002.py</code> and put it into the <code>scripts</code> folder.</p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:green;font-weight:700>import</span> <span style=color:#00f;font-weight:700>sys</span>
+<span style=color:green;font-weight:700>import</span> <span style=color:#00f;font-weight:700>pandas</span> <span style=color:green;font-weight:700>as</span> <span style=color:#00f;font-weight:700>pd</span>
+
+RAW_DATA <span style=color:#666>=</span> sys<span style=color:#666>.</span>argv[<span style=color:#666>1</span>]
+OUT_FNAME <span style=color:#666>=</span> sys<span style=color:#666>.</span>argv[<span style=color:#666>2</span>]
+
+df <span style=color:#666>=</span> pd<span style=color:#666>.</span>read_csv(RAW_DATA)
+df_out <span style=color:#666>=</span> df<span style=color:#666>.</span>loc[df<span style=color:#666>.</span>year <span style=color:#666>&gt;=</span> <span style=color:#666>2002</span>]
+df_out<span style=color:#666>.</span>to_csv(OUT_FNAME)
+</code></pre></div><h2 id=execute-snakefile>Execute Snakefile<a href=#execute-snakefile class=header-anchor arialabel=Anchor> # </a></h2>
+<p>Now, go to the directory where your <code>Snakefile</code> is located, and run <code>snakemake --cores 1</code>:</p>
+<pre tabindex=0><code>snakemake --cores 1
+</code></pre><p>What this snippt does is to find <code>Snakefile</code> and execute it.</p>
+<p>If successful, you&rsquo;ll see this:</p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: <span style=color:#666>1</span> <span style=color:#666>(</span>use --cores to define parallelism<span style=color:#666>)</span>
+Rules claiming more threads will be scaled down.
+Job stats:
+job               count    min threads    max threads
+--------------  -------  -------------  -------------
+get_since_2002        <span style=color:#666>1</span>              <span style=color:#666>1</span>              <span style=color:#666>1</span>
+total                 <span style=color:#666>1</span>              <span style=color:#666>1</span>              <span style=color:#666>1</span>
+
+Select <span style=color:green>jobs</span> to execute...
+
+<span style=color:#666>[</span>Tue Jan  <span style=color:#666>4</span> 14:23:46 2022<span style=color:#666>]</span>
+rule get_since_2002:
+    input: data/raw/raw_data.csv
+    output: data/derived/since_2002.csv
+    jobid: <span style=color:#666>0</span>
+    resources: <span style=color:#19177c>tmpdir</span><span style=color:#666>=</span>/var/folders/z2/5kr96fyn63z_tj_bwr33t5dw0000gn/T
+
+<span style=color:#666>[</span>Tue Jan  <span style=color:#666>4</span> 14:23:49 2022<span style=color:#666>]</span>
+Finished job 0.
+<span style=color:#666>1</span> of <span style=color:#666>1</span> steps <span style=color:#666>(</span>100%<span style=color:#666>)</span> <span style=color:green;font-weight:700>done</span>
+</code></pre></div><p>And you will find <code>since_2002.csv</code> in <code>data/derived</code>.</p>
+<h2 id=references>References<a href=#references class=header-anchor arialabel=Anchor> # </a></h2>
+<ul>
+<li><a href=https://goodresearch.dev/setup.html target=_blank rel="noreferrer noopener">Set up your project</a>
+</li>
+<li><a href=https://snakemake.readthedocs.io/en/stable/tutorial/setup.html target=_blank rel="noreferrer noopener">Snakemake Tutorial, Setup</a>
+</li>
+</ul>
+<p style=color:#777>Last modified on 2022-01-04</p>
+</div>
+<a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>
+</main>
+<footer class=footer>
+<script src=https://utteranc.es/client.js repo=hongtaoh/hongtaoh.github.io issue-term=pathname theme=github-light crossorigin=anonymous async></script>
+<script type=text/javascript src=/js/math-code.js></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type=text/javascript src=/js/center-img.js></script>
+<ul class=footer-links>
+<li><a href=/en/blog/index.xml type=application/rss+xml title="RSS feed">
+Subscribe </a>
+</li>
+<li>
+<a href=http://creativecommons.org/licenses/by-nc-sa/4.0/ target=_blank>
+License
+<i class="fa fa-cc" aria-hidden=true title="Attribution-NonCommercial-ShareAlike 4.0 International"></i>
+</a>
+</li>
+</ul>
+<div class=copyright-text>
+©
+Hongtao Hao
+2020-2021
+</div>
+</footer>
