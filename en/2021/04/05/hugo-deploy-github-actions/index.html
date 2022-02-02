@@ -113,13 +113,13 @@ start ~/.ssh
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>pbcopy &lt; ~/.ssh/gh-pages
 </code></pre></div><p>Windows:</p>
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>clip &lt; ~/.ssh/gh-pages
-</code></pre></div><p>Go to your <code>username.github.io</code> repository on GitHub -> Settings -> Secrets -> New repository secret.</p>
+</code></pre></div><p>Go to your <code>username.github.io</code> repository on GitHub -> Settings -> Secrets -> Actions -> New repository secret.</p>
 <p>Press Cmd+V (Windows: Control+V) in the &ldquo;Value&rdquo; section. In the &ldquo;Name&rdquo; section, input <code>ACTIONS_DEPLOY_KEY</code>. Press &ldquo;Add secret&rdquo;.</p>
 <h2 id=generate-personal-access-token>Generate Personal Access Token<a href=#generate-personal-access-token class=header-anchor arialabel=Anchor> # </a></h2>
 <p>Click <a href=https://github.com/settings/tokens target=_blank rel="noreferrer noopener">here</a>
 to generate a personal access token.</p>
 <p>Press &ldquo;Generate new token&rdquo;. Change the default expiration (30 days) if you would like. In &ldquo;Select scopes&rdquo;, check &ldquo;workflow&rdquo;. Then leave a note to yourself in the &ldquo;Note&rdquo; section. Scroll down and press &ldquo;Generate token&rdquo;. Then copy the token you see.</p>
-<p>Go back to your <code>username.github.io</code> repository on GitHub -> Settings -> Secrets -> New repository secret.</p>
+<p>Go back to your <code>username.github.io</code> repository on GitHub -> Settings -> Secrets -> Actions -> New repository secret.</p>
 <p>Press Cmd+V (Windows: Control+V) in the &ldquo;Value&rdquo; section. In the &ldquo;Name&rdquo; section, input <code>PERSONAL_TOKEN</code>. Press &ldquo;Add secret&rdquo;.</p>
 <p>If you update your Personal Token later, when you <code>git push</code>, you&rsquo;ll probably see an error:</p>
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>refusing to allow a Personal Access Token to create or update workflow <span style=color:#ba2121>`</span>.github/workflows/gh-pages.yml<span style=color:#ba2121>`</span> without <span style=color:#ba2121>`</span>workflow<span style=color:#ba2121>`</span> scope
@@ -189,7 +189,7 @@ git push
 </span><span style=color:#bbb>          </span><span style=color:green;font-weight:700>publish_dir</span>:<span style=color:#bbb> </span>./public<span style=color:#bbb>
 </span><span style=color:#bbb>          </span><span style=color:green;font-weight:700>cname</span>:<span style=color:#bbb> </span>example.com<span style=color:#bbb>
 </span></code></pre></div><p>Replace <code>example.com</code> with your own domain. For example, mine: <code>hongtaoh.com</code></p>
-<p style=color:#777>Last modified on 2022-01-04</p>
+<p style=color:#777>Last modified on 2022-02-02</p>
 </div>
 <a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>
 </main>
