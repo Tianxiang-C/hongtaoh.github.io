@@ -73,13 +73,26 @@ just released its API and its webiste is coming soon, which is exciting.</p>
 <pre tabindex=0><code>https://api.openalex.org/works?filter=title.search:cubist
 </code></pre><p>The above url will show all the papers whose title contain the word of cubist.</p>
 <p>If you have the exact title, just put it at the end of the url, for example,</p>
-<pre tabindex=0><code>https://api.openalex.org/works?filter=title.search:Efficient%20simplification%20of%20point-sampled%20surfaces
+<pre tabindex=0><code>https://api.openalex.org/works?filter=title.search:Efficient simplification of point-sampled surfaces
 </code></pre><p>If the title your are quering contains &lsquo;&&rsquo;, &lsquo;:&rsquo;, &lsquo;?, and/or &lsquo;,&rsquo;, rememeber to replace them with <code>''</code>. This is because both &lsquo;&&rsquo; and &lsquo;:&rsquo; are quering parameters and will rusult in errors when quering.</p>
 <p>If you use <code>python</code>, you can do it this way:</p>
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-py data-lang=py><span style=color:green;font-weight:700>import</span> <span style=color:#00f;font-weight:700>re</span>
 title <span style=color:#666>=</span> <span style=color:#ba2121>&#39;this: is a bad title &amp; not recommended for you, right?&#39;</span>
 title_converted <span style=color:#666>=</span> re<span style=color:#666>.</span>sub(<span style=color:#ba2121>r</span><span style=color:#ba2121>&#39;\:|\?|\&amp;|\,&#39;</span>, <span style=color:#ba2121>&#39;&#39;</span>, title)
-</code></pre></div><h2 id=pagination>Pagination<a href=#pagination class=header-anchor arialabel=Anchor> # </a></h2>
+</code></pre></div><h2 id=search-for-host-venues>Search for host venues<a href=#search-for-host-venues class=header-anchor arialabel=Anchor> # </a></h2>
+<p>Reference:</p>
+<ol>
+<li>https://docs.openalex.org/api/get-lists-of-entities#venues-filters</li>
+<li>https://docs.openalex.org/about-the-data/venue</li>
+</ol>
+<h3 id=by-display-name>By display name<a href=#by-display-name class=header-anchor arialabel=Anchor> # </a></h3>
+<pre tabindex=0><code>https://api.openalex.org/venues?filter=display_name.search:communication and sport
+</code></pre><h3 id=by-issn>By ISSN<a href=#by-issn class=header-anchor arialabel=Anchor> # </a></h3>
+<pre tabindex=0><code>https://api.openalex.org/venues?filter=issn:2374-3670
+</code></pre><h3 id=by-issn_l>By ISSN_L<a href=#by-issn_l class=header-anchor arialabel=Anchor> # </a></h3>
+<pre tabindex=0><code>https://api.openalex.org/venues/issn_l:2167-8359
+</code></pre><p>Note that if you use <code>?filter=</code>, then the results are usually more than one.</p>
+<h2 id=pagination>Pagination<a href=#pagination class=header-anchor arialabel=Anchor> # </a></h2>
 <p>In list of entities, OpenAlex&rsquo;s default is 25 items per page. You can view the first 10000 items by setting <code>page</code> and <code>per-page</code> parameters.</p>
 <p>For example,</p>
 <pre tabindex=0><code>https://api.openalex.org/concepts
@@ -99,7 +112,7 @@ by <a href=https://nordicapis.com/author/jsimpson/ target=_blank rel="noreferrer
 <li>The speed of two query methods for DOI, i.e., <code>works/doi:DOI</code> and <code>works/https://doi.org/DOI</code>, do not vary significantly. Each query roughly takes 6-10 seconds.</li>
 <li>The speed of quering OpenAlex Work ID and that of querying paper DOI do not differ significantly. Querying DOI might be slightly faster.</li>
 </ul>
-<p style=color:#777>Last modified on 2022-02-21</p>
+<p style=color:#777>Last modified on 2022-04-11</p>
 </div>
 <a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>
 </main>
