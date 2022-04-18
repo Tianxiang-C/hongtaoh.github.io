@@ -37,29 +37,40 @@
 </header>
 <main class=content role=main>
 <div style=text-align:center>
-<h1>GitHub Authentication Update</h1>
+<h1>How to Hightlight Changes in Microsoft Word Documents</h1>
 <p>Hongtao Hao
-/ 2021-08-03 </p>
+/ 2022-04-18 </p>
 <hr>
 </div>
 <span class=article-toolbar>
-<a href=https://github.com/hongtaoh/hongtaoh.github.io/edit/sources/content/en/blog/2021-08-03-github-token.md style=font-size:24px;color:#000 target=_blank><i class="fa fa-edit" aria-hidden=true title="Suggest an edit of this page"></i>
+<a href=https://github.com/hongtaoh/hongtaoh.github.io/edit/sources/content/en/blog/2022-04-18-ms-word-changes.md style=font-size:24px;color:#000 target=_blank><i class="fa fa-edit" aria-hidden=true title="Suggest an edit of this page"></i>
 </a>
 </span>
 <div class="body-text list-text">
-<p>When I was updating my blog using Git, I was sent an email from GitHub:</p>
-<blockquote>
-<p>Basic authentication using a password to Git is deprecated and will soon no longer work. Visit https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations/ for more information around suggested workarounds and removal dates.</p>
-</blockquote>
-<p>To solve this issue, go to <a href=https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations/ target=_blank rel="noreferrer noopener">https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations/</a>
-as suggested. At <a href=https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations/#what-you-need-to-do-today target=_blank rel="noreferrer noopener">What you need to do today</a>
-, you will see that using a personal access token is recommended.</p>
-<p>Read <a href=https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token target=_blank rel="noreferrer noopener">this official documentation</a>
-to create a personal access token. Remember to save your token carefully!</p>
-<p>If you are using a Mac, then you probably need to <a href=https://docs.github.com/en/get-started/getting-started-with-git/updating-credentials-from-the-macos-keychain target=_blank rel="noreferrer noopener">update credentials from the Keychain Access</a>
-to replace the old passwords with the newly created access token.</p>
-<p>Follow the procedure mentioned in the above documentation. When searching for <code>github.com</code> in Keychain Access, you will see two results. One is <code>github.com</code>, and the other is <code>github.com(USERNAME)</code>. Delete the first one.</p>
-<p>Then, use Git in Terminal and you will be prompted to enter your GitHub username and passwords. For the passwords, use the access token you just created.</p>
+<p>I hate Word. Hate it so much. But I had one paper written in it two years ago and need to revise it according to reviewers' comments. The editor asked me to highlight all the changes I&rsquo;ll have. How to do it?</p>
+<p>I am using MacOS (10.14.6) and Word (Version 16.16.27).</p>
+<p>On MS Word, click the &ldquo;Review&rdquo; button, turn on &ldquo;Track changes&rdquo;. I prefer &ldquo;No Markup&rdquo;. Then, on Mac top menu, in &ldquo;Tools&rdquo;, choose &ldquo;Macro&rdquo; -> &ldquo;Macros&rdquo;. Under &ldquo;Macro name&rdquo;, enter &ldquo;Highlight_insertions2&rdquo;, then click &ldquo;+&rdquo;.</p>
+<p>Then:</p>
+<pre tabindex=0><code>Sub Highlight_insertions2()
+'
+' Highlight_insertions2 Macro
+'
+'
+Dim arev As Revision
+With ActiveDocument
+.TrackFormatting = True
+For Each arev In .Revisions
+If arev.Type = wdRevisionInsert Then
+arev.range.HighlightColorIndex = wdYellow
+End If
+Next
+End With
+End Sub
+</code></pre><p>The above snippet was from <a href=https://arbitweb.wordpress.com/2011/02/23/macro-to-highlight-track-changes-in-word/ target=_blank rel="noreferrer noopener">here</a>
+. The author is KE.</p>
+<p>Run it, and you can see that the changes are highlighted with yellow.</p>
+<p>It looks all good, until you open the document again, which shows all the tracked changes on the right panel. To delete those, under &ldquo;Reivew&rdquo; -> &ldquo;Accept&rdquo;, choose &ldquo;Accept All Changes&rdquo;.</p>
+<p>Next time, after making changes, you only need to &ldquo;Macro -> Macros&rdquo;, and you&rsquo;ll see &ldquo;Highlight_insertions2&rdquo;. Simply click &ldquo;Run&rdquo;.</p>
 <p style=color:#777>Last modified on 2022-04-18</p>
 </div>
 <a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>
