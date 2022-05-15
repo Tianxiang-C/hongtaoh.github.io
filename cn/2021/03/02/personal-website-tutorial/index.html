@@ -170,14 +170,15 @@ Table of Contents:
 <p><div class=caution>
 以下代码会将你目前 Hugo 网站中的 <code>Content</code> 文件夹和 <code>config.toml</code> 替换为 <code>Hugo-ht</code> 自带的内容。如果你当前 Hugo 网站中的 Content 文件夹及<code>config.toml</code>尚未备份，请千万不要运行以下代码！！！
 </div></p>
-<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:green>cd</span> quickstart/themes
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:green>cd</span> quickstart/themes 
 git clone https://github.com/hongtaoh/hugo-ht
-mkdir hugo-ht-new
-cp -r hugo-ht/* hugo-ht-new
-rm -rf hugo-ht
-mv hugo-ht-new hugo-ht
+mkdir hugo-ht-new <span style=color:#408080;font-style:italic># create a new folder called hugo-ht-new</span>
+cp -r hugo-ht/* hugo-ht-new <span style=color:#408080;font-style:italic># copy everything in hugo-ht to hugo-ht-new</span>
+rm -rf hugo-ht <span style=color:#408080;font-style:italic># delete the folder of hugo-ht</span>
+mv hugo-ht-new hugo-ht <span style=color:#408080;font-style:italic># change folder name</span>
 <span style=color:green>cd</span> ..
-cp -r themes/hugo-ht/exampleSite/* .
+cp -r themes/hugo-ht/exampleSite/* . <span style=color:#408080;font-style:italic># copy everything in the exampleSite folder to quickstart</span>
+cp -r themes/hugo-ht/archetypes . <span style=color:#408080;font-style:italic># replace the archetypes folder</span>
 </code></pre></div><p>记得回车。然后运行</p>
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>hugo server -D <span style=color:#408080;font-style:italic># 这里的 D 是 draft 的意思</span>
 </code></pre></div><p>打开终端显示的 <a href=http://localhost:1313/ target=_blank rel="noreferrer noopener">http://localhost:1313/</a>
@@ -482,7 +483,7 @@ open content/cn/hobby/_index.md -a TextEdit
 </span><span style=color:#bbb>          </span><span style=color:green;font-weight:700>publish_dir</span>:<span style=color:#bbb> </span>./public<span style=color:#bbb>
 </span><span style=color:#bbb>          </span><span style=color:green;font-weight:700>cname</span>:<span style=color:#bbb> </span>example.com<span style=color:#bbb>
 </span></code></pre></div>
-<p style=color:#777>最后一次修改于 2022-05-12</p>
+<p style=color:#777>最后一次修改于 2022-05-15</p>
 </div>
 <a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>
 </main>
