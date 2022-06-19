@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>编程 on 郝鸿涛：Hongtao Hao</title><link>https://hongtaoh.com/tags/%E7%BC%96%E7%A8%8B/</link><description>Recent content in 编程 on 郝鸿涛：Hongtao Hao</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 12 Jan 2022 19:38:36 -0600</lastBuildDate><atom:link href="https://hongtaoh.com/tags/%E7%BC%96%E7%A8%8B/index.xml" rel="self" type="application/rss+xml"/><item><title>React 简单知识总结</title><link>https://hongtaoh.com/cn/2022/01/12/react/</link><pubDate>Wed, 12 Jan 2022 19:38:36 -0600</pubDate><guid>https://hongtaoh.com/cn/2022/01/12/react/</guid><description>起步 先下载 Node.js
+然后，打开命令行：
+npx create-react-app my-react-app cd my-react-app npm start my-react-app 你想换别的也行。
+运行后，会自动打开 localhost:3000 。如果没有，手动在浏览器地址栏输入 localhost:3000.
+准备 把 src 文件夹中除 index.js 外的文档都删除。让 index.js 内容只剩下：
+import React from &amp;#39;react&amp;#39;; import ReactDOM from &amp;#39;react-dom&amp;#39;; ReactDOM.render(&amp;lt;p&amp;gt;你好！&amp;lt;/p&amp;gt;, document.getElementById(&amp;#39;root&amp;#39;)); JSX 介绍 在 index.js 中加入以下内容：
+const Hello = &amp;lt;p&amp;gt;你好！&amp;lt;/p&amp;gt;; 把上面的代码放到 ReactDOM.render() 上面。然后，把 ReactDOM.render(&amp;lt;p&amp;gt;你好！&amp;lt;/p&amp;gt;, document.getElementById('root')); 改成：
+ReactDOM.render(Hello, document.getElementById(&amp;#39;root&amp;#39;)); 刷新一下浏览器，结果是不是一样的？
+像 const Hello = &amp;lt;p&amp;gt;你好！&amp;lt;/p&amp;gt;; 这样在 JavaScript 中写 HTML 代码，就叫 JSX。JSX 是 JavaScript XML 的缩写 。
+JSX 语法 JSX 中写 HTML: const myelement = &amp;lt;h1&amp;gt;I Love JSX!</description></item><item><title>Hugo 的帖子如何改改 URL 地址</title><link>https://hongtaoh.com/cn/2021/10/13/hugo-aliases/</link><pubDate>Wed, 13 Oct 2021 17:21:21 -0500</pubDate><guid>https://hongtaoh.com/cn/2021/10/13/hugo-aliases/</guid><description>要用到 Hugo Aliases 。
+比如，我有一篇帖子，之前的 slug 是 if-senior-high-again 我想改成 senior-high。那我那篇帖子的 YAML front matter 应该设置成：
+title:如果我的高中能再来一遍date:2020-04-19T10:57:52-04:00author:郝鸿涛slug:senior-highdraft:falsetoc:truealiases:- /cn/2020/04/19/if-senior-high-again/Aliases 具体的地址是你之前帖子的原 URL 去除你的网站地址。比如，我那篇帖子的原地址是 https://hongtaoh.com/cn/2020/04/19/if-senior-high-again/ ，去除我的网站地址 https://hongtaoh.com 后还剩下 /cn/2020/04/19/if-senior-high-again/，这就是我要在 aliases 中填的。更新后，当别人打开就地址，浏览器会自动跳转到新地址。你可以点开上面的链接自己看看效果。
+另外，Aliases 可以是多个。</description></item><item><title>我为什么强烈建议你有一个个人网站</title><link>https://hongtaoh.com/cn/2021/06/17/homepage/</link><pubDate>Thu, 17 Jun 2021 09:29:30 -0400</pubDate><guid>https://hongtaoh.com/cn/2021/06/17/homepage/</guid><description>如果你成功被我的帖子蛊惑，请移步：如何零基础免费搭建个人网站 。
+谢益辉强调「我网故我在」 ，我再同意不过。2020 年初我使出吃奶劲儿建的现在这个个人网站给我带来了太多变化。其实，我很早就想要建个人网站，在人大读研的时候，我问当时正学编程的舍友小龙 建一个个人网站容不容易，他说很容易，但我看他并不想帮我弄，我也就放弃了。我之后试着用过 wordpress，但是实在太麻烦，太繁琐，我尝试过很多次依然放弃了。2019 年申请完博士后 的寒假我有将近一个月的空闲时间，就逼着自己学用 Hugo 建网站。在这之前，我对 R 和 Python 有了初步的了解，所以稍微有些信心。
+过程还是很难。其实，如果我没有太多个人的喜好，随便找一个模版，是很好弄的。后来，我用了一个多月的时间，在谢益辉做的 Xmin 的基础上不断改动，总算把我的网站形态定了下来。这之后，我就不断地写东西。这个闸一开，就再也收不住，因为有太多的回忆、经验、想法要写。而且我也像谢益辉说的那样，「网站是用来积累成就的，而简历可以是成就的堆砌汇总处。最初可以从堆砌小成就开始，把你写的作业、拍的照片、做的菜肴统统发上来。勿以事小而不堆。」，把我所有能放的东西都放了上去，简历不断开始丰富，最后在我申请计算机博士的时候帮了我大忙。我感觉如果没有这个网站，我绝对拿不到威斯康星的录取。
+回到正题，我为什么强烈建议你建一个个人网站？
+让别人在最短时间内了解一个立体的你 假如现在有一个人想了解你，时间越短、了解地越多越好，你觉得你该怎么做？你可以把 pdf 的简历发过去，或者你用 5 分钟自我介绍，或者朋友对你评价。但，如果你有一个网站呢？对方可以直接打开网站。网站上有你的自我介绍，有你做过的所有项目，有你经年累月写的博客。你觉得哪个效果好？
+「让别人在最短时间内了解一个立体的你」这一点对博士申请或者找工作的人实在不能再重要。不论是招博士生，还是招聘，对方想看到的是一个活生生、有温度、有思想、有生活的人，而不是一张简历。如果我是招生委员，你用 10 年的时间写一千篇日志比你发 10 篇普通论文更能给我带来震撼。说实话，只要人不懒，论文只要花时间谁都能发，但不是每个人都能把像写博客这件事持续不断地坚持十年。
+有人会说，这不公平，凭什么你用一个网站链接让招生、招聘的人看到那么多东西，而我只能发一张简历呢？朋友，这并不是不公平。学校并没有阻止申请者在简历中放上个人网站，甚至我在参加马里兰大学信息学院 校园开放日活动时（美国的大学，有不少都会在申请截止前前的一两个月组织一次校园开放日活动，介绍学院情况并回答申请者的一些问题），有一位老师鼓励大家放上个人主页的链接。每个人的时间都是一样的，你没有花时间做个人网站而去做了别的事情，而别人花了时间去学、去做个人网站，那为什么不能把它放出来呢？这并非不公平。
+当然，如果你在申请提交后，往网站加很多新内容，这是不公平的。所以我在提交申请后、结果出来前，网站只改过几个字，而没有加任何新东西。
+捕捉瞬间的想法与灵感 每个人每天都会有各种想法。如果你有一个平台，那么你可以随时把这个想法捕捉并扩充，写成一篇帖子。这么做有几个显而易见的好处：一，你能把自己的思绪理清楚；二，你能不断提升自己的写作能力；三，你的想法或许能帮到别人。
+比如，我写的《看似公平 》、《娱乐、信息、知识、智慧 》、《我与李阳疯狂英语 》、《你会被科技淘汰吗？ 》等等，以及你目前看到的这篇，都是一瞬间有了想法，然后稍微理一下思绪，再成文。
+如果你没有平台，那么你每天的奇思妙想就没办法从思想变成文字，最后就都白白丢失了。
+激励你不断进步和积累 有了平台，不断地把小事放上去，你眼看着简历和网站不断丰富，就有动力继续创造和积累。
+分享经验 这个世界的信息差依然非常大。我觉得信息差的原因就在于每个人掌握的信息没有公开出来。其实，有很多经验是只有你有而别人没有的，你是可以分享。比如，我分享了布卢明顿的租房的信息 ，也列出了美国提供全奖的传播学硕士 。我相信这些分享能帮到别人。
+除了这些经验，我还把我在学习过程中遇到的问题与解决方法写了下来。我的英文博客 里的文章大部分是以 How to 打头的。这么做我不仅能帮到别人，更能帮到我自己。这是因为，我把问题和解决方法讲解、梳理之后，我会对这个问题有更进一步的认识。另外，有很多问题我会经常碰到，这些帖子会节省我自己大量的时间，因为我不用再去搜索解决方法。
+记录生活点滴 谢益辉说「除非你记忆力超群，否则凡是没有写下来的东西你很快就会忘，而你忘记的事情跟没做也没什么区别。」这一点我非常同意。我分享外研社比赛 、圣加仑论坛 、西北大学面试 、在美国看病 、打新冠疫苗 、申请博士 等等经历就是因为我觉得我如果不记录下来，过几年就什么都忘了。就像益辉说的，忘了就相当于「白活」了。</description></item><item><title>Rmarkdown 输出中文 PDF 的基本设置</title><link>https://hongtaoh.com/cn/2021/06/08/rmd-pdf/</link><pubDate>Tue, 08 Jun 2021 11:57:26 -0400</pubDate><guid>https://hongtaoh.com/cn/2021/06/08/rmd-pdf/</guid><description>你可以看这篇帖子的 PDF 版 以及它的源代码 。
+最简设置 --- documentclass: article title: &amp;quot;此处是标题&amp;quot; author: &amp;quot;你的大名&amp;quot; date: &amp;quot;2021年06月08日&amp;quot; header-includes: - \usepackage{fontspec} # 使用 fontspec 包 - \usepackage{xeCJK} # 使用 xeCJK 包 - \setCJKmainfont[Scale=1]{Songti SC} # 设置中文字体 output: pdf_document: latex_engine: xelatex # 使用 xelatex 引擎 classoption: 12pt # 字体。只能在 10pt, 11pt, 和 12pt 选 geometry: margin=1in # 页边距，上下左右 1 英尺，大概 2.54 厘米。 linestretch: 1.2 # 行间距。数值越大，行间距越大。 --- 然后写文章就好。
+需要说明的是：
+\setCJKmainfont[Scale=1]{你的字体} 你所用的字体是你电脑字体簿中的字体。苹果电脑中，宋体是 STSong 或者 Songti SC, 黑体是 STHeiti 或 Heiti Sc, 楷体是 STKaiti 或 Kaiti SC。</description></item><item><title>如何设置域名邮箱，以 Migadu 为例</title><link>https://hongtaoh.com/cn/2021/04/19/domain-email-address/</link><pubDate>Mon, 19 Apr 2021 11:51:07 -0400</pubDate><guid>https://hongtaoh.com/cn/2021/04/19/domain-email-address/</guid><description>如果你在考虑域名邮箱，免费的有 网易 、腾讯 、Yandex。收费的服务，知名博主 Drew DaVault 只推荐了两个：Migadu 、Mailbox.org 。如果你的域名是在 Namecheap 上买的，它的邮箱服务 你也可以考虑。下面我以 Migadu 为例讲解如何设置域名邮箱。
+完成 Migadu 注册后，点击 Set up my first email domain, 在 domain name 那一栏输入你的网址。我输入的是 hongtaoh.com。别的不用动，然后点击 &amp;ldquo;Add Email Domain&amp;rdquo;。
+Add email domain -- 接下来是 DNS Setup，这是最关键的一步。
+DNS Setup Instructions 如果你用的是 Namecheap, 那么新加一个 TXT Record, 然后在 Host 那里填 @。TTL 选择 Automatic。MX Record 的 Host 也是 @。
+Namecheap 上操作 Verification TXT Record Namecheap 上操作 MX Record DKIM+ARC Key Records 这一项，在Namecheap 上新建一个新建 CNAME 后，其项目中的 Host 和 Target 分别是 Migadu 上面写的 Name 和 Value (Destination)。灰色的部分是不需要填的。</description></item><item><title>iPhone 无法下载和更新 APP</title><link>https://hongtaoh.com/cn/2021/04/10/iphone-app/</link><pubDate>Sat, 10 Apr 2021 14:33:47 -0400</pubDate><guid>https://hongtaoh.com/cn/2021/04/10/iphone-app/</guid><description>昨天开始我的 iPhone 没法更新和下载应用。我一开始以为是系统没更新的缘故，我点击了更新，但是没法更新。后来我又以为是容量不够，删除了几个应用后，容量够了，但还是没法下载其他应用。
+正准备摔手机的时候（开个玩笑，我摔不起。），查到了 iphone无法更新和下载APP 这个帖子。Xu_Bon 版主的第 7 个方法对我起了作用：设置 &amp;gt; 通用 &amp;gt; 还原 &amp;gt; 还原网络设置。然后手机自动关机。开机后就可以下载和更新了。
+世界又好了。</description></item><item><title>如何零基础免费搭建个人网站</title><link>https://hongtaoh.com/cn/2021/03/02/personal-website-tutorial/</link><pubDate>Tue, 02 Mar 2021 12:03:38 -0500</pubDate><guid>https://hongtaoh.com/cn/2021/03/02/personal-website-tutorial/</guid><description>四、五年前我非常希望有一篇真正有用的教编程小白免费建个人网站的教程。我看到的基本上都是非常笼统的文章，没有非常细节的。我也理解，因为要写得很细，就要花很多时间，也很麻烦。我很想帮助别人建博客，就不嫌麻烦地写下了这篇教程。
+如果你在这篇帖子中看到了错误，请点击本文目录上的按钮，复克 (fork) 我的个人网站之后就可以提交你的修改建议了。十分感谢！
+你也可以参考这篇：手把手带你搭建个人博客(基础版) ，作者庄亮亮。
+本教程旨在手把手帮你搭建属于你的个人网站。建站工具是Hugo + GitHub 。两个都是免费的。完成后，你的个人网站网址是：https://github用户名.github.io。
+前期准备 如果你是彻彻底底的零基础：没有 GitHub 账号、不知道 HTML 和 CSS 为何物、没用过 Git，甚至连 Markdown 都不知道是什么，强烈建议你先把这份教程 的前三章认真读一下。读完后，你需要：
+注册了 GitHub 账号
+下载了文本编辑器 安装 Git
+苹果系统：打开 Terminal, 输入 xcode-select --install，这是为了下载 Xcode Command Line Tools 。然后在 Terminal 输入 git --version。更多 Git 下载办法请参考 git 官方介绍 。 Windows 系统请参考这里 掌握了 Markdown 的基础语法
+以下提到「终端」，可以理解为苹果电脑上的 Terminal / 微软系统上的 Git Bash。</description></item><item><title>如何在苹果电脑上屏蔽特定网站</title><link>https://hongtaoh.com/cn/2021/01/28/block-websites-on-mac/</link><pubDate>Thu, 28 Jan 2021 14:28:24 -0500</pubDate><guid>https://hongtaoh.com/cn/2021/01/28/block-websites-on-mac/</guid><description>以下内容参考 Mac上的Safari怎么屏蔽特定网站 这篇博文。来自 CSDN 的 图形跟班 。
+以下以屏蔽百度 (https://www.baidu.com/) 为例：
+打开终端 (Terminal) 输入 sudo pico /etc/hosts， 然后回车。你可能会被要求输入密码。输入你的开机密码就好。需要注意的是，也许是为了安全，你输入的内容不会被显示出来。输入完密码后，点击回车。 进入 nano 文本编辑器后, 光标移动到 localhost 部分的最后一行，输入 127.0.0.1 www.baidu.com 需要注意的是，不需要 https://。另外，如果你要屏蔽的网站，没有 www，比如我的网站：https://hongtaoh.com，那么就是：127.0.0.1 hongtaoh.com，不用 www。
+按 Ctrl + O，然后回车 按 Ctrl + X 退出 nano 编辑器，回到终端 在终端输入 sudo dscacheutil -flushcache，然后回车 重启浏览器，百度应该就打不开了 如果无效，可以考虑 SelfControl App 。</description></item><item><title>如何下载 YouTube 视频</title><link>https://hongtaoh.com/cn/2020/06/04/youtube-download/</link><pubDate>Thu, 04 Jun 2020 08:45:57 -0400</pubDate><guid>https://hongtaoh.com/cn/2020/06/04/youtube-download/</guid><description>很多介绍下载 YouTube 视频的方法都涉及下载软件或者浏览器插件，但其实没有必要。这里 介绍到了一个非常简单的方法：找到你想下载的 YouTube 视频网址，然后在 &amp;ldquo;youtube&amp;rdquo; 前加上 &amp;ldquo;add&amp;rdquo; 就可以了。具体有不懂的，打开上面给出的链接，就明白了。</description></item><item><title>Bookdown 和 ElegantBookdown 使用心得</title><link>https://hongtaoh.com/cn/2020/05/26/bookdown-tips/</link><pubDate>Tue, 26 May 2020 16:00:21 -0400</pubDate><guid>https://hongtaoh.com/cn/2020/05/26/bookdown-tips/</guid><description>最近的一周一直在调试 Bookdown 。其实，Bookdown 本身并不难，益辉大神 在他的那本 bookdown: Authoring Books and Technical Documents with R Markdown 已经介绍的非常清楚。我一直在调试的、也是我一直不会的主要集中在 PDF 的样式上，比如：
+PDF 中的 &amp;ldquo;Chapter 1&amp;rdquo; 如何改成「第一章」？ HTML 上改的话比较容易。如果你也是用的 bookdown-demo 来开始的话，那么在根目录下找到 _bookdown.yml 这个文档，然后把 chapter_name: &amp;quot;Chapter &amp;quot; 改成 chapter_name: [&amp;quot;第 &amp;quot;, &amp;quot; 章&amp;quot;]1 就好了。
+注意，这里标点是英文的。汉字和第二个英文引号之间有一个英文空格，是为了让版面更漂亮一些。不加空格的话，就是 「第N章」，加上空格就是「第 N 章」，所以还是加上吧。
+但是，PDF 中还是显示 「Chapter N」。我知道肯定能改，但我感觉比较困难，所以就放弃了。虽然可能只是在 preamble.tex 里加一行代码的事，但我可能要花几天的时间才能知道那行代码是啥。果断放弃。
+PDF 的空白页如何删除？
+PDF 如何上每一页的文本对齐，而非 bookdown 预设的那样一左一右？
+PDF 中如何更改中文引语的字体？
+等等。
+我知道是我要求太苛刻了。Bookdown 原本主要是为网页版书籍准备的，而非 PDF 版。因此，Bookdown 官网 上摆出的那些书籍中，有一些根本就没有把 PDF 版放上去。</description></item><item><title>Hugo 如何部署到 GitHub Pages</title><link>https://hongtaoh.com/cn/2020/01/22/hugo-github-deploy/</link><pubDate>Wed, 22 Jan 2020 17:04:17 -0500</pubDate><guid>https://hongtaoh.com/cn/2020/01/22/hugo-github-deploy/</guid><description>2021-04-06: Hugo 的官方建议 里目前只剩 GitHub Action 了，这也是我比较推荐的方法。具体 GitHub Action 怎么用，请参考：
+如何零基础免费搭建个人网站 之 密钥设置、设置 Personal Token、添加 workflow 以及 上传到 GitHub； 如果你不介意看英文，可以参考：
+How to Deploy A Hugo Website Using GitHub Pages Action Official documentation of GitHub Pages action
+2020-11-29: 这篇文章太老了，而且很复杂，不太建议大家再参考。我会在之后更新。如果你想部署你的 Hugo 网站，请优先参考我之前那篇 Netlify 部署 的帖子。如果你还是想把网站部署到 GitHub Pages, 我推荐你看这里 。
+Hugo官网上的那篇教程 有个问题是，你需要两个 Github 仓库，一个是 YOUR-PROJECT&amp;gt; (e.g. blog)，另一个是 &amp;lt;USERNAME&amp;gt;.github.io 。其中第一个是 Hugo 文件夹的所有内容，第二个是第一个的子仓库，只包括其中的 public 文件夹。</description></item><item><title>Hugo 如何实现脚注</title><link>https://hongtaoh.com/cn/2020/01/21/hugo-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%84%9A%E6%B3%A8/</link><pubDate>Tue, 21 Jan 2020 12:22:37 -0500</pubDate><guid>https://hongtaoh.com/cn/2020/01/21/hugo-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%84%9A%E6%B3%A8/</guid><description>Hugo 从 v0.60.0 开始，Markdown 解析器不再使用 Blackfriday , 改用由 yuin 1 编写的 goldmark 。
+这次变动我目前感觉比较明显的是：
+blackfriday 支持 自动计数 形式的脚注。所谓自动计数，就是说，你可以在文本后直接跟脚注的具体内容，比如
+比如[^看到了吗？] 这种形式在 blackfriday 是支持的，但是 goldmark 不支持，你必须这样：
+比如[^1] 然后在文末，加上以下内容才可以：
+[^1]: 看到了吗？ 这一点，有人在 Github 上提过 ，想在 goldmark 中实现 免计数 脚注，但是目前貌似依然不支持。
+应该是一个日本人，他的 Github 网页在这里 &amp;#160;&amp;#x21a9;&amp;#xfe0e;</description></item><item><title>Hugo 如何使用思源宋体</title><link>https://hongtaoh.com/cn/2020/01/19/hugo-google-noto-serif-sc/</link><pubDate>Sun, 19 Jan 2020 00:00:00 +0000</pubDate><guid>https://hongtaoh.com/cn/2020/01/19/hugo-google-noto-serif-sc/</guid><description>打开 Google Fonts 。在 &amp;ldquo;Language&amp;rdquo; 下拉菜单栏选择 &amp;ldquo;Chinese (Simplified)&amp;quot;。Noto Sans Serif&amp;rdquo; 是思远宋体。打开，选择你要的样式，一般最常见的是 &amp;ldquo;Regular 400&amp;rdquo;，点开其所对应的 &amp;ldquo;Select this style&amp;rdquo;，侧边会显示出 &amp;ldquo;Selected family&amp;rdquo;，如果你想选不止一个样式，可以选 &amp;ldquo;Add more styles&amp;rdquo;。
+然后，把 Link 底下那一串复制，然后打开 Hugo 文件夹的 layouts/partials，不出意外的话，用文本编辑器打开 header.html，在 &amp;lt;head&amp;gt;&amp;lt;/head&amp;gt; 之间粘贴你刚才复制的内容。
+然后回到刚才的 Selected Family 页面，复制 &amp;ldquo;CSS rules to specify families&amp;rdquo; 底下的内容，粘贴到你的 CSS 文件中。
+我用了一段时间之后就放弃了谷歌字体。是好看，是方便，但是我非常不喜欢把我自己网站的控制权交给谷歌。</description></item><item><title>如何将 Hugo 部署到 Netlify</title><link>https://hongtaoh.com/cn/2020/01/04/hugo-netlify-deploy/</link><pubDate>Sat, 04 Jan 2020 00:00:00 +0000</pubDate><guid>https://hongtaoh.com/cn/2020/01/04/hugo-netlify-deploy/</guid><description>2021-04-06: Netlify 貌似已经被墙了。请参考我最新的这篇博客：如何零基础免费搭建个人网站
+首先，什么是部署？为什么要部署？
+其实，准确的说，我们要做的是先把我们在本地的 hugo 文件夹托管到 github，这是第一步。第二步将 hugo 文件夹中的 public 文件夹与 netlify 连接起来，这样 public 文件夹里的内容就变成了我们想要的网站。
+我们部署网站的目的就是让本地的内容可以送达互联网，这样别人才能看到我们创作的内容。
+hugo的官方文档 讲到了如何部署到 netlify，但是第一步，即，先将本地的hugo文件托管到 github，它没有讲。Allison Hill 写的 hugo建站教程 也提到了部署到netlify的方法，但是她漏了一项，即，写入 netlify.toml 这个文件。谢益辉大神写的 blogdown: Creating Websites with R Markdown 这本书对我帮助非常大，但是很奇怪的是，书中涉及到 netlify部署 只是非常简单地介绍了一下原理，对于具体流程则没有涉及。此外，Marvin&amp;rsquo;s Blog 以及 Sulinehk&amp;rsquo;s blog 也都专门讲过 hugo 的 netlify 部署，但是有些内容有些过时，比如自定义域名时的DNS设置。
+这篇帖子是针对像我一样的计算机小白的，我会详细把每一步解释清楚。以下主要以苹果电脑为例，使用windows系统的同学可以作为参考，但我不保证过程正确。
+一、创建本地 hugo 文件夹 这个文件夹是你一开始通过hugo new site xxx 建立的那个文件夹，比如如果你用的hugo new site quickstart，那么quickstart文件夹就是我们要托管到github的本地文件夹，当然，不一定非得用quickstart这个名字，你想用mysite, myblog, hugo-website, my-website&amp;hellip;都可以。如果你还不知道怎么开始用hugo，可以参考olOwOlo的那篇 《hugo从入门到会用》 。这里我们就用quickstart为例。
+二、Github 新建仓库 首先登陆github，如果你还没有注册github账号，请参考这篇帖子 。登陆成功之后，如下图所示，点击右上角的那个加号，然后点击&amp;rsquo;new repository'。这里的repository是仓库的意思。
+新建 Github 仓库 点击之后，在 &amp;lsquo;repository name&amp;rsquo; 这一栏，填入任何你一个你喜欢的名字作为你的仓库名称。注意，github仓库的名称不一定非要和本地仓库名称一样，这里我用hugo-website，你可以用你喜欢的。在description中你可以对这个仓库进行描述，这样你自己以及别人可以一眼知道这个仓库是做什么的，我这里填入 &amp;ldquo;My personal website deployed on Netlify&amp;rdquo;，当然，你用中文也可以。然后，public or private 这里，我们选择默认的 public。在 &amp;ldquo;initialize this repository with a README&amp;rdquo; 这儿，我们不要加。我试过一开始加上，但是后面的步骤会很麻烦，老是出错，所以这里切记不要加</description></item></channel></rss>
