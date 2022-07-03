@@ -50,6 +50,7 @@ Table of Contents:
 <li><a href=#最简设置>最简设置</a></li>
 <li><a href=#首行缩进>首行缩进</a></li>
 <li><a href=#引用语换字体>引用语换字体</a></li>
+<li><a href=#引用语加边框该背景色>引用语加边框、该背景色</a></li>
 <li><a href=#目录>目录</a></li>
 <li><a href=#章节自动编号>章节自动编号</a></li>
 <li><a href=#链接颜色>链接颜色</a></li>
@@ -100,7 +101,14 @@ linestretch: 1.2 # 行间距。数值越大，行间距越大。
 <p>在 <code>header-includes</code> 部分加入：</p>
 <pre tabindex=0><code class=language-rmd data-lang=rmd>  - \setCJKfamilyfont{zhkai}{Kaiti SC}
   - \AtBeginEnvironment{quote}{\CJKfamily{zhkai}}
-</code></pre><h2 id=目录>目录<a href=#目录 class=header-anchor arialabel=Anchor> # </a></h2>
+</code></pre><h2 id=引用语加边框该背景色>引用语加边框、该背景色<a href=#引用语加边框该背景色 class=header-anchor arialabel=Anchor> # </a></h2>
+<pre tabindex=0><code>header-includes:
+- \usepackage{tcolorbox}
+- \newtcolorbox{myquote}{colback=red!5!white, colframe=red!75!black}
+- \renewenvironment{quote}{\begin{myquote}}{\end{myquote}}
+</code></pre><p>以上代码出处：<a href=https://tex.stackexchange.com/a/522490 target=_blank rel="noreferrer noopener">https://tex.stackexchange.com/a/522490</a>
+。</p>
+<h2 id=目录>目录<a href=#目录 class=header-anchor arialabel=Anchor> # </a></h2>
 <pre tabindex=0><code class=language-rmd data-lang=rmd>header-includes:
   - \renewcommand{\contentsname}{目录}
 output:
@@ -156,7 +164,7 @@ toccolor: 'orange' # 颜色可以自己换
   - \setCJKmainfont[Scale=1]{Songti SC}  # 设置中文字体
 </code></pre><p>这类的代码放到 <code>preamble.tex</code> 中。需要注意的是，<code>-</code> 是不需要的。</p>
 <a href=https://hongtaoh.com/tags/%E7%BC%96%E7%A8%8B/>#编程</a>
-<p style=color:#777>最后一次修改于 2022-06-21</p>
+<p style=color:#777>最后一次修改于 2022-07-03</p>
 </div>
 <a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>
 </main>
