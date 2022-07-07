@@ -59,26 +59,49 @@
 <img itemprop=thumbnail src=/media/enblog/mathjax-hugo.png width=250>
 </a>
 </figure>
-<p>Note that if it&rsquo;s this:</p>
-<figure itemprop=associatedMedia itemscope itemtype=http://schema.org/ImageObject>
-<a href=/media/enblog/mathjax.png itemprop=contentUrl>
-<img itemprop=thumbnail src=/media/enblog/mathjax.png width=300>
-</a>
-</figure>
-<p>Then Obsedian and Hugo are the same.</p>
+<p>Similary,</p>
+<pre tabindex=0><code>$$Something here$$
+</code></pre><p>needs to become</p>
+<pre tabindex=0><code>`$$Something here$$`
+</code></pre><p>Then Obsedian and Hugo are the same.</p>
 <p>So, how to convert MathJax in Obsedian to that in Hugo?</p>
-<p>Use python.</p>
+<p>We can use Python.</p>
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:green;font-weight:700>import</span> <span style=color:#00f;font-weight:700>re</span> 
 
+<span style=color:#408080;font-style:italic># reaf file</span>
 f <span style=color:#666>=</span> <span style=color:green>open</span>(<span style=color:#ba2121>&#39;yourfile.md&#39;</span>, <span style=color:#ba2121>&#39;r&#39;</span>)
-txt <span style=color:#666>=</span> f<span style=color:#666>.</span>read
+txt <span style=color:#666>=</span> f<span style=color:#666>.</span>read()
 
-txt <span style=color:#666>=</span> txt <span style=color:#666>=</span> re<span style=color:#666>.</span>sub(<span style=color:#ba2121>r</span><span style=color:#ba2121>&#39; \$&#39;</span>, <span style=color:#ba2121>&#39; `$&#39;</span>, txt)
-txt <span style=color:#666>=</span> re<span style=color:#666>.</span>sub(<span style=color:#ba2121>r</span><span style=color:#ba2121>&#39;\$ &#39;</span>, <span style=color:#ba2121>&#39;$` &#39;</span>, txt)
+<span style=color:#408080;font-style:italic># this line is from 4castle: https://stackoverflow.com/a/38645273</span>
+txt <span style=color:#666>=</span> re<span style=color:#666>.</span>sub(<span style=color:#ba2121>r</span><span style=color:#ba2121>&#39;\$([^$]*)\$&#39;</span>, <span style=color:#ba2121>r</span><span style=color:#ba2121>&#39;`$\1$`&#39;</span>, txt)
+
+txt <span style=color:#666>=</span> re<span style=color:#666>.</span>sub(<span style=color:#ba2121>r</span><span style=color:#ba2121>&#39;`\$\$`([^$]*)`\$\$`&#39;</span>, <span style=color:#ba2121>r</span><span style=color:#ba2121>&#39;`$$\1$$`&#39;</span>, txt)
 <span style=color:green;font-weight:700>with</span> <span style=color:green>open</span>(<span style=color:#ba2121>&#39;txt.md&#39;</span>, <span style=color:#ba2121>&#39;w&#39;</span>) <span style=color:green;font-weight:700>as</span> f:
     f<span style=color:#666>.</span>write(txt)
-</code></pre></div><p>The output file of <code>txt.md</code> won&rsquo;t be perfect. You still need to manually change something. But that&rsquo;s much better than manually change all of the signs, especially if you have a lot of math expressions.</p>
-<p style=color:#777>Last modified on 2022-07-03</p>
+</code></pre></div><p>I&rsquo;ll explain line by line.</p>
+<pre tabindex=0><code>re.sub(r'\$([^$]*)\$', r'`$\1$`', txt)
+</code></pre><p>What this line does is to replace the pair of dollar sign with <code>$$</code>. Try that on <code>txt = "$I want to do that$"</code> and you&rsquo;ll know that.</p>
+<p>The problem is that the above pattern does not work for string like this:</p>
+<pre tabindex=0><code>$$I want to do that$$
+</code></pre><p>will become</p>
+<pre tabindex=0><code>`$$`I want to do that`$$`
+</code></pre><p>To solve the problem, we apply:</p>
+<pre tabindex=0><code>re.sub(r'`\$\$`([^$]*)`\$\$`', r'`$$\1$$`', txt)
+</code></pre><h2 id=images>Images<a href=#images class=header-anchor arialabel=Anchor> # </a></h2>
+<p>Obsidian uses a different image importing method. Its format is like this:</p>
+<pre tabindex=0><code>![[hori-verti.png]]
+</code></pre><p>But we want it to be like this in Markdown:</p>
+<pre tabindex=0><code>![](images/hori-verti.png)
+</code></pre><p>This is a trivial task:</p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>txt <span style=color:#666>=</span> <span style=color:#ba2121>&#34;![[hori-verti.png]]&#34;</span>
+
+<span style=color:#408080;font-style:italic># replace ![[ with ![](/image/</span>
+txt <span style=color:#666>=</span> re<span style=color:#666>.</span>sub(<span style=color:#ba2121>r</span><span style=color:#ba2121>&#39;!\[\[&#39;</span>, <span style=color:#ba2121>&#39;![](/image/&#39;</span>, txt)
+<span style=color:#408080;font-style:italic># replace ]] with )</span>
+txt <span style=color:#666>=</span> re<span style=color:#666>.</span>sub(<span style=color:#ba2121>r</span><span style=color:#ba2121>&#39;\]\]&#39;</span>, <span style=color:#ba2121>&#39;)&#39;</span>, txt)
+</code></pre></div><blockquote>
+</blockquote>
+<p style=color:#777>Last modified on 2022-07-07</p>
 </div>
 <a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>
 </main>

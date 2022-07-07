@@ -1,0 +1,588 @@
+<a name=top></a><!doctype html>
+<html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>郝鸿涛：Hongtao Hao</title>
+<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css>
+<link rel=stylesheet href=/css/style.css>
+<link rel=stylesheet href=/css/fonts.css>
+<link href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css rel=stylesheet>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/bash.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/python.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/vega@5.17.0></script>
+<script src=https://cdn.jsdelivr.net/npm/vega-lite@4.17.0></script>
+<script src=https://cdn.jsdelivr.net/npm/vega-embed@6.12.2></script>
+<script>hljs.initHighlightingOnLoad()</script>
+<link rel=icon href=https://hongtaoh.com/ht10.ico>
+</head>
+<body>
+<div class=wrapper>
+<header class=header>
+<nav class=nav>
+<a href=/ class=nav-logo>
+<img src=/media/ht10.png width=50 height=50 alt="Hongtao Hao">
+</a>
+<ul class=nav-links>
+<li><a href=/>Home</a></li>
+<li><a href=/en/vitae/>Vitae</a></li>
+<li><a href=/en/projects/>Projects</a></li>
+<li><a href=/en/blog/>Blog</a></li>
+<li><a href=/en/apad/>APAD</a></li>
+<li><a href=/cn/blog/>中文</a></li>
+</ul>
+</nav>
+</header>
+<main class=content role=main>
+<div style=text-align:center>
+<h1>Understanding 3blue1brown Essence of Linear Algebra</h1>
+<p>Hongtao Hao
+/ 2022-07-07 </p>
+<hr>
+</div>
+<span class=article-toolbar>
+<a href=https://github.com/hongtaoh/hongtaoh.github.io/edit/sources/content/en/blog/2022-07-07-la.md style=font-size:24px;color:#000 target=_blank><i class="fa fa-edit" aria-hidden=true title="Suggest an edit of this page"></i>
+</a>
+</span>
+<aside class=toc>
+Table of Contents:
+<nav id=TableOfContents>
+<ul>
+<li><a href=#lesson-0-preview>Lesson 0: Preview</a></li>
+<li><a href=#lesson-1-vectors>Lesson 1: Vectors</a>
+<ul>
+<li><a href=#addition-and-multiplication>Addition and multiplication</a></li>
+</ul>
+</li>
+<li><a href=#lesson-2-linear-combinations-span-and-basis-vectors>Lesson 2: Linear combinations, span, and basis vectors</a></li>
+<li><a href=#lesson-3-linear-transformation-and-matrices>Lesson 3: Linear transformation and matrices</a>
+<ul>
+<li><a href=#shear>Shear</a></li>
+</ul>
+</li>
+<li><a href=#lesson-4-matrix-multiplication-as-composition>Lesson 4: Matrix multiplication as composition</a>
+<ul>
+<li><a href=#matrix-multiplication>Matrix multiplication</a></li>
+<li><a href=#noncommutativity>Noncommutativity</a></li>
+<li><a href=#associativity>Associativity</a></li>
+</ul>
+</li>
+<li><a href=#lesson-5-three-dimensional-linear-transformations>Lesson 5: three-dimensional linear transformations</a>
+<ul>
+<li><a href=#multiply-a-vector-by-a-matrix>Multiply a vector by a matrix</a></li>
+<li><a href=#matrix-multiplication-1>Matrix multiplication</a></li>
+</ul>
+</li>
+<li><a href=#lesson-6-determinant>Lesson 6: determinant</a>
+<ul>
+<li><a href=#the-sign-of-a-determinant>The sign of a determinant</a></li>
+<li><a href=#determinant-of-a-3-d-linear-transformation>Determinant of a 3-D linear transformation</a></li>
+<li><a href=#determinant-calculation>Determinant calculation</a></li>
+</ul>
+</li>
+<li><a href=#lesson-7-inverse-matrices-column-space-rank-and-null-space>Lesson 7: Inverse matrices, column space, rank, and null space</a>
+<ul>
+<li><a href=#inverse-matrices>Inverse matrices</a></li>
+<li><a href=#rank-and-column-space>Rank and Column space</a></li>
+</ul>
+</li>
+<li><a href=#lesson-8-nonsquare-matrices-as-transformation-between-dimensions>Lesson 8: nonsquare matrices as transformation between dimensions</a></li>
+<li><a href=#lesson-9-dot-products-and-duality>Lesson 9: dot products and duality</a></li>
+<li><a href=#lesson-10--11-cross-product>Lesson 10 & 11: Cross Product</a></li>
+<li><a href=#lesson-12-cramers-rule>Lesson 12: Cramer&rsquo;s rule</a></li>
+<li><a href=#lesson-13-change-of-basis>Lesson 13: Change of basis</a></li>
+<li><a href=#lesson-14-eigenvectors-and-eigenvalues>Lesson 14: Eigenvectors and eigenvalues</a></li>
+</ul>
+</nav>
+</aside>
+<div class="body-text list-text">
+<p><div class=info>
+All the images came from <a href=https://www.3blue1brown.com/topics/linear-algebra target=_blank rel="noreferrer noopener">3blue1brown&rsquo;s videos: esscence of linear algebra</a>
+.
+</div></p>
+<h2 id=lesson-0-preview>Lesson 0: Preview<a href=#lesson-0-preview class=header-anchor arialabel=Anchor> # </a></h2>
+<p>We focused too much on numeric understanding and did not focus on geometrical understanding. Geometric understanding of linear algebra is important because it quickly gives us a sense of how to use it in different settings.</p>
+<h2 id=lesson-1-vectors>Lesson 1: Vectors<a href=#lesson-1-vectors class=header-anchor arialabel=Anchor> # </a></h2>
+<ul>
+<li>
+<p>Physics student think that vectors are arrows pointing in space. Two elements: length and direction. You can move the vectors around and they can still be the same vectors. Vectors can be 2-dimentional and 3-dimentional.</p>
+</li>
+<li>
+<p>Computer science students think vectors are <strong>ordered</strong> lists of numbers.
+For example:
+<code>$$\begin{bmatrix} 2,600 \ {ft}^2 \\ 3,000 \ USD \end{bmatrix}$$</code></p>
+</li>
+<li>
+<p>Math students think that as long as it can be added to another vector or that it can be multiplied by a number, then it is a vector.</p>
+</li>
+</ul>
+<p>When thinking of a vector, think of an arrow in a 2-d coordinate system with its start sitting on the origin.</p>
+<p><img src=/media/enblog/la/2-d-coordinates.png alt></p>
+<p>Note that writing the coordinates horizontally denotes a point. To denote a vector, we write the two coordinates vertically.</p>
+<p><img src=/media/enblog/la/hori-verti.png alt></p>
+<p>Vectors in 3 dimenion is basically the same as those in two dimension; only that in 3 d, there is a Z axis.</p>
+<h3 id=addition-and-multiplication>Addition and multiplication<a href=#addition-and-multiplication class=header-anchor arialabel=Anchor> # </a></h3>
+<p>Adding one vector (A) to another one (B) means moving A towards B such that the tail of B sits at the tip of A:</p>
+<p><img src=/media/enblog/la/vector-addition.png alt></p>
+<p>But why? Why the addition of vectors is defined this way but not another? We can think of vectors as something that represent some movements (which contain direction and steps). The result of the addition of B to A is the result of A movement + B movement.</p>
+<p><img src=/media/enblog/la/addition-illustration-2.png alt></p>
+<p>Multiplication of a vector by a number is easy to understand. Stretching or squishing is called &ldquo;scaling&rdquo;. And that number is called a &ldquo;scalar&rdquo;.</p>
+<p><img src=/media/enblog/la/scalar-multiplication.png alt></p>
+<h2 id=lesson-2-linear-combinations-span-and-basis-vectors>Lesson 2: Linear combinations, span, and basis vectors<a href=#lesson-2-linear-combinations-span-and-basis-vectors class=header-anchor arialabel=Anchor> # </a></h2>
+<p>You have a simple vector, say</p>
+<p><code>$$\begin{bmatrix} 3 \\ -2 \end{bmatrix}$$</code></p>
+<p>Think of it as the sum of <code>$3\hat{i}$</code> and <code>$-2\hat{j}$</code> where <code>$\hat{i}$</code> is one unit right and <code>$\hat{j}$</code> is one unit up. That is to say, think of the two numbers in the above vector as two scalars. <code>$\hat{i}$</code> and <code>$\hat{j}$</code> are called the &ldquo;basis vectors&rdquo; of the <code>$xy$</code> coordinate system.</p>
+<p><img src=/media/enblog/la/basis-vectors.png alt></p>
+<p><img src=/media/enblog/la/number-as-scalars.png alt></p>
+<p>An interesting and important point to think about is what if we choose different &ldquo;basis vectors&rdquo;?</p>
+<p>Linear combination of <code>$\vec{v}$</code> and <code>$\vec{w}$</code>: scaling two vectors (<code>$\vec{v}$</code> an <code>$\vec{w}$</code>) and adding them. (Hongtao: when you think about this definition again, you can see that linear combination includes two elements: scalar multiplication and vector addition)</p>
+<p><img src=/media/enblog/la/linear-combination.png alt></p>
+<p>Span: <strong>the set of all possible vectors that the linear combination of <code>$\vec{v}$</code> and <code>$\vec{w}$</code> can reach</strong>.</p>
+<p><img src=/media/enblog/la/span.png alt></p>
+<p>If <code>$\vec{v}$</code> and <code>$\vec{w}$</code> line up, then the span is all the vectors along that line:</p>
+<p><img src=/media/enblog/la/span-line-up.png alt></p>
+<p>As we have talked about, linear algebra revolves around vector addition and scalar multiplication. &ldquo;Span&rdquo; is all the possible vectors that result from vector addition and scalar multiplication for a given pair of vectors, <code>$\vec{v}$</code> and <code>$\vec{w}$</code>.</p>
+<p>Arrows or points: if you are dealing with a specific vector, think of it as an arrow; if you are dealing with a set of or sets of vectors, think of each vector as a point (with its tail sitting at the origin of the <code>$xy$</code> coordinate).</p>
+<p>Linear combination in 3-d space is similarly defined:</p>
+<p><img src=/media/enblog/la/3d-linear-combination.png alt></p>
+<p>In 3-d if the third vector is sitting on the span of the first two, or in 2-d where the two vectors line up, then one vector is redundant in a way that it is not contributing to the &ldquo;span&rdquo;. Whenever we have a redundant vector, we call the vectors as &ldquo;linearly dependent&rdquo;.</p>
+<p><img src=/media/enblog/la/2d-linear-dependent.png alt></p>
+<p>In 3-d, if vectors are linearly dependent, one vector can be expressed as a linear combination of the other two vectors.</p>
+<p><img src=/media/enblog/la/3d-linear-dependent.png alt></p>
+<p>If there is no redundant vector, in other words, if every vector is adding to our &ldquo;span&rdquo;, then we say that these vectors are &ldquo;linearly independent.&rdquo;</p>
+<p><img src=/media/enblog/la/linear-independent.png alt></p>
+<p>Technical definition of &ldquo;basis vectors&rdquo;:</p>
+<blockquote>
+<p>The basis of a vector space is a set of linearly indepdent vectors that span the full space.</p>
+</blockquote>
+<h2 id=lesson-3-linear-transformation-and-matrices>Lesson 3: Linear transformation and matrices<a href=#lesson-3-linear-transformation-and-matrices class=header-anchor arialabel=Anchor> # </a></h2>
+<p>Transformation simply means &ldquo;function&rdquo;: it takes in inputs and spits out outputs. In the context of linear algebra, the function takes in a vector and spits out another vector.</p>
+<p>Transformation differs from &ldquo;function&rdquo; in that it denotes some &ldquo;movements&rdquo;: the input vector &ldquo;moving into&rdquo; the output vector:</p>
+<p><img src=/media/enblog/la/input-to-output.png alt></p>
+<p>Arbitrary transformations are complicated.</p>
+<p><img src=/media/enblog/la/non-linear-transformation.png alt></p>
+<p>Fortunately, in linear algebra, we only focus on &ldquo;linear transformations&rdquo;.</p>
+<p>A transformation is linear if it has two properties:</p>
+<ol>
+<li>Lines remain straight lines (without getting curved)</li>
+<li>The origin remains in place.</li>
+</ol>
+<p>This is not a linear transformation because lines are curved:</p>
+<p><img src=/media/enblog/la/curvy-lines.png alt></p>
+<p>This is not a linear transformation either, because the origin moves:</p>
+<p><img src=/media/enblog/la/origin-moves.png alt></p>
+<p>Sometimes, all lines seem to be lines, and the origin remains in place. However, the diagonal lines are curvy, so it is not a linear transformation:</p>
+<p><img src=/media/enblog/la/curvy-diagonal-lines.png alt></p>
+<p>In linear transformations, grid lines &ldquo;remain parallel and evenly spaced.&rdquo;</p>
+<p>Before going deeper into linear transformation, think about this question. Linear transformation is a like a function such that it takes in an input vector and spits out an output vector. The question is this: I give you an input vector of <code>$\begin{bmatrix} x_{in} \\ y_{in}\end{bmatrix}$</code>, what function can spits out the output vector of <code>$\begin{bmatrix} x_{out} \\ y_{out}\end{bmatrix}$</code> ? Bascially, what I am asking is this: if the input vector has coordinates of (x,y), how to get its output coordinates (after linear transformation)?</p>
+<p><img src=/media/enblog/la/linear-transformation-function.png alt></p>
+<p>The solution:</p>
+<p>A very important property of linear transformation is that for any given vector, <strong>its linear combination remains the same afer linear transformation</strong>. For example, if we have <code>$\vec{v} = -1\hat{i} + 2 \hat{j}$</code>, then after transformation, we will have this: <code>$Transformed \vec{v} = -1(Transformed \hat{i}) + 2(Transformed \hat{j})$</code></p>
+<p><img src=/media/enblog/la/v-before-transformation.png alt></p>
+<p>After transformation:</p>
+<p><img src=/media/enblog/la/v-after-transformation.png alt></p>
+<p>It looks very simple, but this property of linear transformation is pretty important. Why and how?</p>
+<p>If we know that the linear combination remains the same, then in order to know where <code>$Transformed \vec{v}$</code> lands, we only need to know the coordinates of <code>$Transformed \hat{i}$</code> and <code>$Transformed \hat{j}$</code>.</p>
+<p>If the coordinates of <code>$Transformed \hat{i}$</code> in the original grid are (1, 2) and <code>$Transformed \hat{j}$</code> is at (3,0), then we know that <code>$Transformed \vec{v}$</code> must be at (5,2):
+<code>$-1*(1,2) + 2*(3,0) = (5,2)$</code></p>
+<p><img src=/media/enblog/la/calculate-transformed-v.png alt></p>
+<p>We have the above calculations because the original <code>$\vec{v}$</code> is <code>$\begin{bmatrix} -1 \\ 2 \end{bmatrix}$</code>, but <code>$\vec{v}$</code> can be anything: <code>$\begin{bmatrix} x \\ y \end{bmatrix}$</code>. If we know that <code>$Transformed \hat{i}$</code> is <code>$\begin{bmatrix} 1 \\ -2 \end{bmatrix}$</code> and <code>$Transformed \hat{i}$</code> is <code>$\begin{bmatrix} 3 \\ 0 \end{bmatrix}$</code>, then for each vector, we can know where it lands after transformation using this formula:</p>
+<p><img src=/media/enblog/la/transformation-formula.png alt></p>
+<p>We can combine the coordinates of <code>$Transformed \hat{i}$</code> and those <code>$Transformed \hat{j}$</code> into a <code>$2\times2$</code> matrix:</p>
+<p><code>$$\begin{bmatrix} 1 & 3\\ -2 & 0 \end{bmatrix}$$</code></p>
+<p>Then, if you have a <code>$\vec{v} = \begin{bmatrix} x \\ y \end{bmatrix}$</code>, and you have <code>$Transformed \hat{i}$</code> and <code>$Transformed \hat{j}$</code> shown above, you can know the coordinates of <code>$Transformed \vec{v}$</code> this way:</p>
+<p><code>$$x\begin{bmatrix} 1 \\ -2 \end{bmatrix} + y\begin{bmatrix} 3 \\ 0 \end{bmatrix}$$</code></p>
+<p>To be more general, suppose the <code>$2\times2$</code> matrix is <code>$\begin{bmatrix} a & b\\ c & d \end{bmatrix}$</code> where (a,c) are coordinates of <code>$Transformed \hat{i}$</code> and (b, d) are coordinates of <code>$Transformed \hat{j}$</code>. For any given vector <code>$\begin{bmatrix} x \\y \end{bmatrix}$</code>, we can compute its coordinates after two-dimensional linear transformation this way:</p>
+<p><img src=/media/enblog/la/coordinates-after-transformation.png alt></p>
+<p>One important take-away from this lection is that <strong>we can consider every matrix as a certain transformation of space</strong>. For examlple, <code>$\begin{bmatrix} 1 & 3 \\ 2 & 1 \end{bmatrix}$</code> is the result of moving <code>$\hat{i}$</code> (1,0) to (1,2) and moving <code>$\hat{j}$</code> (0,1) to (3,1):</p>
+<p><img src=/media/enblog/la/matrix-as-transformation.png alt></p>
+<p>This point is extremely important if you want to get a deeper understanding of linear algebra.</p>
+<h3 id=shear>Shear<a href=#shear class=header-anchor arialabel=Anchor> # </a></h3>
+<p>By the way, if we <strong>keep the x-axis in place and tilt the y-axis 45 degrees to the right</strong>, this transformation is called &ldquo;shear&rdquo;.</p>
+<p><img src=/media/enblog/la/shear.png alt></p>
+<h2 id=lesson-4-matrix-multiplication-as-composition>Lesson 4: Matrix multiplication as composition<a href=#lesson-4-matrix-multiplication-as-composition class=header-anchor arialabel=Anchor> # </a></h2>
+<h3 id=matrix-multiplication>Matrix multiplication<a href=#matrix-multiplication class=header-anchor arialabel=Anchor> # </a></h3>
+<p>What if we have two linear transformations in a sequence? For example, first rotate 90 degrees counterclockwise and then do a shear.</p>
+<p>The original position:</p>
+<p><img src=/media/enblog/la/initial.png alt></p>
+<p>Step 1: Rotate 90 degrees counterclockwise:</p>
+<p><img src=/media/enblog/la/rotate.png alt></p>
+<p>Step 2: Shear:</p>
+<p><img src=/media/enblog/la/2-shear.png alt></p>
+<p>Then, I&rsquo;ll ask you, how to represent the above transformations matematically?</p>
+<p>Step 1 is easy. We can represent the linear transformation using this matrix:</p>
+<p><code>$$\begin{bmatrix} 0 & -1 \\ 1 & 0\end{bmatrix}$$</code>
+But, how about Step 2?</p>
+<p>You may say this:</p>
+<p><code>$$\begin{bmatrix} 1 & -1 \\ 1 & 0\end{bmatrix}$$</code></p>
+<p>Because that is the final stage. However, this is not a correct representation of Step 2. This is because that final stage is the result of two steps: 90 degree rotation and then shear, rather than Step 2 (i.e., shear) alone. But how to represent Step 2 itself?</p>
+<p>We got stuck. We don&rsquo;t know how to represent &ldquo;shear&rdquo;. In Lesson 3, shear is defined this way: keep the x-axis in place and tilt the y-axis 45 degrees to the right. And it is represented as this:</p>
+<p><code>$$\begin{bmatrix} 1 & 1 \\ 0 & 1\end{bmatrix}$$</code>
+Here, you may start wondering: wait, is Step 2 really a &ldquo;shear&rdquo;? Shouldn&rsquo;t a &ldquo;shear&rdquo; be keeping x-axis in place and tilting the y-axis? In Step 2, it seems that what is tilted is the x-axis (which is in green), not the y-axis (in red). Why do we call it a &ldquo;shear&rdquo;?</p>
+<p>Good question! Now, you know why we find it difficult to represent Step 2 mathmatically.</p>
+<p>Here, I want to reiterate a very important point: <strong>The essense of linear transformation is about transforming the space, and matrix is a way to let us know how that space is being transformed</strong>.</p>
+<p>If you look at Step 2 closely, you&rsquo;ll find that the transformation is the same as that when we define &ldquo;Shear&rdquo; in Lesson 3, right? The &ldquo;movement&rdquo; feels the same, right?</p>
+<p>What is different in Step 2, from the definition of &ldquo;shear&rdquo;, lies in the starting point. In Step 2, the start point seems to be <code>$\begin{bmatrix} 0 & -1 \\ 1 & 0\end{bmatrix}$</code>, which is the result of Step 1. However, when we define &ldquo;Shear&rdquo;, the starting point is <code>$\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$</code>.</p>
+<p>Here is the problem: if we do not have the same starting point, then it&rsquo;s impossible to mathematically represent a linear transformation.</p>
+<p>For example, in the definition of shear, the mathematical representation of the transformation, or of the" movement" is <code>$\begin{bmatrix} 1 & 1 \\ 0 & 1\end{bmatrix}$</code>. But this representation makes sense, i.e., tells us what that movement is, only if we know that the starting point is <code>$\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$</code>. The starting point of Step 2 is <code>$\begin{bmatrix} 0 & -1 \\ 1 & 0\end{bmatrix}$</code>. Then, it&rsquo;s impossible to mathematically represent the linear transformation using a single matrix, as other people don&rsquo;t know what the starting point is.</p>
+<p>This is very easy to solve: We can stipulate that, <strong>for a representation of a linear transformation, its starting point must be <code>$\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$</code></strong>. That is to say, to represent a linear transformation mathematically, we only need to show where <code>$\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$</code> lands after the transformation. Therefore, the representation of Step 2 is the same as the definition of &ldquo;Shear&rdquo;: <code>$\begin{bmatrix} 1 & 1 \\ 0 & 1\end{bmatrix}$</code>.</p>
+<p>This, in fact, makes sense. Think about it: for Step 2, the &ldquo;movement&rdquo; from <code>$\begin{bmatrix} 0 & -1 \\ 1 & 0\end{bmatrix}$</code> to <code>$\begin{bmatrix} 1 & -1 \\ 1 & 0\end{bmatrix}$</code> is the same as that from <code>$\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$</code> to <code>$\begin{bmatrix} 1 & 1 \\ 0 & 1\end{bmatrix}$</code>. Right?</p>
+<p>Thus, the two steps are these:</p>
+<p><img src=/media/enblog/la/3-in-1.png alt></p>
+<p>This is the final result:</p>
+<p><img src=/media/enblog/la/composition_1.png alt></p>
+<p>We call the final result, <code>$\begin{bmatrix} 1 & -1 \\ 1 & 0\end{bmatrix}$</code>, as <strong>the composition of Step 1 and Step 2</strong>. This is the defintion of the <strong>multiplication</strong>, or <strong>product</strong>, of two linear transformations, or, two matrices. We can <strong>consider this composition as a linear transformation itself</strong>, which can be represented as a matrix: <code>$\begin{bmatrix} 1 & -1 \\ 1 & 0\end{bmatrix}$</code>.</p>
+<p>We can represent the multiplication as this:</p>
+<p><img src=/media/enblog/la/composition-representation.png alt></p>
+<p>On the left panel, we write and read from right to left. That is to say, if we first apply a rotation and then a shear, then it should be written in the above fashion.</p>
+<p>The above should be calculated this way.</p>
+<p>The first coumn will be:</p>
+<p><code>$$\begin{bmatrix} 1 & 1 \\ 0 & 1\end{bmatrix} \begin{bmatrix} 0 \\ 1\end{bmatrix} = 0\begin{bmatrix} 1 \\ 0 \end{bmatrix} + 1 \begin{bmatrix} 1 \\ 1 \end{bmatrix} = \begin{bmatrix} 1 \\ 1 \end{bmatrix}$$</code>
+And the second column will be</p>
+<p><code>$$\begin{bmatrix} 1 & 1 \\ 0 & 1\end{bmatrix} \begin{bmatrix}-1\\ 0 \end{bmatrix} = -1\begin{bmatrix} 1\\ 0 \end{bmatrix} + 0 \begin{bmatrix} 1\\ 1 \end{bmatrix} = \begin{bmatrix} -1\\ 0 \end{bmatrix}$$</code></p>
+<p>Therefore we have:</p>
+<p><code>$$\begin{bmatrix} 1 & 1 \\ 0 & 1\end{bmatrix} \begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix} = \begin{bmatrix} 1 & -1 \\ 1 & 0\end{bmatrix}$$</code></p>
+<p>What the above is calculating is where Transformed <code>$\hat{i}$</code> and Transformed <code>$\hat{j}$</code> land after two linear transformations (first rotation and then shear). To do that, we can think about it this way. After Rotation, Transformed <code>$\hat{i}$</code> is <code>$\begin{bmatrix} 0 \\ 1 \end{bmatrix}$</code>, and Transformed <code>$\hat{j}$</code> is <code>$\begin{bmatrix}-1\\ 0 \end{bmatrix}$</code>. After applying a shear, Transformed <code>$\hat{i}$</code> moves to <code>$\begin{bmatrix} 1 & 1 \\ 0 & 1\end{bmatrix} \begin{bmatrix} 0 \\ 1\end{bmatrix} = \begin{bmatrix} 1\\ 1 \end{bmatrix}$</code>, and Transformed <code>$\hat{j}$</code> moves to <code>$\begin{bmatrix} 1 & 1 \\ 0 & 1\end{bmatrix} \begin{bmatrix}-1\\ 0 \end{bmatrix} = \begin{bmatrix}-1\\ 0 \end{bmatrix}$</code>.</p>
+<p>This is the calculations in general:</p>
+<p><code>$$\begin{bmatrix} a & b \\ c & d\end{bmatrix} \begin{bmatrix} e & f \\ g & h\end{bmatrix}$$</code>
+The first column of the result will be:</p>
+<p><code>$$\begin{bmatrix} a & b \\ c & d\end{bmatrix} \begin{bmatrix} e \\ g\end{bmatrix} = \begin{bmatrix} a \\ c \end{bmatrix}e + \begin{bmatrix} b \\ d\end{bmatrix}g$$</code></p>
+<p>The second column of the result will be:</p>
+<p><code>$$\begin{bmatrix} a & b \\ c & d\end{bmatrix} \begin{bmatrix} f \\ h\end{bmatrix} = \begin{bmatrix} a \\ c \end{bmatrix}f + \begin{bmatrix} b \\ d\end{bmatrix}h$$</code></p>
+<p><img src=/media/enblog/la/matrix-multiplication.png alt></p>
+<h3 id=noncommutativity>Noncommutativity<a href=#noncommutativity class=header-anchor arialabel=Anchor> # </a></h3>
+<p>One question is: does the order of matrices matter in matrix multiplication?</p>
+<p><img src=/media/enblog/la/noncommutativity-1.png alt></p>
+<p>Let&rsquo;s take a look.</p>
+<p>If we first take a shear, and then do the 90 degree rotation:</p>
+<p><img src=/media/enblog/la/shear-rotation-1.png alt></p>
+<p><img src=/media/enblog/la/shear-rotation-2.png alt></p>
+<p>We can see that the results are different.</p>
+<p>Therefore, order matters:</p>
+<p><img src=/media/enblog/la/noncommutativity.png alt></p>
+<p>Of course they aren&rsquo;t equal:</p>
+<p><code>$$\begin{bmatrix} 1 & 1 \\ 0 & 1\end{bmatrix} \begin{bmatrix} 0 & -1 \\ 1 & 0\end{bmatrix} \neq \begin{bmatrix} 0 & -1 \\ 1 & 0\end{bmatrix} \begin{bmatrix} 1 & 1 \\ 0 & 1\end{bmatrix}$$</code></p>
+<h3 id=associativity>Associativity<a href=#associativity class=header-anchor arialabel=Anchor> # </a></h3>
+<p><img src=/media/enblog/la/associativity.png alt></p>
+<p>Yes. The two are equal.</p>
+<h2 id=lesson-5-three-dimensional-linear-transformations>Lesson 5: three-dimensional linear transformations<a href=#lesson-5-three-dimensional-linear-transformations class=header-anchor arialabel=Anchor> # </a></h2>
+<p><img src=/media/enblog/la/3d-transformation-input-and-output.png alt></p>
+<p><img src=/media/enblog/la/3d-coordinates.png alt></p>
+<p>We added one basis vector in a 3d space: <code>$\hat{k}$</code> which is in the Z direction.</p>
+<p>For linear transformations in a 3d space, grid lines also need to be parellel and evenly spaced, and the origin needs to remain in place as well.</p>
+<h3 id=multiply-a-vector-by-a-matrix>Multiply a vector by a matrix<a href=#multiply-a-vector-by-a-matrix class=header-anchor arialabel=Anchor> # </a></h3>
+<p>For a vector <code>$\vec{v}$</code> in 3d space, how to calculate its positions after a linear transformation?</p>
+<p><img src=/media/enblog/la/3d-vector.png alt></p>
+<p>It&rsquo;s almost the same. Each element in <code>$\vec{v}$</code> represents how we should multiple, or scale, a corresponding basis vector.</p>
+<p>After transformation, the scalars remain the same:</p>
+<p><img src=/media/enblog/la/linear-transformation-in-3d.png alt></p>
+<p>Note that in the Transformation matrix, the left column is Transformed <code>$\hat{i}$</code>, the middle column is Transformed <code>$\hat{j}$</code>, and the last column is Transformed <code>$\hat{k}$</code>.</p>
+<h3 id=matrix-multiplication-1>Matrix multiplication<a href=#matrix-multiplication-1 class=header-anchor arialabel=Anchor> # </a></h3>
+<p><img src=/media/enblog/la/3d-matrix-multiplication.png alt></p>
+<p>It&rsquo;s the same as matrix multiplication in a 2d space.</p>
+<p>The result should be</p>
+<p><code>$$\begin{bmatrix} 6 & 6 & 6 \\ 33 & 44 & 55 \\ 6 & 10 & 14\end{bmatrix}$$</code></p>
+<p>If you use R, you compute it this way:</p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-r data-lang=r>data1 <span style=color:#666>&lt;-</span> <span style=color:#00f>c</span>(<span style=color:#666>0</span>,<span style=color:#666>5</span>,<span style=color:#666>1</span>,<span style=color:#666>-2</span>,<span style=color:#666>1</span>,<span style=color:#666>4</span>,<span style=color:#666>2</span>,<span style=color:#666>5</span>,<span style=color:#666>-1</span>)
+a <span style=color:#666>&lt;-</span> <span style=color:#00f>matrix</span>(data1, nrow <span style=color:#666>=</span> <span style=color:#666>3</span>, ncol <span style=color:#666>=</span> <span style=color:#666>3</span>)
+data2 <span style=color:#666>&lt;-</span> <span style=color:#00f>c</span>(<span style=color:#666>0</span>,<span style=color:#666>3</span>,<span style=color:#666>6</span>,<span style=color:#666>1</span>,<span style=color:#666>4</span>,<span style=color:#666>7</span>,<span style=color:#666>2</span>,<span style=color:#666>5</span>,<span style=color:#666>8</span>)
+b <span style=color:#666>&lt;-</span> <span style=color:#00f>matrix</span>(data2, nrow <span style=color:#666>=</span> <span style=color:#666>3</span>, ncol <span style=color:#666>=</span> <span style=color:#666>3</span>)
+a <span style=color:#666>%*%</span> b
+</code></pre></div><h2 id=lesson-6-determinant>Lesson 6: determinant<a href=#lesson-6-determinant class=header-anchor arialabel=Anchor> # </a></h2>
+<p>Some linear transformations stretch out space whereas others squash it. Then how can we describe this? How can we describe the degree to which the space is being changed?</p>
+<p>We can measure this by looking at how much a given area is being changed after linear transformation.</p>
+<p><img src=/media/enblog/la/area-0.png alt></p>
+<p><img src=/media/enblog/la/area-1.png alt></p>
+<p>Let&rsquo;s take a concrete example: <code>$\begin{bmatrix} 3 & 0 \\ 0 & 2\end{bmatrix}$</code>.
+<img src=/media/enblog/la/det-example-00.png alt></p>
+<p><img src=/media/enblog/la/det-example-01.png alt></p>
+<p>We can see that the area was 1 before the transformation and changes to 6 after the transformation. Therefore, the area is scaled up by a factor of 6. The determinant of this transformation is 6.</p>
+<p>What about a shear?</p>
+<p><img src=/media/enblog/la/det-shear.png alt></p>
+<p>It became a parallelogram with an area of 1. Therefore, the determinant of a shear transformation is 1.</p>
+<p>If we know how the unit square changes, we will know how any area in the space changes.</p>
+<p>If the area is a square, then its change, in terms of the scaling factor, is the same as the unit square.</p>
+<p><img src=/media/enblog/la/det-squares-0.png alt></p>
+<p><img src=/media/enblog/la/det-squares-1.png alt></p>
+<p>Then, areas that are not squares can be approximated by squares:</p>
+<p><img src=/media/enblog/la/det-area-approx-0.png alt></p>
+<p><img src=/media/enblog/la/det-area-approx-1.png alt></p>
+<p>Note that the determinant of a transformation is 0 if Transformed <code>$\hat{i}$</code> and Transformed <code>$\hat{j}$</code> are linearly dependent. For example:</p>
+<p><img src=/media/enblog/la/det-is-0.png alt></p>
+<h3 id=the-sign-of-a-determinant>The sign of a determinant<a href=#the-sign-of-a-determinant class=header-anchor arialabel=Anchor> # </a></h3>
+<p>The definition of determinant actually allows negative determinants. But what does the sign, i.e., + or -, mean?</p>
+<p><img src=/media/enblog/la/det-negative.png alt></p>
+<p>The sign of a determinant is all about orientation. After transformation, if Transformed <code>$\hat{j}$</code> is still on the left of Transformed <code>$\hat{i}$</code>, then the sign is positive. Otherwise, it is negative. If Transformed <code>$\hat{i}$</code> and Transformed <code>$\hat{j}$</code> line up, then the determinant, of course, is 0.</p>
+<p>When the determinant is negative, the transformation is like flipping the space over:</p>
+<p><img src=/media/enblog/la/det-flip-space.png alt></p>
+<p>We call this as &ldquo;inverting the orientation of space.&rdquo;</p>
+<p>The absolute value of the determinant indicates how much the space scales up or shrinks.</p>
+<p><img src=/media/enblog/la/det-negative-absolute.png alt></p>
+<p>But why the sign indicates the orientation?</p>
+<p>We can think of it this way. Imagine that we let <code>$\hat{i}$</code> slowly approach <code>$\hat{j}$</code>. We can imagine that before they line up, the determinant keeps decreasing. When they do line up, the determinant becomes zero. Then, as <code>$\hat{i}$</code> keeps moving away from <code>$\hat{j}$</code> (and the sapce is being flipped), isn&rsquo;t it natural that we let the determinant keep going down and become below zero, i.e., negative?</p>
+<p><img src=/media/enblog/la/neg-det-00.png alt></p>
+<p><img src=/media/enblog/la/neg-det-01.png alt></p>
+<h3 id=determinant-of-a-3-d-linear-transformation>Determinant of a 3-D linear transformation<a href=#determinant-of-a-3-d-linear-transformation class=header-anchor arialabel=Anchor> # </a></h3>
+<p>The determinant of a 2-D linear transformation is about scaling areas; It is about scaling <strong>volumes</strong> in 3-D linear transformations.</p>
+<p>To know the determinant, we look at how the unit cube whose edges are the basis vectors, changes in volume.</p>
+<p><img src=/media/enblog/la/unit-cube.png alt></p>
+<p>We call the object after transformation as <strong>parallelepiped</strong>.</p>
+<p><img src=/media/enblog/la/parallelepiped.png alt></p>
+<p>Because the volume of the cube is intially 1. To calculate the determinant, we only need to know the volume of the parallelepiped that the cube becomes.</p>
+<p><img src=/media/enblog/la/parallelepiped-volume.png alt></p>
+<p>If the determinant is 0, it means the space becomes a plane, a line, or even a single point.</p>
+<p><img src=/media/enblog/la/3d-to-a-2d-plane.png alt></p>
+<p>Then what does the sign of the determinant mean? It still means the orientation, but how do we interpret it?</p>
+<p>We can use the right hand rule.</p>
+<p><img src=/media/enblog/la/right-hand-rule.png alt></p>
+<p>If you do the above with your right hand, then the sign should be positive. Otherwise, it is negative.</p>
+<h3 id=determinant-calculation>Determinant calculation<a href=#determinant-calculation class=header-anchor arialabel=Anchor> # </a></h3>
+<p><img src=/media/enblog/la/determinant-calculation.png alt></p>
+<p>Why?</p>
+<p><img src=/media/enblog/la/determinant-calculation-proof.png alt></p>
+<p>At the end of video, 3blue1brown asks us to prove this:</p>
+<p><code>$$det(M_1M_2) = det(M_1)det(M_2)$$</code></p>
+<p>Let&rsquo;s first look at the left hand side. We first apply <code>$M_2$</code> and then <code>$M_1$</code>. Suppose <code>$M_2$</code> scale an area by <code>$e$</code>. After <code>$M_2$</code>, the unit area becomes <code>$e$</code>. Then we apply <code>$M_1$</code>. Be aware that the reference coordinates of <code>$M_1$</code> are still the original coordinates (i.e., those before the application of <code>$M_2$</code>). Suppose <code>$M_1$</code> will scale an area by <code>$f$</code>. Then the area of <code>$c$</code> will become <code>$cd$</code> after applying <code>$M_1$</code>. Therefore, <code>$det(M_1M_2) = ef$</code>.</p>
+<p>On the right hand side, <code>$det(M_1) = f$</code> and <code>$det(M_2) = e$</code>. Therefore, <code>$det(M_1)det(M_2) = fe = ef$</code>. Therefore, we have <code>$det(M_1M_2) = det(M_1)det(M_2)$</code>.</p>
+<p>One interesting thing is that</p>
+<p><code>$$det(M_2M_1) = ef = det(M_1M_2) = fe$$</code></p>
+<p>Therefore, although the order matters for matrix multiplication, it does not matter if we are considering the determinant of the two.</p>
+<p>The above discussion is based on the comments, below 3blue1brown&rsquo;s original video (Lesson 6), by <a href=https://www.youtube.com/channel/UCdBojq9M3nTPq5byI2ro12g target=_blank rel="noreferrer noopener">Kiran Kumar Kailasam</a>
+and <a href=https://www.youtube.com/channel/UCgsxPlpl1lwGQXQ3cqAtOlg target=_blank rel="noreferrer noopener">Ying Fan</a>
+.</p>
+<h2 id=lesson-7-inverse-matrices-column-space-rank-and-null-space>Lesson 7: Inverse matrices, column space, rank, and null space<a href=#lesson-7-inverse-matrices-column-space-rank-and-null-space class=header-anchor arialabel=Anchor> # </a></h2>
+<h3 id=inverse-matrices>Inverse matrices<a href=#inverse-matrices class=header-anchor arialabel=Anchor> # </a></h3>
+<p>Linear algebra is useful when describing the manipulation of the space. It can also help us solve &ldquo;linear system of equations.&rdquo;</p>
+<p><img src=/media/enblog/la/linear-system-of-equations.png alt></p>
+<p>How? We can compare a linear system of equations with a linear transformation this way:</p>
+<p><img src=/media/enblog/la/system-vs-linear-transformation.png alt></p>
+<p><code>$\vec{x}$</code> here is the input vector, <code>$A$</code> is the matrix denoting a transformation, and <code>$\vec{v}$</code> is the output vector. Our goal, therefore, is to look for the <code>$\vec{x}$</code>, which, after applying a linear transformation described by <code>$A$</code>, lands on <code>$\vec{v}$</code>.</p>
+<p><img src=/media/enblog/la/ax_v.png alt></p>
+<p>Let&rsquo;s first assume that <code>$det(A) \neq 0$</code>. We will come back and talk about what if <code>$det(A) = 0$</code> later.</p>
+<p>Let&rsquo;s take a simple case as an example.</p>
+<p><img src=/media/enblog/la/inverse-matrix-example.png alt></p>
+<p>To find out what <code>$\vec{x}$</code> is, how about we applying another linear transformation, and let <code>$\vec{v}$</code> lands on <code>$\vec{x}$</code>?</p>
+<p>This linear transformation, which allows a transformed vector to go back to its original state, has a name: <strong>inverse transformation</strong>.</p>
+<p>Let&rsquo;s take a simple example. If <code>$A$</code> is a counterclockwise <code>$90\degree$</code> rotation:</p>
+<p><img src=/media/enblog/la/counterclockwise-90-rotation.png alt></p>
+<p>Then, the inverse of <code>$A$</code>, denoted as <code>$A^{-1}$</code> is a clockwise <code>$90\degree$</code> rotation:</p>
+<p><img src=/media/enblog/la/clockwise-90-rotation.png alt></p>
+<p>Therefore, for any vector <code>$\vec{m}$</code>, if we first apply <code>$A$</code> and then <code>$A^{-1}$</code>, then <code>$\vec{m}$</code> reamins in place. &ldquo;Applying <code>$A$</code> and then <code>$A^{-1}$</code>&rdquo; is two transformation, whose result can be seen as one single linear transformation: <code>$AA^{-1} = \begin{bmatrix} 1 & 0 \\ 0 & 1\end{bmatrix}$</code>. We call this as an &ldquo;<strong>identity transformation</strong>&rdquo;. When we apply an identity transformation to a vector, this vector remains in place.</p>
+<p>If <code>$det(A) \neq 0$</code>, then we can find one <strong>and only one</strong> inverse transformation, i.e., <code>$A^{-1}$</code>. Once we find it, we can apply it to <code>$\vec{v}$</code>, which also means we apply it to <code>$A\vec{x}$</code> because we have <code>$A\vec{x} = \vec{v}$</code>:</p>
+<p><code>$$A^{-1}A\vec{x} = A^{-1}\vec{v}$$</code></p>
+<p>Because <code>$AA^{-1} = \begin{bmatrix} 1 & 0 \\ 0 & 1\end{bmatrix}$</code> is the identity transformation, we have <code>$AA^{-1}\vec{x} = \vec{x}$</code>; therefore, we have:</p>
+<p><code>$$\vec{x} = A^{-1}\vec{v}$$</code></p>
+<p>We know <code>$A$</code> (and therefore <code>$A^{-1}$</code>) and <code>$\vec{v}$</code>, so we can calculate <code>$\vec{x}$</code> easily.</p>
+<p>But what if <code>$det(A) = 0$</code>?</p>
+<p>Let&rsquo;s take one simple example. Let&rsquo;s say <code>$A = \begin{bmatrix} 1 & -1 \\ 0 & 0\end{bmatrix}$</code>. Then we have <code>$det(A) = 1\times0 - (-1)\times0 = 0$</code>. Let&rsquo;s say <code>$\vec{x} = \begin{bmatrix} a \\ b\end{bmatrix}$</code>. After applying <code>$A$</code>, <code>$\vec{x}$</code> will land on <code>$\vec{v} = \begin{bmatrix} a -b \\ 0\end{bmatrix}$</code>.</p>
+<p>Let&rsquo;s say <code>$a-b = 2$</code>, which means <code>$\vec{v} = \begin{bmatrix} 2 \\ 0\end{bmatrix}$</code>. Then what&rsquo;s <code>$\vec{x}$</code>? <strong>There are tens of thousands of possible versions of <code>$\vec{x}$</code></strong>. For example, <code>$\begin{bmatrix} 2 \\ 0\end{bmatrix}$</code>, <code>$\begin{bmatrix} 3 \\ 1\end{bmatrix}$</code>, <code>$\begin{bmatrix} 4 \\ 2\end{bmatrix}$</code>, etc. If fact, as long as <code>$a$</code> and <code>$b$</code> are on the line of <code>$y = x - 2$</code>, they can be the coordinates of <code>$\vec{x}$</code>:</p>
+<p><img src=/media/enblog/la/map-to-multiple-vectors.png alt></p>
+<p>Therefore, if we are given <code>$A$</code> and <code>$\vec{v}$</code>, and that <code>$det(A) = 0$</code>, we are not able to know what <code>$\vec{x}$</code> is.</p>
+<p>Let&rsquo;s go back to how a linear system of equations is related to linear algebra:</p>
+<p><img src=/media/enblog/la/inverse-matrix-example.png alt></p>
+<p>In the example above, <code>$A = \begin{bmatrix} 1 & -1 \\ 0 & 0\end{bmatrix}$</code> and <code>$\vec{v} = \begin{bmatrix} 2 \\ 0 \end{bmatrix}$</code>. Therefore:</p>
+<p><code>$$\begin{bmatrix} 1 & -1 \\ 0 & 0\end{bmatrix} \begin{bmatrix} x \\ y\end{bmatrix} = \begin{bmatrix} 2 \\ 0\end{bmatrix}$$</code></p>
+<p>So we have this linear system of equations:</p>
+<p><code>$$\begin{eqnarray} x - y &=& 2 \\ 0x + 0y &=& 0 \end{eqnarray}$$</code></p>
+<p>We can see that there are multiple solutions to the above equations because the second equation doesn&rsquo;t give us any useful information.</p>
+<p>When <code>$det(A) \neq 0$</code>, <code>$\vec{v} = \begin{bmatrix} a \\ a \end{bmatrix}$</code> can be anything, which means that <code>$a$</code> and <code>$b$</code> can be any numbers, and we can still find <strong>one and only one</strong> <code>$A^{-1}$</code> after applying which <code>$\vec{v}$</code> lands on <code>$\vec{x}$</code>.</p>
+<p>But this is not the case when <code>$det(A) = 0$</code>. In our example above, <code>$\vec{v}$</code> definitely cannot be anything. For example, if <code>$\vec{v}= \begin{bmatrix} 3 \\ -1 \end{bmatrix}$</code>, we have:</p>
+<p><code>$$\begin{eqnarray} x - y &=& 3 \\ 0x + 0y &=& -1 \end{eqnarray}$$</code></p>
+<p>Which is nonsense.</p>
+<p>If fact, the <code>$y$</code> coordinate of <code>$\vec{v}$</code> has to be 0; its <code>$x$</code> coordinate can be anything. This it to say, <code>$\vec{v}= \begin{bmatrix} c \\ 0 \end{bmatrix}$</code>, and <code>$c$</code> can be anything. We&rsquo;ll have:
+<code>$$\begin{eqnarray} x - y &=& c \\ 0x + 0y &=& 0 \end{eqnarray}$$</code>
+<img src=/media/enblog/la/no-solution-exists.png alt></p>
+<h3 id=rank-and-column-space>Rank and Column space<a href=#rank-and-column-space class=header-anchor arialabel=Anchor> # </a></h3>
+<p>We keep using the terminology above. We have a <code>$\vec{x}$</code>, which, after applying a linear transformation of <code>$A$</code>, lands on <code>$\vec{v}$</code>.</p>
+<p>We are most interested in knowing the coordinates of <code>$\vec{x}$</code>, because they will help us solve linear systems of equations. We compute the coordinates of <code>$\vec{x}$</code> this way: <code>$A^{-1}\vec{v}$</code>.</p>
+<p>Through the above example, we know that if <code>$det(A) = 0$</code> and solutions exist, the coordinates of <code>$\vec{x}$</code> must be on the line of <code>$y = x - c$</code> (given that <code>$\vec{v}= \begin{bmatrix} c \\ 0 \end{bmatrix}$</code>).
+<img src=/media/enblog/la/map-to-multiple-vectors.png alt></p>
+<p>However, if <code>$det(A) \neq 0$</code>, then the coordinates of <code>$\vec{x}$</code> can bey anything on the x-y plane.</p>
+<p>Therefore, the span of all possible <code>$\vec{x}$</code> depend on <code>$det(A)$</code>: the span is smaller when <code>$det(A) = 0$</code>. We have a terminology for this difference: <strong>Rank</strong>.</p>
+<p>Rank here is about a matrix or a linear transformation. Suppose we have countless input vectors (<code>$\vec{x}$</code>), and we apply <code>$A=\begin{bmatrix} 1 & -1 \\ 0 & 0\end{bmatrix}$</code> to these input vectors. We&rsquo;ll have output vectors (<code>$A\vec{x}$</code>). Aggregate all these output vectors. If the aggregated space is a line, we say <code>$A$</code> has a rank of <code>$1$</code> because the dimension of a line is <code>$1$</code>. If the aggregated space is 2D, we say <code>$A$</code> has a rank of 2. Therefore, <strong>rank describes the number of dimensions in all the possible outputs of a linear transformation</strong>. In our example, for all vectors (<code>$v$</code>) in a 2D space, after applying <code>$A = \begin{bmatrix} 1 & -1 \\ 0 & 0\end{bmatrix}$</code>, <code>$v$</code> become &ldquo;projected&rdquo; on the line of <code>$y = 0$</code> in the <code>$xy$</code> coordinates. Therefore, the <code>$A$</code> has a rank of 1.</p>
+<p>A related concept is <strong>column space</strong>: <a href=https://www.khanacademy.org/math/linear-algebra/vectors-and-spaces/null-column-space/v/column-space-of-a-matrix target=_blank rel="noreferrer noopener">the span of the column vectors</a>
+. The column vectors of <code>$A$</code> are <code>$\begin{bmatrix} 1 \\ 0 \end{bmatrix}$</code> and <code>$\begin{bmatrix} -1 \\ 0 \end{bmatrix}$</code>. Therefore, the column space of <code>$A$</code> is the space that can be reached by the linear combinations of <code>$\begin{bmatrix} 1 \\ 0 \end{bmatrix}$</code> an<code>$\begin{bmatrix} -1 \\ 0 \end{bmatrix}$</code>, which is a 1D line. By the way, 3blue1brown defined column space of <code>$A$</code> as the &ldquo;set of all possible outputs of <code>$A\vec{v}$</code>&rdquo;. I am not sure whether this definition is correct.</p>
+<p>In fact, all the output vectors of <code>$A$</code>, i.e., <code>$A\vec{x}$</code>, are basically linear combinations of the two column vectors of <code>$A$</code>. Therefore, <strong>the rank of <code>$A$</code> can also be defined as the dimension of its column space</strong>.</p>
+<p>For a matrix <code>$M$</code>, if its rank is equal to the number of column vectors of <code>$M$</code>, we say <code>$M$</code> has a full rank. In our example, the rank of <code>$A$</code> is 1 but the its number of column vectors is 2. Therefore, <code>$A$</code> does not have a full rank.</p>
+<p>Another very important concept is <strong>null space</strong> of a matrix. In our example above, for all vectors (<code>$v$</code>) in a 2D space, after applying <code>$A = \begin{bmatrix} 1 & -1 \\ 0 & 0\end{bmatrix}$</code>, we will find that vectors along the line of <code>$y=x$</code> become squashed into the origin, i.e., <code>$(0, 0)$</code>. We call vectors on the line of <code>$y=x$</code> as the null space of <code>$A$</code>. Therefore, <strong>null space is the set of all vectors <code>$v$</code> such that <code>$A\times v =0$</code>.</strong></p>
+<h2 id=lesson-8-nonsquare-matrices-as-transformation-between-dimensions>Lesson 8: nonsquare matrices as transformation between dimensions<a href=#lesson-8-nonsquare-matrices-as-transformation-between-dimensions class=header-anchor arialabel=Anchor> # </a></h2>
+<p>By now, we know what <code>$\begin{bmatrix} 1 & -1 \\ 0 & 0\end{bmatrix}$</code> and <code>$\begin{bmatrix} 6 & 6 & 6 \\ 33 & 44 & 55 \\ 6 & 10 & 14\end{bmatrix}$</code> mean. We know how the space is being transformed by these linear transformations, or, matrices. But how about nonsquare matrices?</p>
+<p>For example, what does a <code>$3 \times 2$</code> matrix mean? We know that a <code>$3 \times 3$</code> matrix mean manipulating a 3D space, i.e., transforming a 3D vector into another 3D vector. But we don&rsquo;t know what a <code>$3 \times 2$</code> matrix means.</p>
+<p>Let&rsquo;s look at an example.</p>
+<p><code>$$B = \begin{bmatrix} 2 & 0 \\ -1 & 1 \\-2 & 1\end{bmatrix}$$</code>
+This <code>$3 \times 2$</code> matrix mean mapping 2D vectors onto a 3D space.</p>
+<p><img src=/media/enblog/la/three-by-two-matrix-meaning.png alt></p>
+<p><code>$\begin{bmatrix} 2 \\ -1 \\-2\end{bmatrix}$</code> is where the Transformed <code>$\hat{i}$</code> lands and <code>$\begin{bmatrix} 0 \\ 1 \\ 1\end{bmatrix}$</code> is where the Transformed <code>$\hat{j}$</code> lands.</p>
+<p>Note that the column space of <code>$B$</code> is a 2D plane slicing through the origin in the 3D space. Therefore, its rank is 2. Because the rank is equal to the number of column vectors, <code>$B$</code> is still full rank.</p>
+<p>Likewise, a <code>$2 \times 3$</code> matrix means mapping a 3D vector onto a 2D space, for example:</p>
+<p><code>$$C = \begin{bmatrix} 3 & 1 & 4 \\ 1 & 5 & 9 \end{bmatrix}$$</code>
+The three vectors here represent the transformed <code>$\hat{i}$</code>, <code>$\hat{j}$</code>, and <code>$\hat{k}$</code>, respectively. If we have a three-dimensional vector, say <code>$\begin{bmatrix} 1 \\ 1 \\1\end{bmatrix}$</code>, it will become <code>$\begin{bmatrix} 8 \\15 \end{bmatrix}$</code> in the 2D space after applying <code>$C$</code>.</p>
+<p>In sum, a <code>$m \times n$</code> matrix indicates transforming <code>$n$</code>-dimensional space to <code>$m$</code>-dimensional.</p>
+<h2 id=lesson-9-dot-products-and-duality>Lesson 9: dot products and duality<a href=#lesson-9-dot-products-and-duality class=header-anchor arialabel=Anchor> # </a></h2>
+<p>Dot product is traditionally described as projecting <code>$\vec{w}$</code> onto <code>$\vec{v}$</code>. The length of <code>$\vec{v}$</code> times the length of projected <code>$\vec{w}$</code> is the dot project the two vectors.</p>
+<p><img src=/media/enblog/la/dot-product-illustration.png alt></p>
+<p>We compute dot product this way:</p>
+<p><img src=/media/enblog/la/dot-product-calculation.png alt></p>
+<p>According to how dot product is calculated, it is easy to understand, algebraically, that the order of the two vectors does not matter. But how to understand it geometrically?</p>
+<p>We can first consider two vectors of the same length:</p>
+<p><img src=/media/enblog/la/dot-product-order-does-not-matter-01.png alt></p>
+<p>It is easy to understand in this case that the order does not matter. But what if the vectors are of different lengths? For example, what if <code>$\vec{v}$</code> becomes <code>$2\vec{v}$</code>?</p>
+<p>If <code>$\vec{v}$</code> becomes <code>$2\vec{v}$</code>, the projected length of <code>$\vec{w}$</code> does not change, so the result is two times the original result:</p>
+<p><img src=/media/enblog/la/dot-product-order-does-not-matter-02.png alt></p>
+<p>Similarly, the projected length of <code>$2\vec{v}$</code> will be two times the projected length of <code>$\vec{v}$</code>. The result is, again, two times the original result:</p>
+<p><img src=/media/enblog/la/dot-product-order-does-not-matter-03.png alt></p>
+<p>This is why the order does not matter.</p>
+<p>Then, one important question is: <strong>Why on earth is dot project related to projection?</strong></p>
+<p>That&rsquo;s a good question.</p>
+<p>I don&rsquo;t think 3blue1brown successfully answered this question. In the following, I&rsquo;ll provide an answer inspired by the post of <a href=https://medium.com/intuition/about-vector-projection-e1417a9ccd28 target=_blank rel="noreferrer noopener">About Vector Projection</a>
+by ParkJaJay.</p>
+<p>In the triangle below, if <code>$\theta\neq90^o$</code>, we have this:</p>
+<p><img src=/media/enblog/la/triangle-area-theta.png alt></p>
+<p><code>$$c^2 = a^2 + b^2 - 2ab\cos\theta$$</code></p>
+<p>Also, when one vector is dotted by itself, the result will be the square of its length.</p>
+<p><img src=/media/enblog/la/2vec.png alt></p>
+<p>(Image by ParkJaJay)</p>
+<p><code>$$\vec{a} \cdot \vec{a} = a_1^2 + a_2^2 = ||\vec{a}||^2$$</code>
+In the following, we have:</p>
+<p><img src=/media/enblog/la/vectors-triangle.png alt></p>
+<p><code>$$||\vec{a}-\vec{b}||^2 = ||\vec{a}||^2 + ||\vec{b}||^2 - 2||\vec{a}||||\vec{b}||\cos\theta$$</code></p>
+<p>We also have:</p>
+<p><code>$$||\vec{a}-\vec{b}||^2 = (\vec{a}-\vec{b}) \cdot (\vec{a} - \vec{b}) = \vec{a}^2 + \vec{b}^2 - 2\vec{a}\cdot\vec{b} = ||\vec{a}||^2 + ||\vec{b}||^2 - 2\vec{a}\cdot\vec{b}$$</code></p>
+<p>Combine the abveo two, we have:</p>
+<p><code>$$\vec{a}\cdot\vec{b} = ||\vec{a}||||\vec{b}||\cos\theta$$</code>
+If <code>$\theta = 90^o$</code>, we have</p>
+<p><img src=/media/enblog/la/theta-is-90.png alt></p>
+<p><code>$$||\vec{a}-\vec{b}||^2 = ||\vec{a}||^2 + ||\vec{b}||^2$$</code>
+So we have:</p>
+<p><code>$$||\vec{a}||^2 + ||\vec{b}||^2 = ||\vec{a}||^2 + ||\vec{b}||^2 - 2\vec{a}\cdot\vec{b}$$</code>
+So:</p>
+<p><code>$$2\vec{a}\cdot\vec{b} = 0$$</code></p>
+<p>This is how the dot product of two vectors is related to vector projection. This is also why a positive dot product indicates that the two vectors are pointing to generally the same direction, a negative dot product indicates different directions, and the dot product of 0 means the two vectors are perpendicular to each other.</p>
+<p>3blue1brown rightly pointed out that the dot product of two vectors is related to a linear transformation:</p>
+<p><code>$$\begin{bmatrix} a_1 \\a_2 \end{bmatrix}\cdot \begin{bmatrix} b_1 \\b_2 \end{bmatrix} = \begin{bmatrix} a_1&a_2\end{bmatrix} \begin{bmatrix} b_1 \\b_2 \end{bmatrix} = a_1b_1 + a_2b_2$$</code></p>
+<p>Therefore, perfoming a linear transformation denoted by <code>$\begin{bmatrix} a_1&a_2\end{bmatrix}$</code> is the same as taking a dot product with <code>$\begin{bmatrix} a_1 \\a_2 \end{bmatrix}$</code>.</p>
+<h2 id=lesson-10--11-cross-product>Lesson 10 & 11: Cross Product<a href=#lesson-10--11-cross-product class=header-anchor arialabel=Anchor> # </a></h2>
+<p>The cross product of two vectors <code>$\vec{v}$</code> and <code>$\vec{w}$</code> in 3d space is defined this way:</p>
+<p><img src=/media/enblog/la/definition-cross-product.png alt></p>
+<p>The outcome vector, i.e., <code>$\begin{bmatrix} v_2 \cdot w_3 - w_2 \cdot v_3 \\ v_3 \cdot w_1 - w_3 \cdot v_1 \\ v_1 \cdot w_2 - w_1 \cdot v_2\end{bmatrix}$</code> has the following properties:</p>
+<ul>
+<li>It is perpendicular to both <code>$\vec{v}$</code> and <code>$\vec{w}$</code></li>
+<li>Its direction follows the right hand rule:
+<img src=/media/enblog/la/cross-product-right-hand-rule.png alt></li>
+<li>Its length is equal to the area of the parallelogram of <code>$\vec{v}$</code> and <code>$\vec{w}$</code></li>
+</ul>
+<p>BUT, WHY?</p>
+<p>To understand why, let&rsquo;s first think there is a variable vector in the 3d space: <code>$\vec{m} = \begin{bmatrix} x \\y\\z \end{bmatrix}$</code>. The volume of the parallelepiped of <code>$\vec{m}$</code>, <code>$\vec{v}$</code> and <code>$\vec{w}$</code> is its determinant:</p>
+<p><img src=/media/enblog/la/volume-of-parallelepiped.png alt></p>
+<p>How come?</p>
+<p>This is because for a 3 by 3 matrix, its determinant is calculated this way:</p>
+<p><code>$$det \Biggl(\begin{bmatrix} a & b & c \\d & e & f \\g & h &i \end{bmatrix}\Biggl) = aei + bfg + cdh - ceg - afh - bdi$$</code></p>
+<p>The output of this determinant, or volume, calculation, is a number. Since <code>$\vec{v}$</code> and <code>$\vec{w}$</code> are known, the coeffficents for <code>$x$</code>, <code>$y$</code>, and <code>$z$</code> are also fixed. Therefore, the calculation of the determinant is just like mapping <code>$\vec{m}$</code> onto the number line:</p>
+<p><code>$$\begin{bmatrix} p_1 & p_2 & p_3 \end{bmatrix} \begin{bmatrix} x \\y\\z \end{bmatrix}$$</code>
+From Lesson 9, we know that this is equal to taking a dot product with <code>$\vec{p} = \begin{bmatrix} p_1 \\p_2\\p_3 \end{bmatrix}$</code>:
+<code>$$\begin{bmatrix} p_1 & p_2 & p_3 \end{bmatrix} \begin{bmatrix} x \\y\\z \end{bmatrix} = \begin{bmatrix} p_1 \\p_2\\p_3 \end{bmatrix} \cdot \begin{bmatrix} x \\y\\z \end{bmatrix} = det\Biggl(\begin{bmatrix} x & v_1 & w_1 \\y & v_2 & w_2 \\z & v_3 &w_3 \end{bmatrix} \Biggl)$$</code></p>
+<p>So we have:</p>
+<p><code>$$\vec{p} = \begin{bmatrix} p_1 \\p_2\\p_3 \end{bmatrix} = \begin{bmatrix} v_2 \cdot w_3 - w_2 \cdot v_3 \\ v_3 \cdot w_1 - w_3 \cdot v_1 \\ v_1 \cdot w_2 - w_1 \cdot v_2\end{bmatrix}$$</code></p>
+<p>Let&rsquo;s say the area of the parallelogram of <code>$\vec{v}$</code> and <code>$\vec{w}$</code> is <code>$a$</code>, and the length of the component of <code>$\vec{m}$</code> perpandicular to <code>$\vec{v}$</code> and <code>$\vec{w}$</code> is <code>$c$</code>. The volume of the parallelepiped of <code>$\vec{m}$</code>, <code>$\vec{v}$</code> and <code>$\vec{w}$</code> should be <code>$a \times c$</code>:</p>
+<p><img src=/media/enblog/la/cross-product-vector-p.png alt></p>
+<p>If <code>$\vec{p}$</code> is perpendicular to both <code>$\vec{v}$</code> and <code>$\vec{w}$</code> and its length is equal to the area of the parallelogram of <code>$\vec{v}$</code> and <code>$\vec{w}$</code> , i.e., <code>$a$</code>, then the dot product of <code>$\vec{m}$</code> and <code>$\vec{p}$</code> is the length of <code>$\vec{p}$</code>, which is <code>$a$</code>, times the length of <code>$\vec{m}$</code> projected on <code>$\vec{p}$</code>, which is equal to <code>$c$</code>: <code>$a \times c$</code>. This is also the volume of the parallelepiped of <code>$\vec{m}$</code>, <code>$\vec{v}$</code> and <code>$\vec{w}$</code>.</p>
+<p><code>$\vec{p}$</code> is the cross product of <code>$\vec{v}$</code> and <code>$\vec{w}$</code>. That is why the cross product of <code>$\vec{v}$</code> and <code>$\vec{w}$</code> has the above mentioned properties.</p>
+<h2 id=lesson-12-cramers-rule>Lesson 12: Cramer&rsquo;s rule<a href=#lesson-12-cramers-rule class=header-anchor arialabel=Anchor> # </a></h2>
+<p>In Chapter 7, we talked about how linear algebra is useful for solving linear systems of equations through calculating the inverse matrix.</p>
+<p>Let&rsquo;s first review what we have learned.</p>
+<p>Suppose we have this linear system of equation:</p>
+<p><code>$$ \displaylines{3x + 2y = -4 \\ -x + 2y = -2} $$</code>
+The problem can be restated this way: we know a linear transformation: <code>$\begin{bmatrix} 3 & 2\\ -1 & 2\end{bmatrix}$</code>, and we know the output vector: <code>$\begin{bmatrix} -4 \\-2 \end{bmatrix}$</code>. We want to know what the input vector is: <code>$\begin{bmatrix} x \\y \end{bmatrix}$</code>.</p>
+<p><code>$$\begin{bmatrix} 3 & 2\\ -1 & 2\end{bmatrix} \begin{bmatrix} x \\y \end{bmatrix} = \begin{bmatrix} 3 \\-1 \end{bmatrix} x + \begin{bmatrix} 2 \\2 \end{bmatrix} y = \begin{bmatrix} -4 \\-2 \end{bmatrix}$$</code>
+<img src=/media/enblog/la/mysterious-input-vector-cramer.png alt></p>
+<p>To know what the input vector <code>$\begin{bmatrix} x \\y \end{bmatrix}$</code> is, we calculate the inverse matrix of <code>$\begin{bmatrix} 3 & 2\\ -1 & 2\end{bmatrix}$</code>, denoted as <code>$A^{-1}$</code>. Then the input vector will be the result of applying this inverse matrix to the output vector:</p>
+<p><code>$$\begin{bmatrix} x \\y \end{bmatrix} = A^{-1}\begin{bmatrix} -4 \\-2 \end{bmatrix}$$</code></p>
+<p>The drawback of this method is that it&rsquo;s difficult to calculate the inverse matrix by hand.</p>
+<p>A simpler way is the Cramer&rsquo;s rule.</p>
+<p>Let&rsquo;s take another example here:</p>
+<p><code>$$ \displaylines{2x - y = 4 \\ 0x + y = 2} $$</code>
+The most important idea behind Cramer&rsquo;s rule is the determinant. The input vector is <code>$\begin{bmatrix} x \\y \end{bmatrix}$</code> , and the area of the parallelogram made up of the input vector and <code>$\hat{x}$</code> is <code>$y$</code>, because the length of <code>$\hat{x}$</code> is 1.</p>
+<p><img src=/media/enblog/la/input-vector-and-x-hat.png alt></p>
+<p>The point here is that after applying <code>$A$</code>, all the areas will scale up or down by the same number, which is <code>$det(A)$</code>. Therefore, the area of the parallelogram made up of the Transformed <code>$\hat{x}$</code> and the output vector <code>$\begin{bmatrix} -4 \\-2 \end{bmatrix}$</code> is <code>$det(A)y$</code>.</p>
+<p><img src=/media/enblog/la/cramer-calculation.png alt></p>
+<p>So if we know the area parallelogram made up of the Transformed <code>$\hat{x}$</code> and the output vector, denoted as <code>$Area$</code>, we can calculate <code>$y$</code> by:</p>
+<p><code>$$y = \frac{Area}{det(A)}$$</code></p>
+<p>And we know <code>$Area$</code> because we know the coordinate of Transformed <code>$\hat{x}$</code> and the output vector:</p>
+<p><code>$$Area = det\Biggl(\begin{bmatrix} 2 & 4\\ 0 & 2\end{bmatrix}\Biggl) = 2*2 - 0*4 = 4$$</code></p>
+<p>If you don&rsquo;t know how the above calcultion works, brush up on the chapter of determinants. Just imagine, if the output vector is the Transformed <code>$\hat{y}$</code>, what will be the determinant? That&rsquo;s how we calculate the above <code>$Area$</code>.</p>
+<p>And we know that</p>
+<p><code>$$det(A) = det\Biggl(\begin{bmatrix} 2 & -1\\ 0 & 1\end{bmatrix}\Biggl) = 2*1 - 0*-1 = 2$$</code></p>
+<p>Therefore, we have <code>$y = \frac{4}{2} = 2$</code>. And indeed, <code>$y = 2$</code>.</p>
+<p>The same is for the calculation of <code>$x$</code>. One thing to note that <strong>when calculating the area made up of the transformed <code>$\hat{x}$</code> and the output vector, the first column should be the transformed <code>$\hat{x}$</code> whereas when calculating the area made up of the transformed <code>$\hat{y}$</code> and the output vector, the first column should be the output vector.</strong></p>
+<p>What about three dimensions?</p>
+<p><code>$$ \displaylines{3x + 2y + 7z= -4 \\ 1x + 2y - 4z = -2 \\ 4x + 0y + 1z = 5} $$</code></p>
+<p>This is the same as:</p>
+<p><code>$$\begin{bmatrix} 3 & 2 & 7\\ 1 & 2 & -4 \\ 4 & 0 & 1\end{bmatrix} \begin{bmatrix} x \\y \\ z \end{bmatrix} = \begin{bmatrix} 3 \\1 \\4 \end{bmatrix} x + \begin{bmatrix} 2 \\2 \\0 \end{bmatrix} y + \begin{bmatrix} 7 \\ -4 \\1 \end{bmatrix} z = \begin{bmatrix} -4 \\-2 \\5 \end{bmatrix}$$</code></p>
+<p>The volume of the parallelepiped made up of <code>$\hat{x}$</code>, <code>$\hat{y}$</code>, and the input vector is <code>$z$</code>. The determinant of <code>$A$</code> is:</p>
+<p><code>$$det\Biggl(\begin{bmatrix} 3 & 2 & 7\\ 1 & 2 & -4 \\ 4 & 0 & 1\end{bmatrix}\Biggl) = -84$$</code></p>
+<p>The volume of <code>$\hat{x}$</code>, <code>$\hat{y}$</code>, and the output vector is:</p>
+<p><code>$$det\Biggl(\begin{bmatrix} 3 & 2 & -4\\ 1 & 2 & -2 \\ 4 & 0 & 5\end{bmatrix}\Biggl) = 36$$</code></p>
+<p>Therefore, we have:</p>
+<p><code>$$z = \frac{36}{-84} = -\frac{3}{7}$$</code></p>
+<p>We can calculate <code>$x$</code>, and <code>$y$</code> in the same way.</p>
+<h2 id=lesson-13-change-of-basis>Lesson 13: Change of basis<a href=#lesson-13-change-of-basis class=header-anchor arialabel=Anchor> # </a></h2>
+<p>A &ldquo;coordinate system&rdquo; translate vectors in to a set of numbers. In our standard coordinate system, <code>$\hat{i}$</code> and <code>$\hat{j}$</code> are called &ldquo;basis vectors&rdquo;.</p>
+<p><img src=/media/enblog/la/coordinate_system.png alt></p>
+<p>But what if we use different basis vectors?</p>
+<p><img src=/media/enblog/la/alternative-basis-vectors.png alt></p>
+<p>The same vector in space will be described differently if we use alternative basis vectors. Note that the origin is the same no matter what basis vectors you use.</p>
+<p><img src=/media/enblog/la/origin-remains-in-place.png alt></p>
+<p>Now that we can have different coordinate systems, how do we translate between them?</p>
+<p><img src=/media/enblog/la/two-different-coordinate-systems.png alt></p>
+<p>We can calculate it this way:</p>
+<p><code>$$\vec{c} = -1\vec{b_1} + 2\vec{b_2} = -1 \begin{bmatrix} 2 \\1 \end{bmatrix}+ 2 \begin{bmatrix} -1 \\1 \end{bmatrix} = \begin{bmatrix} -4 \\1 \end{bmatrix}$$</code></p>
+<p>This looks similar, right? In Chapter 3, we talked about linear transformation. The above calculation is the same as linear transformation. For any vector described in Jennifer&rsquo;s world, <code>$\vec{v} = \begin{bmatrix} x \\y \end{bmatrix}$</code>, we apply the transformation of <code>$\begin{bmatrix} 2 & -1 \\ 1 & 1 \end{bmatrix}$</code> to it, and the result will be how the output vector in Jennifer&rsquo;s world is interpreted in our &ldquo;standard&rdquo; world.</p>
+<p>To reiterate: we have a vector <code>$\vec{v} = \begin{bmatrix} x \\y \end{bmatrix}$</code> described in Jennifer&rsquo;s world. And we know that the basis vectors that Jennifer is using can be interpreted in our world: <code>$\begin{bmatrix} 2 & -1 \\ 1 & 1 \end{bmatrix}$</code>. To know what will be the coordinates of <code>$\vec{v}$</code> in our language, we apply the linear transformation of <code>$\begin{bmatrix} 2 & -1 \\ 1 & 1 \end{bmatrix}$</code> to <code>$\vec{v}$</code>.</p>
+<p>Then, what if we have a vector <code>$\vec{m} = \begin{bmatrix} x_m \\ y_m \end{bmatrix}$</code> described in our world, and we want to know how it will be described in Jennifer&rsquo;s world? We calculate the inverse of the matrix of <code>$\begin{bmatrix} 2 & -1 \\ 1 & 1 \end{bmatrix}$</code> and apply that inverse matrix to <code>$\vec{m}$</code>.</p>
+<p>The inverse matrix will be <code>$\begin{bmatrix} \frac{1}{3} & \frac{1}{3} \\ - \frac{1}{3} & \frac{2}{3} \end{bmatrix}$</code>. Take the above example of <code>$\vec{m} = \vec{v} = \begin{bmatrix} -4 \\1 \end{bmatrix}$</code>. When we apply the inverse matrix to it, the result will be:</p>
+<p><code>$$\vec{v} = \begin{bmatrix} -4 \\ 1 \end{bmatrix} \begin{bmatrix} \frac{1}{3} & \frac{1}{3} \\ - \frac{1}{3} & \frac{2}{3} \end{bmatrix} = -4 \begin{bmatrix} \frac{1}{3} \\ - \frac{1}{3} \end{bmatrix} + 1 \begin{bmatrix} \frac{1}{3} \\ \frac{2}{3} \end{bmatrix} = \begin{bmatrix} -1 \\ 2 \end{bmatrix}$$</code></p>
+<h2 id=lesson-14-eigenvectors-and-eigenvalues>Lesson 14: Eigenvectors and eigenvalues<a href=#lesson-14-eigenvectors-and-eigenvalues class=header-anchor arialabel=Anchor> # </a></h2>
+<p>Eigenvectors are those that remain in its span after a linear transformation. Eigenvalues represent how much they are streched.</p>
+<p><img src=/media/enblog/la/eigenvectors.png alt></p>
+<p>How to compute eigenvectors and eigenvalues then?</p>
+<p>Let&rsquo;s take a concrete example. Let&rsquo;s say the linear transformation is <code>$A = \begin{bmatrix} 2& 2\\ 1 & 3 \end{bmatrix}$</code>. Let&rsquo;s say <code>$\vec{v}$</code> is one eigenvector, and <code>$\lambda$</code> is the associated eigenvalue. Because the eigenvectors remain in its span, but streched, we have:</p>
+<p><code>$$A\vec{v} = \lambda\vec{v}$$</code></p>
+<p>We can insert an identity matrix to the left hand side: <code>$\lambda \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}\vec{v}$</code>. This is because</p>
+<p><code>$$\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}\vec{v} = \vec{v}$$</code></p>
+<p>Denoting the identity matrix as <code>$I$</code>, we have:</p>
+<p><code>$$A\vec{v} - \lambda I \vec{v} = (A-\lambda I)\vec{v} = \vec{0}$$</code></p>
+<p>Of course, this will be true if <code>$\vec{v} = \vec{0}$</code>, but we are not interested in this. We want non-zero solutions to <code>$\vec{v}$</code>. If <code>$\vec{v}$</code> is a non-zero vector and after applying the linear transformation of <code>$A - \lambda I$</code>, it becomes a zero vector, it means <code>$det(A - \lambda I) = 0$</code>. That is to say:</p>
+<p><code>$$det\Biggl(\begin{bmatrix} 2-\lambda & 2\\ 1 & 3- \lambda\end{bmatrix}\Biggl) = (2-\lambda)(3-\lambda)-2=0$$</code></p>
+<p>So, <code>$\lambda = 4$</code> or <code>$1$</code>. When <code>$\lambda = 4$</code>, we have:</p>
+<p><code>$$(\begin{bmatrix} 2& 2\\ 1 & 3 \end{bmatrix} - 4 \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}) \vec{v} = (\begin{bmatrix} -2&2\\ 1 & -1 \end{bmatrix})\vec{v}=\vec{0}$$</code>
+Suppose <code>$\vec{v} = \begin{bmatrix} x\\ y \end{bmatrix}$</code>, we have:</p>
+<p><code>$$x\begin{bmatrix} -2\\ 1 \end{bmatrix} + y \begin{bmatrix} 2\\ -1 \end{bmatrix} = \begin{bmatrix} -2x + 2y\\ x-y \end{bmatrix} = \begin{bmatrix} 0\\ 0 \end{bmatrix} $$</code></p>
+<p>So eigenvectors are long this line: <code>$y=x$</code>. The same procedure can be applied to compute the eigenvectors for when <code>$\lambda = 1$</code>.</p>
+<p style=color:#777>Last modified on 2022-07-07</p>
+</div>
+<a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>
+</main>
+<footer class=footer>
+<script src=https://utteranc.es/client.js repo=hongtaoh/hongtaoh.github.io issue-term=pathname theme=github-light crossorigin=anonymous async></script>
+<script type=text/javascript src=/js/math-code.js></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type=text/javascript src=/js/center-img.js></script>
+<ul class=footer-links>
+<li><a href=/en/blog/index.xml type=application/rss+xml title="RSS feed">
+Subscribe </a>
+</li>
+<li>
+<a href=http://creativecommons.org/licenses/by-nc-sa/4.0/ target=_blank>
+License
+<i class="fa fa-cc" aria-hidden=true title="Attribution-NonCommercial-ShareAlike 4.0 International"></i>
+</a>
+</li>
+</ul>
+<div class=copyright-text>
+©
+Hongtao Hao
+2020-2022
+</div>
+</footer>
