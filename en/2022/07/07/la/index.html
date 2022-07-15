@@ -126,7 +126,7 @@ For example:
 <h3 id=addition-and-multiplication>Addition and multiplication<a href=#addition-and-multiplication class=header-anchor arialabel=Anchor> # </a></h3>
 <p>Adding one vector (A) to another one (B) means moving A towards B such that the tail of B sits at the tip of A:</p>
 <p><img src=/media/enblog/la/vector-addition.png alt></p>
-<p>But why? Why the addition of vectors is defined this way but not another? We can think of vectors as something that represent some movements (which contain direction and steps). The result of the addition of B to A is the result of A movement + B movement.</p>
+<p>But why? Why the addition of vectors is defined this way but not another? We can think of vectors as something that represents certain movements (which contain (1) direction and (2) steps). The result of the addition of B to A is the result of A movement + B movement.</p>
 <p><img src=/media/enblog/la/addition-illustration-2.png alt></p>
 <p>Multiplication of a vector by a number is easy to understand. Stretching or squishing is called &ldquo;scaling&rdquo;. And that number is called a &ldquo;scalar&rdquo;.</p>
 <p><img src=/media/enblog/la/scalar-multiplication.png alt></p>
@@ -226,7 +226,7 @@ Here, you may start wondering: wait, is Step 2 really a &ldquo;shear&rdquo;? Sho
 <p>If you look at Step 2 closely, you&rsquo;ll find that the transformation is the same as that when we define &ldquo;Shear&rdquo; in Lesson 3, right? The &ldquo;movement&rdquo; feels the same, right?</p>
 <p>What is different in Step 2, from the definition of &ldquo;shear&rdquo;, lies in the starting point. In Step 2, the start point seems to be <code>$\begin{bmatrix} 0 & -1 \\ 1 & 0\end{bmatrix}$</code>, which is the result of Step 1. However, when we define &ldquo;Shear&rdquo;, the starting point is <code>$\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$</code>.</p>
 <p>Here is the problem: if we do not have the same starting point, then it&rsquo;s impossible to mathematically represent a linear transformation.</p>
-<p>For example, in the definition of shear, the mathematical representation of the transformation, or of the" movement" is <code>$\begin{bmatrix} 1 & 1 \\ 0 & 1\end{bmatrix}$</code>. But this representation makes sense, i.e., tells us what that movement is, only if we know that the starting point is <code>$\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$</code>. The starting point of Step 2 is <code>$\begin{bmatrix} 0 & -1 \\ 1 & 0\end{bmatrix}$</code>. Then, it&rsquo;s impossible to mathematically represent the linear transformation using a single matrix, as other people don&rsquo;t know what the starting point is.</p>
+<p>For example, in the definition of shear, the mathematical representation of the transformation, or of the &ldquo;movement&rdquo; is <code>$\begin{bmatrix} 1 & 1 \\ 0 & 1\end{bmatrix}$</code>. But this representation makes sense, i.e., tells us what that movement is, only if we know that the starting point is <code>$\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$</code>. The starting point of Step 2 is <code>$\begin{bmatrix} 0 & -1 \\ 1 & 0\end{bmatrix}$</code>. Then, it&rsquo;s impossible to mathematically represent the linear transformation using a single matrix, as other people don&rsquo;t know what the starting point is.</p>
 <p>This is very easy to solve: We can stipulate that, <strong>for a representation of a linear transformation, its starting point must be <code>$\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$</code></strong>. That is to say, to represent a linear transformation mathematically, we only need to show where <code>$\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$</code> lands after the transformation. Therefore, the representation of Step 2 is the same as the definition of &ldquo;Shear&rdquo;: <code>$\begin{bmatrix} 1 & 1 \\ 0 & 1\end{bmatrix}$</code>.</p>
 <p>This, in fact, makes sense. Think about it: for Step 2, the &ldquo;movement&rdquo; from <code>$\begin{bmatrix} 0 & -1 \\ 1 & 0\end{bmatrix}$</code> to <code>$\begin{bmatrix} 1 & -1 \\ 1 & 0\end{bmatrix}$</code> is the same as that from <code>$\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$</code> to <code>$\begin{bmatrix} 1 & 1 \\ 0 & 1\end{bmatrix}$</code>. Right?</p>
 <p>Thus, the two steps are these:</p>
@@ -365,9 +365,9 @@ and <a href=https://www.youtube.com/channel/UCgsxPlpl1lwGQXQ3cqAtOlg target=_bla
 <p><img src=/media/enblog/la/inverse-matrix-example.png alt></p>
 <p>To find out what <code>$\vec{x}$</code> is, how about we applying another linear transformation, and let <code>$\vec{v}$</code> lands on <code>$\vec{x}$</code>?</p>
 <p>This linear transformation, which allows a transformed vector to go back to its original state, has a name: <strong>inverse transformation</strong>.</p>
-<p>Let&rsquo;s take a simple example. If <code>$A$</code> is a counterclockwise <code>$90\degree$</code> rotation:</p>
+<p>Let&rsquo;s take a simple example. If <code>$A$</code> is a counterclockwise 90 degree rotation:</p>
 <p><img src=/media/enblog/la/counterclockwise-90-rotation.png alt></p>
-<p>Then, the inverse of <code>$A$</code>, denoted as <code>$A^{-1}$</code> is a clockwise <code>$90\degree$</code> rotation:</p>
+<p>Then, the inverse of <code>$A$</code>, denoted as <code>$A^{-1}$</code> is a clockwise 90 degree rotation:</p>
 <p><img src=/media/enblog/la/clockwise-90-rotation.png alt></p>
 <p>Therefore, for any vector <code>$\vec{m}$</code>, if we first apply <code>$A$</code> and then <code>$A^{-1}$</code>, then <code>$\vec{m}$</code> reamins in place. &ldquo;Applying <code>$A$</code> and then <code>$A^{-1}$</code>&rdquo; is two transformation, whose result can be seen as one single linear transformation: <code>$AA^{-1} = \begin{bmatrix} 1 & 0 \\ 0 & 1\end{bmatrix}$</code>. We call this as an &ldquo;<strong>identity transformation</strong>&rdquo;. When we apply an identity transformation to a vector, this vector remains in place.</p>
 <p>If <code>$det(A) \neq 0$</code>, then we can find one <strong>and only one</strong> inverse transformation, i.e., <code>$A^{-1}$</code>. Once we find it, we can apply it to <code>$\vec{v}$</code>, which also means we apply it to <code>$A\vec{x}$</code> because we have <code>$A\vec{x} = \vec{v}$</code>:</p>
@@ -559,8 +559,8 @@ The most important idea behind Cramer&rsquo;s rule is the determinant. The input
 <p><code>$$(\begin{bmatrix} 2& 2\\ 1 & 3 \end{bmatrix} - 4 \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}) \vec{v} = (\begin{bmatrix} -2&2\\ 1 & -1 \end{bmatrix})\vec{v}=\vec{0}$$</code>
 Suppose <code>$\vec{v} = \begin{bmatrix} x\\ y \end{bmatrix}$</code>, we have:</p>
 <p><code>$$x\begin{bmatrix} -2\\ 1 \end{bmatrix} + y \begin{bmatrix} 2\\ -1 \end{bmatrix} = \begin{bmatrix} -2x + 2y\\ x-y \end{bmatrix} = \begin{bmatrix} 0\\ 0 \end{bmatrix} $$</code></p>
-<p>So eigenvectors are long this line: <code>$y=x$</code>. The same procedure can be applied to compute the eigenvectors for when <code>$\lambda = 1$</code>.</p>
-<p style=color:#777>Last modified on 2022-07-07</p>
+<p>So eigenvectors are along this line: <code>$y=x$</code>. The same procedure can be applied to compute the eigenvectors for when <code>$\lambda = 1$</code>.</p>
+<p style=color:#777>Last modified on 2022-07-14</p>
 </div>
 <a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>
 </main>
