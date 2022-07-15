@@ -37,21 +37,23 @@
 </header>
 <main class=content role=main>
 <div style=text-align:center>
-<h1>Understanding Correlation</h1>
-<p>Hongtao Hao
+<h1>Understanding Correlations</h1>
+<p>Hongtao
 / 2022-07-14 </p>
 <hr>
 </div>
 <span class=article-toolbar>
-<a href=https://github.com/hongtaoh/hongtaoh.github.io/edit/sources/content/en/blog/2022-07-14-corr.Rmd style=font-size:24px;color:#000 target=_blank><i class="fa fa-edit" aria-hidden=true title="Suggest an edit of this page"></i>
+<a href=https://github.com/hongtaoh/hongtaoh.github.io/edit/sources/content/en/blog/2022-07-14-understanding-correstions-try/index.Rmd style=font-size:24px;color:#000 target=_blank><i class="fa fa-edit" aria-hidden=true title="Suggest an edit of this page"></i>
 </a>
 </span>
 <div class="body-text list-text">
-<script src=/rmarkdown-libs/header-attrs/header-attrs.js></script>
+<script src=https://hongtaoh.com/en/2022/07/14/corr/index_files/header-attrs/header-attrs.js></script>
 <div id=TOC>
 </div>
-<p>Load data:</p>
-<pre class=r><code>df &lt;- read.csv(&quot;../../../static/files/selfie-data.csv&quot;)</code></pre>
+<p>This post is based on the book of <a href=https://greenteapress.com/wp/think-stats-2e/><em>Think Stats 2e</em></a> by Allen B. Downey.</p>
+<p>Load package and data:</p>
+<pre class=r><code>library(ggplot2)
+df &lt;- read.csv(&quot;../../../../static/files/selfie-data.csv&quot;)</code></pre>
 <div id=plotting class="section level2">
 <h2>Plotting</h2>
 <p>Scatter plot</p>
@@ -59,7 +61,7 @@
   geom_point() +
   xlab(&quot;Height (in cm)&quot;) +
   ylab(&quot;Weight (in kg)&quot;)</code></pre>
-<p><img src=/en/blog/2022-07-14-corr_files/figure-html/scatter-1.png width=672></p>
+<p><img src=staticscatter-1.png width=672></p>
 <p>The problem is that people might round their weight and height off. For example, 164.5 cm will be rounded as 165 cm. To reverse the rounding effect, we can add some random noise. This procudure is called <strong>jittering</strong>.</p>
 <p>We can define a jitter function by ourselves:</p>
 <pre class=r><code>MyJitter &lt;- function(values, jitter = 0.5) {
@@ -72,13 +74,13 @@
   geom_point() +
   xlab(&quot;Height (in cm)&quot;) +
   ylab(&quot;Weight (in kg)&quot;)</code></pre>
-<p><img src=/en/blog/2022-07-14-corr_files/figure-html/unnamed-chunk-2-1.png width=672></p>
+<p><img src=staticunnamed-chunk-2-1.png width=672></p>
 <p>We can change the jitter to be <span class="math inline">\(1\)</span>:</p>
 <pre class=r><code>ggplot(df, aes(x=MyJitter(height,1), y=MyJitter(weight,1))) +
   geom_point() +
   xlab(&quot;Height (in cm)&quot;) +
   ylab(&quot;Weight (in kg)&quot;)</code></pre>
-<p><img src=/en/blog/2022-07-14-corr_files/figure-html/unnamed-chunk-3-1.png width=672></p>
+<p><img src=staticunnamed-chunk-3-1.png width=672></p>
 <p>Remember that jittering is good for visualizations but in the actual data analysis, we want to analyze the original data.</p>
 <p>Even with jittering, the scatter plot has some issues. For example, some points get overlapped in crowded areas. This will give outliers lots of highlights that they don’t deserve. This is because, for example, in a crowded point there might be 10 overlapping points but we nonetheless consider it as important as an outlier that also occupy one point. This effect is called <strong>saturation</strong>.</p>
 <p>To solve this problem, we can set the <code>alpha</code> parameter, basically making the points transparent. If two points overlap, we make that place darker. That is to say, the color corresponds to the density.</p>
@@ -88,7 +90,7 @@
   geom_point(alpha = 0.5) +
   xlab(&quot;Height (in cm)&quot;) +
   ylab(&quot;Weight (in kg)&quot;)</code></pre>
-<p><img src=/en/blog/2022-07-14-corr_files/figure-html/unnamed-chunk-4-1.png width=672></p>
+<p><img src=staticunnamed-chunk-4-1.png width=672></p>
 </div>
 <div id=covariance class="section level2">
 <h2>Covariance</h2>
@@ -155,7 +157,7 @@ or:</p>
 <p><span class="math display">\[\rho = \frac{Cov(X,Y)}{\sqrt{Var(X)Var(Y)}}\]</span></p>
 <p>This <span class="math inline">\(\rho\)</span>, i.e., Pearson’s correlation coeffience, is <a href=https://math.stackexchange.com/a/564843>always between <span class="math inline">\(-1\)</span> and <span class="math inline">\(1\)</span></a>, which makes it perfect to measure the relationship between two variables.</p>
 </div>
-<a href=https://hongtaoh.com/tags//>#[statistics]</a>
+<a href=https://hongtaoh.com/tags/stats/>#stats</a>
 <p style=color:#777>Last modified on 2022-07-14</p>
 </div>
 <a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>
