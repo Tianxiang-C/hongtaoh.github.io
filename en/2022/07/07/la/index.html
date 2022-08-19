@@ -108,7 +108,7 @@ All the images came from <a href=https://www.3blue1brown.com/topics/linear-algeb
 <h2 id=lesson-1-vectors>Lesson 1: Vectors<a href=#lesson-1-vectors class=header-anchor arialabel=Anchor> # </a></h2>
 <ul>
 <li>
-<p>Physics student think that vectors are arrows pointing in space. Two elements: length and direction. You can move the vectors around and they can still be the same vectors. Vectors can be 2-dimentional and 3-dimentional.</p>
+<p>Physics students think that vectors are arrows pointing in space. Two elements: length and direction. You can move the vectors around and they can still be the same vectors. Vectors can be 2-dimentional or 3-dimentional.</p>
 </li>
 <li>
 <p>Computer science students think vectors are <strong>ordered</strong> lists of numbers.
@@ -127,7 +127,7 @@ For example:
 <h3 id=addition-and-multiplication>Addition and multiplication<a href=#addition-and-multiplication class=header-anchor arialabel=Anchor> # </a></h3>
 <p>Adding one vector (A) to another one (B) means moving A towards B such that the tail of B sits at the tip of A:</p>
 <p><img src=/media/enblog/la/vector-addition.png alt></p>
-<p>But why? Why the addition of vectors is defined this way but not another? We can think of vectors as something that represents certain movements (which contain (1) direction and (2) steps). The result of the addition of B to A is the result of A movement + B movement.</p>
+<p>But why? Why the addition of vectors is defined this way but not another? We can think of vectors as something that represents certain movements (which contain (1) a direction and (2) steps). The result of the addition of B to A is the result of A movement + B movement.</p>
 <p><img src=/media/enblog/la/addition-illustration-2.png alt></p>
 <p>Multiplication of a vector by a number is easy to understand. Stretching or squishing is called &ldquo;scaling&rdquo;. And that number is called a &ldquo;scalar&rdquo;.</p>
 <p><img src=/media/enblog/la/scalar-multiplication.png alt></p>
@@ -177,7 +177,7 @@ For example:
 <p>Sometimes, all lines seem to be lines, and the origin remains in place. However, the diagonal lines are curvy, so it is not a linear transformation:</p>
 <p><img src=/media/enblog/la/curvy-diagonal-lines.png alt></p>
 <p>In linear transformations, grid lines &ldquo;remain parallel and evenly spaced.&rdquo;</p>
-<p>Before going deeper into linear transformation, think about this question. Linear transformation is a like a function such that it takes in an input vector and spits out an output vector. The question is this: I give you an input vector of <code>$\begin{bmatrix} x_{in} \\ y_{in}\end{bmatrix}$</code>, what function can spits out the output vector of <code>$\begin{bmatrix} x_{out} \\ y_{out}\end{bmatrix}$</code> ? Bascially, what I am asking is this: if the input vector has coordinates of (x,y), how to get its output coordinates (after linear transformation)?</p>
+<p>Before going deeper into linear transformation, think about this question. Linear transformation is a like a function such that it takes in an input vector and spits out an output vector. The question is this: I give you an input vector of <code>$\begin{bmatrix} x_{in} \\ y_{in}\end{bmatrix}$</code>, what function can spit out the output vector of <code>$\begin{bmatrix} x_{out} \\ y_{out}\end{bmatrix}$</code> ? Bascially, what I am asking is this: if the input vector has coordinates of (x,y), how to get its output coordinates (after linear transformation)?</p>
 <p><img src=/media/enblog/la/linear-transformation-function.png alt></p>
 <p>The solution:</p>
 <p>A very important property of linear transformation is that for any given vector, <strong>its linear combination remains the same afer linear transformation</strong>. For example, if we have <code>$\vec{v} = -1\hat{i} + 2 \hat{j}$</code>, then after transformation, we will have this: <code>$Transformed \vec{v} = -1(Transformed \hat{i}) + 2(Transformed \hat{j})$</code></p>
@@ -225,7 +225,7 @@ Here, you may start wondering: wait, is Step 2 really a &ldquo;shear&rdquo;? Sho
 <p>Good question! Now, you know why we find it difficult to represent Step 2 mathmatically.</p>
 <p>Here, I want to reiterate a very important point: <strong>The essense of linear transformation is about transforming the space, and matrix is a way to let us know how that space is being transformed</strong>.</p>
 <p>If you look at Step 2 closely, you&rsquo;ll find that the transformation is the same as that when we define &ldquo;Shear&rdquo; in Lesson 3, right? The &ldquo;movement&rdquo; feels the same, right?</p>
-<p>What is different in Step 2, from the definition of &ldquo;shear&rdquo;, lies in the starting point. In Step 2, the start point seems to be <code>$\begin{bmatrix} 0 & -1 \\ 1 & 0\end{bmatrix}$</code>, which is the result of Step 1. However, when we define &ldquo;Shear&rdquo;, the starting point is <code>$\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$</code>.</p>
+<p>What is different in Step 2, from the definition of &ldquo;shear&rdquo;, lies in the starting point. In Step 2, the starting point seems to be <code>$\begin{bmatrix} 0 & -1 \\ 1 & 0\end{bmatrix}$</code>, which is the result of Step 1. However, when we define &ldquo;Shear&rdquo;, the starting point is <code>$\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$</code>.</p>
 <p>Here is the problem: if we do not have the same starting point, then it&rsquo;s impossible to mathematically represent a linear transformation.</p>
 <p>For example, in the definition of shear, the mathematical representation of the transformation, or of the &ldquo;movement&rdquo; is <code>$\begin{bmatrix} 1 & 1 \\ 0 & 1\end{bmatrix}$</code>. But this representation makes sense, i.e., tells us what that movement is, only if we know that the starting point is <code>$\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$</code>. The starting point of Step 2 is <code>$\begin{bmatrix} 0 & -1 \\ 1 & 0\end{bmatrix}$</code>. Then, it&rsquo;s impossible to mathematically represent the linear transformation using a single matrix, as other people don&rsquo;t know what the starting point is.</p>
 <p>This is very easy to solve: We can stipulate that, <strong>for a representation of a linear transformation, its starting point must be <code>$\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$</code></strong>. That is to say, to represent a linear transformation mathematically, we only need to show where <code>$\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$</code> lands after the transformation. Therefore, the representation of Step 2 is the same as the definition of &ldquo;Shear&rdquo;: <code>$\begin{bmatrix} 1 & 1 \\ 0 & 1\end{bmatrix}$</code>.</p>
@@ -345,9 +345,9 @@ a <span style=color:#666>%*%</span> b
 <p><img src=/media/enblog/la/determinant-calculation-proof.png alt></p>
 <p>At the end of video, 3blue1brown asks us to prove this:</p>
 <p><code>$$det(M_1M_2) = det(M_1)det(M_2)$$</code></p>
-<p>Let&rsquo;s first look at the left hand side. We first apply <code>$M_2$</code> and then <code>$M_1$</code>. Suppose <code>$M_2$</code> scale an area by <code>$e$</code>. After <code>$M_2$</code>, the unit area becomes <code>$e$</code>. Then we apply <code>$M_1$</code>. Be aware that the reference coordinates of <code>$M_1$</code> are still the original coordinates (i.e., those before the application of <code>$M_2$</code>). Suppose <code>$M_1$</code> will scale an area by <code>$f$</code>. Then the area of <code>$c$</code> will become <code>$cd$</code> after applying <code>$M_1$</code>. Therefore, <code>$det(M_1M_2) = ef$</code>.</p>
+<p>Let&rsquo;s first look at the left hand side. We first apply <code>$M_2$</code> and then <code>$M_1$</code>. Suppose <code>$M_2$</code> scale an area by <code>$e$</code>. After <code>$M_2$</code>, the unit area becomes <code>$e$</code>. Then we apply <code>$M_1$</code>. Be aware that the reference coordinates of <code>$M_1$</code> are still the original coordinates (i.e., those before the application of <code>$M_2$</code>). Suppose <code>$M_1$</code> will scale an area by <code>$f$</code>. Then a unit area will become $ef$ after applying $M_2$ and then $M_1$. That is to say, <code>$det(M_1M_2) = ef$</code>.</p>
 <p>On the right hand side, <code>$det(M_1) = f$</code> and <code>$det(M_2) = e$</code>. Therefore, <code>$det(M_1)det(M_2) = fe = ef$</code>. Therefore, we have <code>$det(M_1M_2) = det(M_1)det(M_2)$</code>.</p>
-<p>One interesting thing is that</p>
+<p>One interesting thing is that:</p>
 <p><code>$$det(M_2M_1) = ef = det(M_1M_2) = fe$$</code></p>
 <p>Therefore, although the order matters for matrix multiplication, it does not matter if we are considering the determinant of the two.</p>
 <p>The above discussion is based on the comments, below 3blue1brown&rsquo;s original video (Lesson 6), by <a href=https://www.youtube.com/channel/UCdBojq9M3nTPq5byI2ro12g target=_blank rel="noreferrer noopener">Kiran Kumar Kailasam</a>
@@ -561,7 +561,7 @@ The most important idea behind Cramer&rsquo;s rule is the determinant. The input
 Suppose <code>$\vec{v} = \begin{bmatrix} x\\ y \end{bmatrix}$</code>, we have:</p>
 <p><code>$$x\begin{bmatrix} -2\\ 1 \end{bmatrix} + y \begin{bmatrix} 2\\ -1 \end{bmatrix} = \begin{bmatrix} -2x + 2y\\ x-y \end{bmatrix} = \begin{bmatrix} 0\\ 0 \end{bmatrix} $$</code></p>
 <p>So eigenvectors are along this line: <code>$y=x$</code>. The same procedure can be applied to compute the eigenvectors for when <code>$\lambda = 1$</code>.</p>
-<p style=color:#777>Last modified on 2022-07-29</p>
+<p style=color:#777>Last modified on 2022-08-19</p>
 </div>
 <a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>
 </main>
