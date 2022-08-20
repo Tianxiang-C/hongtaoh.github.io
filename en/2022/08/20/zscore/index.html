@@ -1,0 +1,171 @@
+<a name=top></a><!doctype html>
+<html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>郝鸿涛：Hongtao Hao</title>
+<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css>
+<link rel=stylesheet href=/css/style.css>
+<link rel=stylesheet href=/css/fonts.css>
+<link href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css rel=stylesheet>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/bash.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/python.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/vega@5.17.0></script>
+<script src=https://cdn.jsdelivr.net/npm/vega-lite@4.17.0></script>
+<script src=https://cdn.jsdelivr.net/npm/vega-embed@6.12.2></script>
+<script>hljs.initHighlightingOnLoad()</script>
+<link rel=icon href=https://hongtaoh.com/ht10.ico>
+</head>
+<body>
+<div class=wrapper>
+<header class=header>
+<nav class=nav>
+<a href=/ class=nav-logo>
+<img src=/media/ht10.png width=50 height=50 alt="Hongtao Hao">
+</a>
+<ul class=nav-links>
+<li><a href=/>Home</a></li>
+<li><a href=/en/vitae/>Vitae</a></li>
+<li><a href=/en/projects/>Projects</a></li>
+<li><a href=/en/research/>Research</a></li>
+<li><a href=/en/blog/>Blog</a></li>
+<li><a href=/en/apad/>APAD</a></li>
+<li><a href=/cn/blog/>中文</a></li>
+</ul>
+</nav>
+</header>
+<main class=content role=main>
+<div style=text-align:center>
+<h1>Re-Understanding Z Score</h1>
+<p>Hongtao Hao
+/ 2022-08-20 </p>
+<hr>
+</div>
+<span class=article-toolbar>
+<a href=https://github.com/hongtaoh/hongtaoh.github.io/edit/sources/content/en/blog/2022-08-20-zscore.md style=font-size:24px;color:#000 target=_blank><i class="fa fa-edit" aria-hidden=true title="Suggest an edit of this page"></i>
+</a>
+</span>
+<aside class=toc>
+Table of Contents:
+<nav id=TableOfContents>
+<ul>
+<li><a href=#what-is-z-score>What is z-score?</a></li>
+<li><a href=#the-sum-and-the-mean-of-z-scores>The sum and the mean of z-scores</a></li>
+<li><a href=#the-standard-deviation-of-z-scores>The standard deviation of z-scores</a></li>
+<li><a href=#the-sum-of-squared-z-scores>The sum of squared z-scores</a></li>
+<li><a href=#the-distribution-of-z-scores>The distribution of z-scores</a></li>
+<li><a href=#the-meaning-of-the-sign-of-z-scores>The meaning of the sign of z-scores</a></li>
+</ul>
+</nav>
+</aside>
+<div class="body-text list-text">
+<p>Ask anyone who has attended Stats101 and s/he will tell you that they understand Z-score. But, really? Could you answer the following questions without thinking?</p>
+<ol>
+<li>What is the mean of z-scores?</li>
+<li>What is the standard deviation of z-scores?</li>
+<li>What is the sum of squared z-scores?</li>
+<li>Is the z-score distribution the same as the original distribution of sample values?</li>
+<li>What do z-scores above 0 mean?</li>
+</ol>
+<p>If you cannot answer them without thinking, then you don&rsquo;t really understand z-scores.</p>
+<p>Next, let&rsquo;s gain a deeper understanding of z-scores by looking at the above questions.</p>
+<p>The above questions are from <a href=https://www.uth.tmc.edu/uth_orgs/educ_dev/oser/L1_6.HTM target=_blank rel="noreferrer noopener">this post</a>
+.</p>
+<h2 id=what-is-z-score>What is z-score?<a href=#what-is-z-score class=header-anchor arialabel=Anchor> # </a></h2>
+<p>Z-score is also called the standard score. In a one-dimensional array, i.e., a vector, the z-score of a number within this array indicates the distance between this number and the expected value of this array, i.e., the mean, measured by the standard deviation of this array.</p>
+<p>\[z = \frac{x_i - \mu}{\sigma}\]</p>
+<p>Where \(x_i\) is a number in an array, \(\mu\) is the mean of this array and \(\sigma\) is the standard deviation.</p>
+<p>Before we can calcuate z-scores,we need to calculate the mean and the standard deviation:</p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:green;font-weight:700>import</span> <span style=color:#00f;font-weight:700>math</span> 
+
+<span style=color:green;font-weight:700>def</span> <span style=color:#00f>my_mean</span>(array):
+    <span style=color:green;font-weight:700>return</span> <span style=color:green>sum</span>(array)<span style=color:#666>/</span><span style=color:green>len</span>(array)
+
+<span style=color:green;font-weight:700>def</span> <span style=color:#00f>my_std</span>(array):
+    mn <span style=color:#666>=</span> my_mean(array)
+    my_sum <span style=color:#666>=</span> <span style=color:#666>0</span>
+    <span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> array:
+        my_sum <span style=color:#666>+=</span> (i <span style=color:#666>-</span> mn)<span style=color:#666>**</span><span style=color:#666>2</span>
+    <span style=color:green;font-weight:700>return</span> math<span style=color:#666>.</span>sqrt(my_sum<span style=color:#666>/</span><span style=color:green>len</span>(array))
+</code></pre></div>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#408080;font-style:italic># an example, </span>
+a <span style=color:#666>=</span> [<span style=color:#666>1</span>,<span style=color:#666>4</span>,<span style=color:#666>6</span>,<span style=color:#666>8</span>,<span style=color:#666>10</span>]
+my_mean(a)
+</code></pre></div><pre><code>5.8
+</code></pre>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>my_std(a)
+</code></pre></div><pre><code>3.1240998703626617
+</code></pre>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:green;font-weight:700>def</span> <span style=color:#00f>zscores</span>(array):
+    mn <span style=color:#666>=</span> my_mean(array)
+    std <span style=color:#666>=</span> my_std(array)
+    <span style=color:green;font-weight:700>return</span> [(i<span style=color:#666>-</span>mn)<span style=color:#666>/</span>std <span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> array]
+</code></pre></div><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>z_scores <span style=color:#666>=</span> zscores(a)
+z_scores
+</code></pre></div><pre><code>[-1.5364425591947517,
+ -0.5761659596980319,
+ 0.06401843996644804,
+ 0.7042028396309279,
+ 1.3443872392954077]
+</code></pre>
+<h2 id=the-sum-and-the-mean-of-z-scores>The sum and the mean of z-scores<a href=#the-sum-and-the-mean-of-z-scores class=header-anchor arialabel=Anchor> # </a></h2>
+<p>The sum, and the mean of z-scores are always zero. Why?</p>
+<p>\[\sum_{i=1}^n z_i = \sum_{i=1}^n \frac{x_i - \mu}{\sigma} = \frac{\sum_{i=1}^n (x_i - \mu)}{\sigma}\]</p>
+<p>We have:</p>
+<p>$$$$</p>
+<p>\[\sum_{i=1}^n (x_i - \mu) = \sum_{i=1}^n x_i - n\cdot \mu\]</p>
+<p>Because</p>
+<p>\[\mu = \frac{\sum_{i=1}^n x_i}{n}\]</p>
+<p>We have</p>
+<p>\[\sum_{i=1}^n (x_i - \mu) = 0\]</p>
+<p>So the sum of z-scores is zero. When the sum is zero, the mean is of course zero as well.</p>
+<h2 id=the-standard-deviation-of-z-scores>The standard deviation of z-scores<a href=#the-standard-deviation-of-z-scores class=header-anchor arialabel=Anchor> # </a></h2>
+<p>Let&rsquo;s calculate the standard devitaiton of z-scores.</p>
+<p>\[\sigma_z = \sqrt{\frac{\sum_{i=1}^n (z_i - E(z))^2}{n}}\]</p>
+<p>Because \(E(z) = 0\), we have:</p>
+<p>\[\sigma_z = \sqrt{\frac{\sum_{i=1}^n (z_i)^2}{n}}\]</p>
+<p>This, in fact, leads to our third question:</p>
+<h2 id=the-sum-of-squared-z-scores>The sum of squared z-scores<a href=#the-sum-of-squared-z-scores class=header-anchor arialabel=Anchor> # </a></h2>
+<p>\[\sum_{i=1}^n (z_i)^2 = \sum_{i=1}^n \frac{(x_i - \mu)^2}{\sigma^2} = \frac{\sum_{i=1}^n (x_i - \mu)^2}{\sigma^2}\]</p>
+<p>Because</p>
+<p>\[\sigma = \sqrt{\frac{\sum_{i=1}^n{(x_i - \mu)^2}}{n}}\]</p>
+<p>So we have</p>
+<p>\[\sigma^2 = \frac{\sum_{i=1}^n{(x_i - \mu)^2}}{n}\]</p>
+<p>Therefore</p>
+<p>\[\sum_{i=1}^n (z_i)^2 = n\]</p>
+<p>That is to say, <strong>the sum of squared z-scores is the number of items in an array.</strong></p>
+<p>Then, go back to the standard deviation of z-scores, we can know that</p>
+<p>\[\sigma_z = \sqrt{\frac{\sum_{i=1}^n (z_i)^2}{n}} = \sqrt{\frac{n}{n}} = 1\]</p>
+<h2 id=the-distribution-of-z-scores>The distribution of z-scores<a href=#the-distribution-of-z-scores class=header-anchor arialabel=Anchor> # </a></h2>
+<p>The distribution of z-scores is the same as the original array. I think of it this way: the z-scores are the result of original numbers moving leftward horizontally by \(\mu\) and squeezed vertically by \(\sigma\). Because they all move together, their relative positions stay the same. And that&rsquo;s why their distributions are also the same.</p>
+<h2 id=the-meaning-of-the-sign-of-z-scores>The meaning of the sign of z-scores<a href=#the-meaning-of-the-sign-of-z-scores class=header-anchor arialabel=Anchor> # </a></h2>
+<p>From the formula of z-scores, we know that if a z-score is above zero, it means the corresponding number in the array is bigger than the mean of the array. If a z-scores is below zero, it means the corresponding number in the array is smaller than the mean.</p>
+<a href=https://hongtaoh.com/tags/stats/>#stats</a>
+<p style=color:#777>Last modified on 2022-08-20</p>
+</div>
+<a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>
+</main>
+<footer class=footer>
+<script src=https://utteranc.es/client.js repo=hongtaoh/hongtaoh.github.io issue-term=pathname theme=github-light crossorigin=anonymous async></script>
+<script type=text/javascript src=/js/math-code.js></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type=text/javascript src=/js/center-img.js></script>
+<ul class=footer-links>
+<li><a href=/en/blog/index.xml type=application/rss+xml title="RSS feed">
+Subscribe </a>
+</li>
+<li>
+<a href=http://creativecommons.org/licenses/by-nc-sa/4.0/ target=_blank>
+License
+<i class="fa fa-cc" aria-hidden=true title="Attribution-NonCommercial-ShareAlike 4.0 International"></i>
+</a>
+</li>
+</ul>
+<div class=copyright-text>
+©
+Hongtao Hao
+2020-2022
+</div>
+</footer>
