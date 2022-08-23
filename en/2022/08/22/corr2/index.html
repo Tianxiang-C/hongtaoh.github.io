@@ -1,0 +1,234 @@
+<a name=top></a><!doctype html>
+<html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>郝鸿涛：Hongtao Hao</title>
+<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css>
+<link rel=stylesheet href=/css/style.css>
+<link rel=stylesheet href=/css/fonts.css>
+<link href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css rel=stylesheet>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/bash.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/python.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/vega@5.17.0></script>
+<script src=https://cdn.jsdelivr.net/npm/vega-lite@4.17.0></script>
+<script src=https://cdn.jsdelivr.net/npm/vega-embed@6.12.2></script>
+<script>hljs.initHighlightingOnLoad()</script>
+<link rel=icon href=https://hongtaoh.com/ht10.ico>
+</head>
+<body>
+<div class=wrapper>
+<header class=header>
+<nav class=nav>
+<a href=/ class=nav-logo>
+<img src=/media/ht10.png width=50 height=50 alt="Hongtao Hao">
+</a>
+<ul class=nav-links>
+<li><a href=/>Home</a></li>
+<li><a href=/en/vitae/>Vitae</a></li>
+<li><a href=/en/projects/>Projects</a></li>
+<li><a href=/en/research/>Research</a></li>
+<li><a href=/en/blog/>Blog</a></li>
+<li><a href=/en/apad/>APAD</a></li>
+<li><a href=/cn/blog/>中文</a></li>
+</ul>
+</nav>
+</header>
+<main class=content role=main>
+<div style=text-align:center>
+<h1>Re-Understanding Pearson Correlation Coefficient</h1>
+<p>Hongtao Hao
+/ 2022-08-22 </p>
+<hr>
+</div>
+<span class=article-toolbar>
+<a href=https://github.com/hongtaoh/hongtaoh.github.io/edit/sources/content/en/blog/2022-08-22-correlation.md style=font-size:24px;color:#000 target=_blank><i class="fa fa-edit" aria-hidden=true title="Suggest an edit of this page"></i>
+</a>
+</span>
+<aside class=toc>
+Table of Contents:
+<nav id=TableOfContents>
+<ul>
+<li><a href=#what-do-we-mean-by-covary>What do we mean by &ldquo;Covary&rdquo;?</a></li>
+<li><a href=#same-sign>Same sign</a></li>
+<li><a href=#proportional-deviations>Proportional deviations</a></li>
+<li><a href=#understanding-covariance-through-linear-algebra>Understanding covariance through linear algebra</a></li>
+<li><a href=#recap>Recap</a></li>
+</ul>
+</nav>
+</aside>
+<div class="body-text list-text">
+<p>Everyone seems to know correlation but they do not. At least I didn&rsquo;t.</p>
+<p>To understand correlation, we need to first understand covariance. As the name suggests, covariance measures the extent to which two variables <strong>covary</strong>, i.e., vary together. But the questions are: what does &ldquo;vary&rdquo; mean, and how do we quantify &ldquo;together&rdquo;?</p>
+<p>For example, I give you these two vectors:</p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:green;font-weight:700>import</span> <span style=color:#00f;font-weight:700>matplotlib.pyplot</span> <span style=color:green;font-weight:700>as</span> <span style=color:#00f;font-weight:700>plt</span>
+
+a <span style=color:#666>=</span> [<span style=color:#666>2</span>, <span style=color:#666>4</span>, <span style=color:#666>6</span>, <span style=color:#666>8</span>]
+b <span style=color:#666>=</span> [<span style=color:#666>1</span>, <span style=color:#666>2</span>, <span style=color:#666>3</span>, <span style=color:#666>8</span>]
+</code></pre></div><p>Can you tell me the extent to which they &ldquo;vary together&rdquo;?</p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#408080;font-style:italic># [a[i] - b[i] for i in range(4)]</span>
+</code></pre></div><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>fig1, ax <span style=color:#666>=</span> plt<span style=color:#666>.</span>subplots(<span style=color:#666>1</span>, <span style=color:#666>1</span>)
+ax<span style=color:#666>.</span>scatter(a,b)
+plt<span style=color:#666>.</span>xlabel(<span style=color:#ba2121>&#39;a&#39;</span>)
+plt<span style=color:#666>.</span>ylabel(<span style=color:#ba2121>&#39;b&#39;</span>)
+</code></pre></div><pre><code>Text(0, 0.5, 'b')
+</code></pre>
+<p><img src=/en/blog/2022-08-22-correlation/output_4_1.png alt=png></p>
+<h2 id=what-do-we-mean-by-covary>What do we mean by &ldquo;Covary&rdquo;?<a href=#what-do-we-mean-by-covary class=header-anchor arialabel=Anchor> # </a></h2>
+<p>When two variables vary together:</p>
+<ol>
+<li>If an item in one variable increases, then the corresponding item in the other variable increases as well.</li>
+<li>If an item in one variable increases considerably, then the corresponding item in the other variable increases considerably as well.</li>
+</ol>
+<p>The same applies when variables decrease.</p>
+<p>The above statements answer our question of &ldquo;what &lsquo;together&rsquo; means&rdquo;. But what does &ldquo;vary&rdquo; mean? What do we mean by &ldquo;an item in one variable increases&rdquo;? Increase or decrease compared to what?</p>
+<p>We have a bunch of choices: mean, median, mode, quartile, maximum, minimum, etc. I might revisit this question later, but right now, let&rsquo;s choose an intuitive one: the mean.</p>
+<p>Then we can rewrite the above statements this way:</p>
+<ol>
+<li>If an item in <code>a</code> increases compared to the mean of <code>a</code>, then the corresponding item in <code>b</code> increases as well, compared to the mean of <code>b</code>.</li>
+<li>If an item in <code>a</code> increases considerably compared to the mean of <code>a</code>, then the corresponding item in <code>b</code> increases considerably as well, compared to the mean of <code>b</code>.</li>
+</ol>
+<p>The same applies to when items decrease.</p>
+<p>Therefore, if <code>a</code> and <code>b</code> covary, then \(a_i - \bar{a}\) and \(b_i - \bar{b}\) should have these properties:</p>
+<ol>
+<li>They should have the same sign. That is to say, if \(a_i - \bar{a}\) is positive, then \(b_i - \bar{b}\) should be positive as well.</li>
+<li>If \(a_i - \bar{a}\) is big, then \(b_i - \bar{b}\) should be big as well.</li>
+</ol>
+<h2 id=same-sign>Same sign<a href=#same-sign class=header-anchor arialabel=Anchor> # </a></h2>
+<p>Let&rsquo;s focus on the first property: same sign. This shouldn&rsquo;t be very difficult to solve. To make sure they have the same sign, we can multiply the two, i.e., \((a_i - \bar{a}) \cdot (b_i - \bar{b})\).</p>
+<p>However, we are talking about the covariance of two variables, not two individual items. Therefore, we need to consider the cumulative effect of all <strong>deviation pairs</strong>, i.e., \(a_i - \bar{a}\) and \(b_i - \bar{b}\). That&rsquo;s why why need the sum of \((a_i - \bar{a}) \cdot (b_i - \bar{b})\):</p>
+<p>\[\sum_{i=1}^n (a_i - \bar{a}) \cdot (b_i - \bar{b})\]</p>
+<p>It&rsquo;s even better if we can devide it by the number of deviation pairs, so that we can know the average effect of all deviation pairs:</p>
+<p>\[\frac{\sum_{i=1}^n (a_i - \bar{a}) \cdot (b_i - \bar{b})}{N}\]</p>
+<p>where \(N\) is the deviation pairs. Note that, if we are esitmating a population based on samples, we need <a href=https://en.wikipedia.org/wiki/Bessel%27s_correction target=_blank rel="noreferrer noopener">Bessel’s Correction</a>
+:</p>
+<p>\[Cov(a,b) = \frac{\sum_{i=1}^n (a_i - \bar{a}) \cdot (b_i - \bar{b})}{N-1}\]</p>
+<p>This, in fact, is the definition of <a href=https://en.wikipedia.org/wiki/Covariance target=_blank rel="noreferrer noopener">covariance</a>
+.</p>
+<p>(I know you may wonder why on earth the sum, or the mean, of \((a_i - \bar{a}) \cdot (b_i - \bar{b})\) tells us whether in general \((a_i - \bar{a})\) and \((b_i - \bar{b})\) have the same sign. Bear with me for now, and you&rsquo;ll know why below.)</p>
+<h2 id=proportional-deviations>Proportional deviations<a href=#proportional-deviations class=header-anchor arialabel=Anchor> # </a></h2>
+<p>The question now is, does the above equation solve the second property? The answer is NO. Why?</p>
+<p>First, our statment is ambiguous: what does it mean by &ldquo;when A is big then B should be big as well&rdquo;? How to quantify it? We can defign it this way: <strong>\((a_i - \bar{a})\) should be proportional to \((b_i - \bar{b})\)</strong>.</p>
+<p>Then, the question is, does the above eqution tell us how proportional the deviation pairs are? The answer is: NO. If the answer is Yes, then when two deviation pairs are both perfectly proportional, then the two results from the equation should be exactly the same. But they aren&rsquo;t.</p>
+<p>For example,</p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>a <span style=color:#666>=</span> [<span style=color:#666>2</span>, <span style=color:#666>4</span>, <span style=color:#666>6</span>, <span style=color:#666>8</span>]
+b <span style=color:#666>=</span> [<span style=color:#666>1</span>, <span style=color:#666>2</span>, <span style=color:#666>3</span>, <span style=color:#666>4</span>]
+plt<span style=color:#666>.</span>scatter(a,b)
+plt<span style=color:#666>.</span>xlabel(<span style=color:#ba2121>&#39;a&#39;</span>)
+plt<span style=color:#666>.</span>ylabel(<span style=color:#ba2121>&#39;b&#39;</span>)
+</code></pre></div><pre><code>Text(0, 0.5, 'b')
+</code></pre>
+<p><img src=/en/blog/2022-08-22-correlation/output_8_1.png alt=png></p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>c <span style=color:#666>=</span> [<span style=color:#666>3</span>, <span style=color:#666>6</span>, <span style=color:#666>9</span>, <span style=color:#666>15</span>]
+d <span style=color:#666>=</span> [<span style=color:#666>1</span>, <span style=color:#666>2</span>, <span style=color:#666>3</span>, <span style=color:#666>5</span>]
+plt<span style=color:#666>.</span>scatter(c,d)
+plt<span style=color:#666>.</span>xlabel(<span style=color:#ba2121>&#39;c&#39;</span>)
+plt<span style=color:#666>.</span>ylabel(<span style=color:#ba2121>&#39;d&#39;</span>)
+</code></pre></div><pre><code>Text(0, 0.5, 'd')
+</code></pre>
+<p><img src=/en/blog/2022-08-22-correlation/output_9_1.png alt=png></p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:green;font-weight:700>def</span> <span style=color:#00f>my_average</span>(array):
+    <span style=color:#ba2121>&#39;&#39;&#39;calculate the average of an array
+</span><span style=color:#ba2121>    &#39;&#39;&#39;</span>
+    my_sum <span style=color:#666>=</span> <span style=color:#666>0</span>
+    <span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> array:
+        my_sum <span style=color:#666>+=</span> i
+    <span style=color:green;font-weight:700>return</span> my_sum<span style=color:#666>/</span><span style=color:green>len</span>(array)
+</code></pre></div><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>deviation_a <span style=color:#666>=</span> [(i <span style=color:#666>-</span> my_average(a)) <span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> a ]
+deviation_b <span style=color:#666>=</span> [(i <span style=color:#666>-</span> my_average(b)) <span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> b ]
+[deviation_a[i]<span style=color:#666>/</span>deviation_b[i] <span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> <span style=color:green>range</span>(<span style=color:green>len</span>(deviation_a))]
+</code></pre></div><pre><code>[2.0, 2.0, 2.0, 2.0]
+</code></pre>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>deviation_c <span style=color:#666>=</span> [(i <span style=color:#666>-</span> my_average(c)) <span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> c ]
+deviation_d <span style=color:#666>=</span> [(i <span style=color:#666>-</span> my_average(d)) <span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> d ]
+[deviation_c[i]<span style=color:#666>/</span>deviation_d[i] <span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> <span style=color:green>range</span>(<span style=color:green>len</span>(deviation_c))]
+</code></pre></div><pre><code>[3.0, 3.0, 3.0, 3.0]
+</code></pre>
+<p>We can see that both deviation pairs are perfectly proportional, which means that both (a,b) and (c,d) covary perfectly. However, their covariance are different:</p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:green;font-weight:700>def</span> <span style=color:#00f>covariance</span>(xs, ys):
+    <span style=color:#ba2121>&#39;&#39;&#39;calculate covariance of two arrays
+</span><span style=color:#ba2121>    &#39;&#39;&#39;</span>
+    <span style=color:green;font-weight:700>assert</span> <span style=color:green>len</span>(xs) <span style=color:#666>==</span> <span style=color:green>len</span>(ys), <span style=color:#ba2121>&#39;The lengths of the two arrays are not equal!&#39;</span>
+    x_mean <span style=color:#666>=</span> my_average(xs)
+    y_mean <span style=color:#666>=</span> my_average(ys)
+    cov_sum <span style=color:#666>=</span> <span style=color:#666>0</span>
+    <span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> <span style=color:green>range</span>(<span style=color:green>len</span>(xs)):
+        cov_sum <span style=color:#666>+=</span> xs[i] <span style=color:#666>*</span> ys[i]
+    <span style=color:green;font-weight:700>return</span> cov_sum <span style=color:#666>/</span> (<span style=color:green>len</span>(xs) <span style=color:#666>-</span> <span style=color:#666>1</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>covariance(a,b)
+</code></pre></div><pre><code>20.0
+</code></pre>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>covariance(c,d)
+</code></pre></div><pre><code>39.0
+</code></pre>
+<h2 id=understanding-covariance-through-linear-algebra>Understanding covariance through linear algebra<a href=#understanding-covariance-through-linear-algebra class=header-anchor arialabel=Anchor> # </a></h2>
+<p>If you are familiar with linear algebra, you&rsquo;ll know that</p>
+<p>\[\sum_{i=1}^n (a_i - \bar{a}) \cdot (b_i - \bar{b})\]</p>
+<p>is the dot product of two vectors: \(\vec{d_a} = a_i - \bar{a}\) and \(\vec{d_b} = b_i - \bar{b}\), where \(d\) denotes deviation. These vectors are \(N\)-dimensional, where \(N\) is the size of \(d_a\) (or \(d_b\), which must be the same).</p>
+<p>When the dot product of two vectors is positive, then these two vectors are generally pointing to the same direction; when negative, different direction. However, the magnitude of the dot product doesn&rsquo;t translate into <strong>the extent to which</strong> two vectors are pointing to the same direction.</p>
+<p><img src=/en/blog/2022-08-22-correlation/corr-a-b.png alt></p>
+<p>Suppose in two dimensional space, we have the above two vectors, \(\vec{d_a}\) and \(\vec{d_b}\). Then, imagine we indefinitly extend \(\vec{d_b}\), which we call \(\vec{db_e}\). The dot product of \(\vec{d_a}\) and \(\vec{d_b}\) is definitly different from (smaller than) that of \(\vec{d_a}\) and \(\vec{db_e}\). However, the extent to which \(\vec{d_a}\) and \(\vec{d_b}\) are pointing to the same direction is the same as that to which \(\vec{d_a}\) and \(\vec{db_e}\) are pointing to the same direction.</p>
+<p>Wait, you may say, above, we were talking about <strong>the extent to which \(d_a = (a_i - \bar{a})\) is proportional to \(d_b = (b_i - \bar{b})\)</strong>, but right now we are talking about the extent to which \(\vec{d_a}\) and \(\vec{d_b}\) are pointing to the same direction. Are they the same?</p>
+<p>Yes. They are the same. I am not capable of mathematically proving that they are the same but I will illustrate it this way. Imagaine in a three dimensional space, the coordinates of \(\vec{m}\) is \(x_m\), \(y_m\), and \(z_m\) and those of \(\vec{t}\) is \(x_t\), \(y_t\), and \(z_t\). If \(m_i\) is perfectly positively proportional to \(t_i\), then \(\vec{m}\) and \(\vec{t}\) will overlap and point to the same direction. Then, \(\theta = 0\). If they are perfectly negatively proportional to each other, then they will overlpa but point to exactly the opposite direction. Then \(\theta = 180\). If they are perfectly not proportional to each other, then they are perpendicular to each other and \(\theta = 90\).</p>
+<p>Therefore, it seems that the extent to which \(d_a = (a_i - \bar{a})\) is proportional to \(d_b = (b_i - \bar{b})\) is related to \(\theta\):</p>
+<ul>
+<li>When \(0 \leq \theta \lt 90\), \(d_a\) is positively proportional to \(d_b\). As \(\theta\) increases, the extent the extent to which \(d_a = (a_i - \bar{a})\) is proportional to \(d_b = (b_i - \bar{b})\) decreases.</li>
+<li>When \(\theta = 90\), \(d_a\) is not proportional to \(d_b\) at all.</li>
+<li>When \(90 \lt \theta \leq 180\), \(d_a\) is negatively proportional to \(d_b\). As \(\theta\) increases, the extent the extent to which \(d_a = (a_i - \bar{a})\) is proportional to \(d_b = (b_i - \bar{b})\) increases.</li>
+</ul>
+<p>When we know the items in \(a\) and \(b\), we will know \(a_i - \bar{a}\) and \(b_i - \bar{b}\), so we will know the coordinates of \(\vec{d_a}\) and \(\vec{d_b}\), then we can know \(\theta\) through:</p>
+<p>\[\vec{d_a} \cdot \vec{d_b} = ||\vec{d_a}||\cdot||\vec{d_b}||\cdot \cos\theta\]</p>
+<p>BTW, if you wonder how the above equation came from, refer to <a href=/en/2022/07/07/la/#lesson-9-dot-products-and-duality>my post here</a>
+.</p>
+<p>Therefore,</p>
+<p>\[\cos\theta = \frac{\vec{d_a} \cdot \vec{d_b}}{||\vec{d_a}||\cdot||\vec{d_b}||}\]</p>
+<p><strong>This, in fact, is the same as the formula of <a href=https://en.wikipedia.org/wiki/Pearson_correlation_coefficient target=_blank rel="noreferrer noopener">Pearson&rsquo;s correlation coefficient</a>
+</strong> :</p>
+<p>\begin{align}
+\rho(a,b) & = \frac{Cov(a,b)}{\sigma_a \sigma_b} \\<br>
+& = \frac{\frac{1}{N-1}\cdot\sum_{i=1}^n (a_i - \bar{a}) \cdot (b_i - \bar{b})}{\sigma_a \sigma_b} \\
+& = \frac{\frac{1}{N-1}\cdot \vec{d_a} \cdot \vec{d_b}}{\sigma_a \sigma_b} \\<br>
+& = \frac{\frac{1}{N-1}\cdot \vec{d_a} \cdot \vec{d_b}}{\sqrt{\frac{\sum_{i=1}^n (a_i - \bar{a})^2}{N-1}} \sqrt{\frac{\sum_{i=1}^n (b_i - \bar{b})^2}{N-1}}} \\<br>
+& = \frac{\frac{1}{N-1}\cdot \vec{d_a} \cdot \vec{d_b}}{\frac{1}{N-1} \sqrt{\sum_{i=1}^n (a_i - \bar{a})^2} \sqrt{\sum_{i=1}^n (b_i - \bar{b})^2}} \\<br>
+& = \frac{\vec{d_a} \cdot \vec{d_b}}{\sqrt{\sum_{i=1}^n (a_i - \bar{a})^2} \sqrt{\sum_{i=1}^n (b_i - \bar{b})^2}} \\<br>
+& = \frac{\vec{d_a} \cdot \vec{d_b}}{||\vec{d_a}||\cdot||\vec{d_b}||} \\<br>
+& = \cos \theta \\<br>
+\end{align}</p>
+<p>Therefore, correlation <strong>measures the cosine of the angle between two deviation vectors</strong>.</p>
+<h2 id=recap>Recap<a href=#recap class=header-anchor arialabel=Anchor> # </a></h2>
+<p>We want to understand the extent to which two variables covary, i.e., vary together. For each item in the two variables, say, \(a\) and \(b\), we calculate its deviation from its corresponding mean. Then we have two <strong>deviation vectors</strong>: \(\vec{d_a} = a_i - \bar{a}\) and \(\vec{d_b} = b_i - \bar{b}\). If \(a\) and \(b\) vary together, then the two deviation vectors should have the following two properties:</p>
+<ol>
+<li>\(a_i - \bar{a}\) and \(b_i - \bar{b}\) in general should have the same sign.</li>
+<li>When \(a_i - \bar{a}\) is big, \(b_i - \bar{b}\) should be big as well.</li>
+</ol>
+<p>To meet the first property, we calculate the sum of product of \(a_i - \bar{a}\) and \(b_i - \bar{b}\). We find that this is equal to the dot product of \(\vec{d_a}\) and \(\vec{d_b}\). When the result is positive, then \(\vec{d_a}\) and \(\vec{d_b}\) are in general pointing to the same direction, and therefore, \(a_i - \bar{a}\) and \(b_i - \bar{b}\) in general share the same sign. However, the dot product does not meet the second property. We find that the second property is measuring <strong>the extent to which</strong> \(\vec{d_a}\) and \(\vec{d_b}\) are pointing to the same direction. Dot products do not tell us this.</p>
+<p>To know the extent to which \(\vec{d_a}\) and \(\vec{d_b}\) are pointing to the same direction, we divide the dot product by the product of these two vectors' lengths (in Euclidean distance). This quotient is the cosine of the angle between \(\vec{d_a}\) and \(\vec{d_b}\). This explains why the correlation between two variables is always between \(-1\) and \(1\).</p>
+<a href=https://hongtaoh.com/tags/stats/>#stats</a>
+<p style=color:#777>Last modified on 2022-08-22</p>
+</div>
+<a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>
+</main>
+<footer class=footer>
+<script src=https://utteranc.es/client.js repo=hongtaoh/hongtaoh.github.io issue-term=pathname theme=github-light crossorigin=anonymous async></script>
+<script type=text/javascript src=/js/math-code.js></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type=text/javascript src=/js/center-img.js></script>
+<ul class=footer-links>
+<li><a href=/en/blog/index.xml type=application/rss+xml title="RSS feed">
+Subscribe </a>
+</li>
+<li>
+<a href=http://creativecommons.org/licenses/by-nc-sa/4.0/ target=_blank>
+License
+<i class="fa fa-cc" aria-hidden=true title="Attribution-NonCommercial-ShareAlike 4.0 International"></i>
+</a>
+</li>
+</ul>
+<div class=copyright-text>
+©
+Hongtao Hao
+2020-2022
+</div>
+</footer>
