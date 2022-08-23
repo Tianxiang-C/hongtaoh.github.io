@@ -109,7 +109,7 @@ plt<span style=color:#666>.</span>ylabel(<span style=color:#ba2121>&#39;b&#39;</
 .</p>
 <p>(I know you may wonder why on earth the sum, or the mean, of \((a_i - \bar{a}) \cdot (b_i - \bar{b})\) tells us whether in general \((a_i - \bar{a})\) and \((b_i - \bar{b})\) have the same sign. Bear with me for now, and you&rsquo;ll know why below.)</p>
 <h2 id=proportional-deviations>Proportional deviations<a href=#proportional-deviations class=header-anchor arialabel=Anchor> # </a></h2>
-<p>The question now is, does the above equation solve the second property? The answer is NO. Why?</p>
+<p>The question now is, does the above equation satisfy the second property? The answer is NO. Why?</p>
 <p>First, our statment is ambiguous: what does it mean by &ldquo;when A is big then B should be big as well&rdquo;? How to quantify it? We can defign it this way: <strong>\((a_i - \bar{a})\) should be proportional to \((b_i - \bar{b})\)</strong>.</p>
 <p>Then, the question is, does the above eqution tell us how proportional the deviation pairs are? The answer is: NO. If the answer is Yes, then when two deviation pairs are both perfectly proportional, then the two results from the equation should be exactly the same. But they aren&rsquo;t.</p>
 <p>For example,</p>
@@ -203,7 +203,7 @@ deviation_d <span style=color:#666>=</span> [(i <span style=color:#666>-</span> 
 <li>\(a_i - \bar{a}\) and \(b_i - \bar{b}\) in general should have the same sign.</li>
 <li>When \(a_i - \bar{a}\) is big, \(b_i - \bar{b}\) should be big as well.</li>
 </ol>
-<p>To meet the first property, we calculate the sum of product of \(a_i - \bar{a}\) and \(b_i - \bar{b}\). We find that this is equal to the dot product of \(\vec{d_a}\) and \(\vec{d_b}\). When the result is positive, then \(\vec{d_a}\) and \(\vec{d_b}\) are in general pointing to the same direction, and therefore, \(a_i - \bar{a}\) and \(b_i - \bar{b}\) in general share the same sign. However, the dot product does not meet the second property. We find that the second property is measuring <strong>the extent to which</strong> \(\vec{d_a}\) and \(\vec{d_b}\) are pointing to the same direction. Dot products do not tell us this.</p>
+<p>To satisfy the first property, we calculate the sum of product of \(a_i - \bar{a}\) and \(b_i - \bar{b}\). We find that this is equal to the dot product of \(\vec{d_a}\) and \(\vec{d_b}\). When the result is positive, then \(\vec{d_a}\) and \(\vec{d_b}\) are in general pointing to the same direction, and therefore, \(a_i - \bar{a}\) and \(b_i - \bar{b}\) in general share the same sign. However, the dot product does not satisfy the second property. We find that the second property is measuring <strong>the extent to which</strong> \(\vec{d_a}\) and \(\vec{d_b}\) are pointing to the same direction. Dot products do not tell us this.</p>
 <p>To know the extent to which \(\vec{d_a}\) and \(\vec{d_b}\) are pointing to the same direction, we divide the dot product by the product of these two vectors' lengths (in Euclidean distance). This quotient is the cosine of the angle between \(\vec{d_a}\) and \(\vec{d_b}\). This explains why the correlation between two variables is always between \(-1\) and \(1\).</p>
 <a href=https://hongtaoh.com/tags/stats/>#stats</a>
 <p style=color:#777>Last modified on 2022-08-22</p>
