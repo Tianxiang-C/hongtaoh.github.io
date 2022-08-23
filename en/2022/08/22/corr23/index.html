@@ -44,7 +44,7 @@
 <hr>
 </div>
 <span class=article-toolbar>
-<a href=https://github.com/hongtaoh/hongtaoh.github.io/edit/sources/content/en/blog/2022-08-22-correlation.md style=font-size:24px;color:#000 target=_blank><i class="fa fa-edit" aria-hidden=true title="Suggest an edit of this page"></i>
+<a href=https://github.com/hongtaoh/hongtaoh.github.io/edit/sources/content/en/blog/2022-08-22-correlation-copy.md style=font-size:24px;color:#000 target=_blank><i class="fa fa-edit" aria-hidden=true title="Suggest an edit of this page"></i>
 </a>
 </span>
 <div class="body-text list-text">
@@ -63,7 +63,7 @@ plt<span style=color:#666>.</span>xlabel(<span style=color:#ba2121>&#39;a&#39;</
 plt<span style=color:#666>.</span>ylabel(<span style=color:#ba2121>&#39;b&#39;</span>)
 </code></pre></div><pre><code>Text(0, 0.5, 'b')
 </code></pre>
-<p><img src=/en/blog/2022-08-22-correlation_files/2022-08-22-correlation_5_1.png alt=png></p>
+<p><img src=/en/blog/2022-08-22-correlation-copy_files/2022-08-22-correlation-copy_4_1.png alt=png></p>
 <h2 id=what-do-we-mean-by-covary>What do we mean by &ldquo;Covary&rdquo;?<a href=#what-do-we-mean-by-covary class=header-anchor arialabel=Anchor> # </a></h2>
 <p>When two variables vary together:</p>
 <ol>
@@ -108,7 +108,7 @@ plt<span style=color:#666>.</span>xlabel(<span style=color:#ba2121>&#39;a&#39;</
 plt<span style=color:#666>.</span>ylabel(<span style=color:#ba2121>&#39;b&#39;</span>)
 </code></pre></div><pre><code>Text(0, 0.5, 'b')
 </code></pre>
-<p><img src=/en/blog/2022-08-22-correlation_files/2022-08-22-correlation_9_1.png alt=png></p>
+<p><img src=/en/blog/2022-08-22-correlation-copy_files/2022-08-22-correlation-copy_8_1.png alt=png></p>
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>c <span style=color:#666>=</span> [<span style=color:#666>3</span>, <span style=color:#666>6</span>, <span style=color:#666>9</span>, <span style=color:#666>15</span>]
 d <span style=color:#666>=</span> [<span style=color:#666>1</span>, <span style=color:#666>2</span>, <span style=color:#666>3</span>, <span style=color:#666>5</span>]
 plt<span style=color:#666>.</span>scatter(c,d)
@@ -116,7 +116,7 @@ plt<span style=color:#666>.</span>xlabel(<span style=color:#ba2121>&#39;c&#39;</
 plt<span style=color:#666>.</span>ylabel(<span style=color:#ba2121>&#39;d&#39;</span>)
 </code></pre></div><pre><code>Text(0, 0.5, 'd')
 </code></pre>
-<p><img src=/en/blog/2022-08-22-correlation_files/2022-08-22-correlation_10_1.png alt=png></p>
+<p><img src=/en/blog/2022-08-22-correlation-copy_files/2022-08-22-correlation-copy_9_1.png alt=png></p>
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:green;font-weight:700>def</span> <span style=color:#00f>my_average</span>(array):
     <span style=color:#ba2121>&#39;&#39;&#39;calculate the average of an array
 </span><span style=color:#ba2121>    &#39;&#39;&#39;</span>
@@ -156,7 +156,7 @@ deviation_d <span style=color:#666>=</span> [(i <span style=color:#666>-</span> 
 <p><code>$$\sum_{i=1}^N (a_i - \bar{a}) \cdot (b_i - \bar{b})$$</code></p>
 <p>is the dot product of two vectors: <code>$\vec{d_a} = a_i - \bar{a}$</code> and <code>$\vec{d_b} = b_i - \bar{b}$</code>, where <code>$d$</code> denotes deviation. These vectors are <code>$N$</code>-dimensional, where <code>$N$</code> is the size of <code>$d_a$</code> (or <code>$d_b$</code>, which must be the same).</p>
 <p>When the dot product of two vectors is positive, then these two vectors are generally pointing to the same direction; when negative, different direction. However, the magnitude of the dot product doesn&rsquo;t translate into <strong>the extent to which</strong> two vectors are pointing to the same direction.</p>
-<p><img src=/en/blog/2022-08-22-correlation_files/corr-a-b.png alt></p>
+<p><img src=/en/blog/2022-08-22-correlation-copy_files/corr-a-b.png alt></p>
 <p>Suppose in two dimensional space, we have the above two vectors, <code>$\vec{d_a}$</code> and <code>$\vec{d_b}$</code>. Then, imagine we indefinitly extend <code>$\vec{d_b}$</code>, which we call <code>$\vec{db_e}$</code>. The dot product of <code>$\vec{d_a}$</code> and <code>$\vec{d_b}$</code> is definitly different from (smaller than) that of <code>$\vec{d_a}$</code> and <code>$\vec{db_e}$</code>. However, the extent to which <code>$\vec{d_a}$</code> and <code>$\vec{d_b}$</code> are pointing to the same direction is the same as that to which <code>$\vec{d_a}$</code> and <code>$\vec{db_e}$</code> are pointing to the same direction.</p>
 <p>Wait, you may say, above, we were talking about <strong>the extent to which <code>$d_a = (a_i - \bar{a})$</code> is proportional to <code>$d_b = (b_i - \bar{b})$</code></strong>, but right now we are talking about the extent to which <code>$\vec{d_a}$</code> and <code>$\vec{d_b}$</code> are pointing to the same direction. Are they the same?</p>
 <p>Yes. They are the same. I am not capable of mathematically proving that they are the same but I will illustrate it this way. Imagaine in a three dimensional space, the coordinates of <code>$\vec{m}$</code> is <code>$x_m$</code>, <code>$y_m$</code>, and <code>$z_m$</code> and those of <code>$\vec{t}$</code> is <code>$x_t$</code>, <code>$y_t$</code>, and <code>$z_t$</code>. If <code>$m_i$</code> is perfectly positively proportional to <code>$t_i$</code>, then <code>$\vec{m}$</code> and <code>$\vec{t}$</code> will overlap and point to the same direction. Then, <code>$\theta = 0$</code>. If they are perfectly negatively proportional to each other, then they will overlpa but point to exactly the opposite direction. Then <code>$\theta = 180$</code>. If they are perfectly not proportional to each other, then they are perpendicular to each other and <code>$\theta = 90$</code>.</p>
