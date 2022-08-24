@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>郝鸿涛：Hongtao Hao</title><link>https://hongtaoh.com/</link><description>Recent content on 郝鸿涛：Hongtao Hao</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="https://hongtaoh.com/index.xml" rel="self" type="application/rss+xml"/><item><title>Re-Understanding Pearson Correlation Coefficient</title><link>https://hongtaoh.com/en/2022/08/22/corr2/</link><pubDate>Mon, 22 Aug 2022 00:00:00 +0000</pubDate><guid>https://hongtaoh.com/en/2022/08/22/corr2/</guid><description>Everyone seems to know correlation but they do not. At least I didn&amp;rsquo;t.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>郝鸿涛：Hongtao Hao</title><link>https://hongtaoh.com/</link><description>Recent content on 郝鸿涛：Hongtao Hao</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="https://hongtaoh.com/index.xml" rel="self" type="application/rss+xml"/><item><title>没有什么能够阻挡</title><link>https://hongtaoh.com/cn/2022/08/23/forward/</link><pubDate>Tue, 23 Aug 2022 22:25:36 -0500</pubDate><guid>https://hongtaoh.com/cn/2022/08/23/forward/</guid><description>没有什么能够阻挡
+我眼神中
+对前方的凝望
+风雨雷暴
+乌云严寒
+都不曾遮挡
+我眼里的星光
+没有什么能够阻挡
+我脚步下
+沸腾的血脉喷张
+失败与拒绝
+蔑视与不理睬
+都像是
+鼓舞我前行的乐章</description></item><item><title>Re-Understanding Pearson Correlation Coefficient</title><link>https://hongtaoh.com/en/2022/08/22/corr2/</link><pubDate>Mon, 22 Aug 2022 00:00:00 +0000</pubDate><guid>https://hongtaoh.com/en/2022/08/22/corr2/</guid><description>Everyone seems to know correlation but they do not. At least I didn&amp;rsquo;t.
 To understand correlation, we need to first understand covariance. As the name suggests, covariance measures the extent to which two variables covary, i.e., vary together. But the questions are: what does &amp;ldquo;vary&amp;rdquo; mean, and how do we quantify &amp;ldquo;together&amp;rdquo;?
 For example, I give you these two vectors:
 import matplotlib.pyplot as plt a = [2, 4, 6, 8] b = [1, 2, 3, 8] Can you tell me the extent to which they &amp;ldquo;vary together&amp;rdquo;?</description></item><item><title>Re-Understanding Z Score</title><link>https://hongtaoh.com/en/2022/08/20/zscore/</link><pubDate>Sat, 20 Aug 2022 00:00:00 +0000</pubDate><guid>https://hongtaoh.com/en/2022/08/20/zscore/</guid><description>Ask anyone who has attended Stats101 and s/he will tell you that they understand Z-score. But, really? Could you answer the following questions without thinking?
