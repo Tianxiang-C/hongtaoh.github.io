@@ -1,0 +1,536 @@
+<a name=top></a><!doctype html>
+<html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>郝鸿涛：Hongtao Hao</title>
+<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css>
+<link rel=stylesheet href=/css/style.css>
+<link rel=stylesheet href=/css/fonts.css>
+<link href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css rel=stylesheet>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/bash.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/python.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/vega@5.17.0></script>
+<script src=https://cdn.jsdelivr.net/npm/vega-lite@4.17.0></script>
+<script src=https://cdn.jsdelivr.net/npm/vega-embed@6.12.2></script>
+<script>hljs.initHighlightingOnLoad()</script>
+<link rel=icon href=https://hongtaoh.com/ht10.ico>
+</head>
+<body>
+<div class=wrapper>
+<header class=header>
+<nav class=nav>
+<a href=/ class=nav-logo>
+<img src=/media/ht10.png width=50 height=50 alt="Hongtao Hao">
+</a>
+<ul class=nav-links>
+<li><a href=/>Home</a></li>
+<li><a href=/en/vitae/>Vitae</a></li>
+<li><a href=/en/projects/>Projects</a></li>
+<li><a href=/en/research/>Research</a></li>
+<li><a href=/en/blog/>Blog</a></li>
+<li><a href=/en/apad/>APAD</a></li>
+<li><a href=/cn/blog/>中文</a></li>
+</ul>
+</nav>
+</header>
+<main class=content role=main>
+<div style=text-align:center>
+<h1>Explaining and Implementing Hierarchical Clustering</h1>
+<p>Hongtao Hao
+/ 2022-08-24 </p>
+<hr>
+</div>
+<span class=article-toolbar>
+<a href=https://github.com/hongtaoh/hongtaoh.github.io/edit/sources/content/en/blog/2022-08-24-hierarchical-clustering.md style=font-size:24px;color:#000 target=_blank><i class="fa fa-edit" aria-hidden=true title="Suggest an edit of this page"></i>
+</a>
+</span>
+<aside class=toc>
+Table of Contents:
+<nav id=TableOfContents>
+<ul>
+<li><a href=#euclidean-distance>Euclidean distance</a></li>
+<li><a href=#distance-matrix>Distance matrix</a></li>
+<li><a href=#how-does-hierarchical-clustering-work>How does hierarchical clustering work</a>
+<ul>
+<li><a href=#the-first-problem-we-did-not-merge-clusters-with-smaller-distances-first>The first problem: we did not merge clusters with smaller distances first</a></li>
+<li><a href=#second-problem-which-cluster-to-join>Second problem: which cluster to join?</a></li>
+</ul>
+</li>
+<li><a href=#three-methods-to-measure-distance-between-clusters>Three methods to measure distance between clusters</a>
+<ul>
+<li><a href=#implementing-the-three-methods>Implementing the three methods</a></li>
+</ul>
+</li>
+<li><a href=#algorithm>Algorithm</a></li>
+<li><a href=#testing>Testing</a></li>
+<li><a href=#tie-breaking>Tie breaking</a></li>
+</ul>
+</nav>
+</aside>
+<div class="body-text list-text">
+<p>In this post, I&rsquo;ll explain what hierarchical clustering is and how to implement it with <code>Python</code>.</p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:green;font-weight:700>import</span> <span style=color:#00f;font-weight:700>pandas</span> <span style=color:green;font-weight:700>as</span> <span style=color:#00f;font-weight:700>pd</span>
+<span style=color:green;font-weight:700>import</span> <span style=color:#00f;font-weight:700>numpy</span> <span style=color:green;font-weight:700>as</span> <span style=color:#00f;font-weight:700>np</span>
+<span style=color:green;font-weight:700>import</span> <span style=color:#00f;font-weight:700>matplotlib.pyplot</span> <span style=color:green;font-weight:700>as</span> <span style=color:#00f;font-weight:700>plt</span>
+</code></pre></div><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>np<span style=color:#666>.</span>random<span style=color:#666>.</span>seed(<span style=color:#666>1234</span>)
+N <span style=color:#666>=</span> <span style=color:#666>10</span> <span style=color:#408080;font-style:italic># number of points</span>
+matrix <span style=color:#666>=</span> np<span style=color:#666>.</span>random<span style=color:#666>.</span>rand(N, <span style=color:#666>2</span>) <span style=color:#408080;font-style:italic># N points in 2 dimensional space</span>
+M <span style=color:#666>=</span> matrix <span style=color:#666>*</span> <span style=color:#666>10</span> <span style=color:#408080;font-style:italic># multiply ten so that the numbers are easier to understand. </span>
+<span style=color:#408080;font-style:italic># Otherwise, all numbers are between 0 and 1</span>
+M
+</code></pre></div><pre><code>array([[1.9151945 , 6.22108771],
+       [4.37727739, 7.85358584],
+       [7.79975808, 2.72592605],
+       [2.76464255, 8.01872178],
+       [9.58139354, 8.75932635],
+       [3.5781727 , 5.00995126],
+       [6.83462935, 7.12702027],
+       [3.70250755, 5.61196186],
+       [5.03083165, 0.1376845 ],
+       [7.72826622, 8.82641191]])
+</code></pre>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>X <span style=color:#666>=</span> M[:, <span style=color:#666>0</span>]
+Y <span style=color:#666>=</span> M[:, <span style=color:#666>1</span>]
+<span style=color:green;font-weight:700>from</span> <span style=color:#00f;font-weight:700>matplotlib.pyplot</span> <span style=color:green;font-weight:700>import</span> figure
+figure(figsize <span style=color:#666>=</span> (<span style=color:#666>8</span>,<span style=color:#666>8</span>), dpi <span style=color:#666>=</span> <span style=color:#666>100</span>)
+plt<span style=color:#666>.</span>scatter(X,Y)
+plt<span style=color:#666>.</span>xlabel(<span style=color:#ba2121>&#39;X&#39;</span>)
+plt<span style=color:#666>.</span>ylabel(<span style=color:#ba2121>&#39;Y&#39;</span>)
+<span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> <span style=color:green>range</span>(N):
+    plt<span style=color:#666>.</span>text(X[i], Y[i], <span style=color:green>str</span>(i))
+</code></pre></div><p><img src=/en/blog/2022-08-24-hierarchical-clustering_files/2022-08-24-hierarchical-clustering_4_0.png alt=png></p>
+<h2 id=euclidean-distance>Euclidean distance<a href=#euclidean-distance class=header-anchor arialabel=Anchor> # </a></h2>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:green;font-weight:700>def</span> <span style=color:#00f>eu_distance</span>(x,y):
+    d_square <span style=color:#666>=</span> np<span style=color:#666>.</span>sum((x<span style=color:#666>-</span>y)<span style=color:#666>**</span><span style=color:#666>2</span>)
+    d <span style=color:#666>=</span> np<span style=color:#666>.</span>sqrt(d_square)
+    <span style=color:green;font-weight:700>return</span> d
+</code></pre></div><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>eu_distance(M[<span style=color:#666>1</span>], M[<span style=color:#666>3</span>])
+</code></pre></div><pre><code>1.6210678581988338
+</code></pre>
+<h2 id=distance-matrix>Distance matrix<a href=#distance-matrix class=header-anchor arialabel=Anchor> # </a></h2>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>d_matrix <span style=color:#666>=</span> np<span style=color:#666>.</span>zeros((N, N))
+<span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> <span style=color:green>range</span>(N):
+    <span style=color:green;font-weight:700>for</span> j <span style=color:#a2f;font-weight:700>in</span> <span style=color:green>range</span>(N):
+        <span style=color:green;font-weight:700>if</span> i <span style=color:#666>&lt;</span> j:
+            d_matrix[i,j] <span style=color:#666>=</span> eu_distance(M[i], M[j])
+        <span style=color:green;font-weight:700>else</span>:
+            d_matrix[i,j] <span style=color:#666>=</span> <span style=color:#666>10</span><span style=color:#666>**</span><span style=color:#666>5</span>
+</code></pre></div><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>d_matrix_df <span style=color:#666>=</span> pd<span style=color:#666>.</span>DataFrame(d_matrix)
+<span style=color:#408080;font-style:italic># display a portion for the sake of space:</span>
+d_matrix_df<span style=color:#666>.</span>iloc[<span style=color:#666>0</span>:<span style=color:#666>6</span>, <span style=color:#666>0</span>:<span style=color:#666>6</span>]
+</code></pre></div><div>
+<style scoped>.dataframe tbody tr th:only-of-type{vertical-align:middle}<pre><code>.dataframe tbody tr th{vertical-align:top}.dataframe thead th{text-align:right}</code></pre><p></style></p>
+<table border=1 class=dataframe>
+<thead>
+<tr style=text-align:right>
+<th></th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>100000.0</td>
+<td>2.954133</td>
+<td>6.844285</td>
+<td>1.988228</td>
+<td>8.075473</td>
+<td>2.057267</td>
+</tr>
+<tr>
+<th>1</th>
+<td>100000.0</td>
+<td>100000.000000</td>
+<td>6.164922</td>
+<td>1.621068</td>
+<td>5.282347</td>
+<td>2.953782</td>
+</tr>
+<tr>
+<th>2</th>
+<td>100000.0</td>
+<td>100000.000000</td>
+<td>100000.000000</td>
+<td>7.305209</td>
+<td>6.290957</td>
+<td>4.799849</td>
+</tr>
+<tr>
+<th>3</th>
+<td>100000.0</td>
+<td>100000.000000</td>
+<td>100000.000000</td>
+<td>100000.000000</td>
+<td>6.856864</td>
+<td>3.116814</td>
+</tr>
+<tr>
+<th>4</th>
+<td>100000.0</td>
+<td>100000.000000</td>
+<td>100000.000000</td>
+<td>100000.000000</td>
+<td>100000.000000</td>
+<td>7.077886</td>
+</tr>
+<tr>
+<th>5</th>
+<td>100000.0</td>
+<td>100000.000000</td>
+<td>100000.000000</td>
+<td>100000.000000</td>
+<td>100000.000000</td>
+<td>100000.000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id=how-does-hierarchical-clustering-work>How does hierarchical clustering work<a href=#how-does-hierarchical-clustering-work class=header-anchor arialabel=Anchor> # </a></h2>
+<p>In our example, we have 10 data points, or nodes. The first step is to group the two nodes whose distance is the smallest among all distances.</p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>all_ds <span style=color:#666>=</span> np<span style=color:#666>.</span>unique(d_matrix) <span style=color:#408080;font-style:italic># all unique distances</span>
+<span style=color:green>len</span>(all_ds)
+</code></pre></div><pre><code>46
+</code></pre>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> <span style=color:green>range</span>(<span style=color:green>len</span>(all_ds)):
+    <span style=color:green>print</span>(np<span style=color:#666>.</span>where(d_matrix <span style=color:#666>==</span> np<span style=color:#666>.</span>sort(all_ds)[i]))
+</code></pre></div><pre><code>(array([5]), array([7]))
+(array([1]), array([3]))
+(array([4]), array([9]))
+(array([0]), array([7]))
+(array([6]), array([9]))
+(array([0]), array([3]))
+(array([0]), array([5]))
+(array([1]), array([7]))
+(array([1]), array([6]))
+(array([3]), array([7]))
+(array([1]), array([5]))
+(array([0]), array([1]))
+(array([3]), array([5]))
+(array([4]), array([6]))
+(array([6]), array([7]))
+(array([1]), array([9]))
+(array([2]), array([8]))
+(array([5]), array([6]))
+(array([3]), array([6]))
+(array([2]), array([6]))
+(array([2]), array([5]))
+(array([0]), array([6]))
+(array([2]), array([7]))
+(array([3]), array([9]))
+(array([5]), array([8]))
+(array([7]), array([9]))
+(array([1]), array([4]))
+(array([7]), array([8]))
+(array([5]), array([9]))
+(array([2]), array([9]))
+(array([1]), array([2]))
+(array([2]), array([4]))
+(array([0]), array([9]))
+(array([4]), array([7]))
+(array([0]), array([8]))
+(array([0]), array([2]))
+(array([3]), array([4]))
+(array([4]), array([5]))
+(array([6]), array([8]))
+(array([2]), array([3]))
+(array([1]), array([8]))
+(array([0]), array([4]))
+(array([3]), array([8]))
+(array([8]), array([9]))
+(array([4]), array([8]))
+(array([0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6,
+       6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8,
+       8, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9]), array([0, 0, 1, 0, 1, 2, 0, 1, 2, 3, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 5, 0,
+       1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7,
+       8, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]))
+</code></pre>
+<p>The first step is to group Node 5 and Node 7 together because their distance is the smallest. Then 1 and 3. Then 4 and 9. Then we have 0 and 7. But 7 is already in the group of <code>[5,7]</code>. What should we do here? An intuitive solution is putting 0 into the group of <code>[5,7]</code>, so we have a larger group: <code>[5,7,0]</code>. Then we have 6 and 9. Similarly, we can put 6 into the group of <code>[4,9]</code> and have larger group of <code>[4,9,6]</code>.</p>
+<p>Right now we have the following clusters:</p>
+<ul>
+<li>5, 7, 0</li>
+<li>1, 3</li>
+<li>4, 9, 6</li>
+</ul>
+<p>Keep going in the above list and we have 0 and 3. But these two are already part of the above clusters. Because the pair of 0 and 3 occurs after 1 and 3, we know that the distance between 1 and 3 is shorter, so we do not change the cluster of 1 and 3. The pair of 0 and 3 also occurs after that of 0 and 7, so the distance between 0 and 7 is shorter. That&rsquo;s why we do not change the cluster of <code>[5, 7, 0]</code>. The same is for the node pairs below <code>[0, 3]</code> until the pair of 2 and 8. Then we can have another cluster:</p>
+<ul>
+<li>2, 8</li>
+</ul>
+<p>Then we stop.</p>
+<p>To summarize our above procedure: we sort pairs by their distance in ascending order. From top to below, if neither nodes is part of a cluster, we group the two together to form a cluster. We keep going, and if one of the node (say, Node <code>a</code>) in a pair is part of a cluster (say, Cluster <code>C</code>) whereas the other node (say, Node <code>b</code>) is not, we put Node <code>b</code> into the cluster of <code>C</code>. If both nodes have already been part of the clusters we had, then we do not change anything and keep moving down in the sorted list. We keep doing this until all nodes are part of the clusters we have.</p>
+<p>All seem to be good but there are at least two problems in our above procedure.</p>
+<h3 id=the-first-problem-we-did-not-merge-clusters-with-smaller-distances-first>The first problem: we did not merge clusters with smaller distances first<a href=#the-first-problem-we-did-not-merge-clusters-with-smaller-distances-first class=header-anchor arialabel=Anchor> # </a></h3>
+<p>First of all, it seems strange that we have a cluster of <code>[2,8]</code>. We can see that the distance between Node2 and Node8 is larger than the distance between the cluster of <code>[5,7,0]</code> and <code>[1,3]</code>. So, before we merge the cluster of <code>[5,7,0]</code> and <code>[2,3]</code> into a larger cluster, we should not merge Node2 and Node8.</p>
+<p>You may say that an easy solution would be to have this rule: the last pair should be separated. That is to say, we have two clusters: <code>[2]</code> and <code>[8]</code>. However, this does not solve the problem. Let&rsquo;s say we have another two nodes: Node10 and Node11. These two are very far away from the rest. Let&rsquo;s say their coordinates are something like <code>$(10^6, 10^6)$</code>. The distance between Node10 and Node11 is smaller than the smallest distance between any of them and any of the nodes 0-9. That means we will merge Node2 and Node8, and then we have Node10 and Node11 left. According to this rule, we will have two seperate clusters: <code>[10]</code> and <code>[11]</code>.</p>
+<p>Do you see the problem? With this rule, we are still grouping <code>[2]</code> and <code>[8]</code> before we gruop <code>[5,7,0]</code> and <code>[1,3]</code>. Therefore, the above rule does not solve the problem. What should we do then?</p>
+<p>If you follow my thoughts, you know that the problem we face now is that we should gruop <code>[5,7,0]</code> and <code>[1,3]</code> before grouping <code>[2]</code> and <code>[8]</code> but our procedure, or algorithm, does not allow us to do so. Then we need to modify our algorithm.</p>
+<p>Why should we gruop <code>[5,7,0]</code> and <code>[1,3]</code> before grouping <code>[2]</code> and <code>[8]</code>? Because the distance between <code>[5,7,0]</code> and <code>[1,3]</code> is smaller than that between <code>[2]</code> and <code>[8]</code>. Then, a simple solution is that we calculate distances betweenn all cluster pairs, and then merge the pair with the smallest diestance.</p>
+<p>To do so, we should view a node which is not part of a cluster as a cluster. That&rsquo;s to say, before we start clustering anything, in our example, we have ten clusters: <code>[0]</code>, <code>[1]</code>, <code>[2]</code>, <code>[3]</code>, <code>[4]</code>, <code>[5]</code>, <code>[6]</code>, <code>[7]</code>, <code>[8]</code>, <code>[9]</code>.</p>
+<p>But we have a problem: how do we quantify the distance between two clusters when at least one of the two contains more than one nodes? It&rsquo;s easy to measure the distance between two clusters with single node: we just calculate their Euclidean distance, but for clusters with more nodes, we get lost. For example, I ask you, what is the distance between the cluster of <code>[5,7,0]</code> and <code>[1,3]</code>? This issue is related to the second problem.</p>
+<h3 id=second-problem-which-cluster-to-join>Second problem: which cluster to join?<a href=#second-problem-which-cluster-to-join class=header-anchor arialabel=Anchor> # </a></h3>
+<p>In our original procedure, in the fourth step, we have Node0 and Node7 but Node7 is already part of <code>[5, 7]</code>. We decided to let Node0 join <code>[5, 7]</code>, but there is a problem.</p>
+<p>Suppose the situation is like this:</p>
+<p><img src=/en/blog/2022-08-24-hierarchical-clustering_files/cluster_challenge.png alt></p>
+<p>The distance between Node0 and Node7 is smaller than that between Node0 and Node3. Then should Node0 be part of the cluster of <code>[1,3]</code> or <code>[5,7]</code>?</p>
+<p>It all comes down to how we measure distances between clusters. You can say that between the smallest distance for Node0 (or the cluster of <code>[0]</code>) is between it and Node7, which is part of the cluster of <code>[5,7]</code>, it should join <code>[5,7]</code>. But on the other hand, you can say that when you sum up the distances:</p>
+<p><code>$$d_{0}^{1} + d_{0}^{3} &lt; d_{0}^{5} + d_{0}^{7} $$</code></p>
+<p>We can see that it&rsquo;s better to let Node0 join the cluster of <code>[1,3]</code>.</p>
+<p>Or that because the largest distance between <code>[0]</code> and <code>[1,3]</code> is smaller than the largest distance between <code>[0]</code> and <code>[5,7]</code>, we should let Node0 join <code>[1,3]</code> instead of <code>[5,7]</code>.</p>
+<h2 id=three-methods-to-measure-distance-between-clusters>Three methods to measure distance between clusters<a href=#three-methods-to-measure-distance-between-clusters class=header-anchor arialabel=Anchor> # </a></h2>
+<p>In fact, the above are the three methods of hierchical clustering:</p>
+<ul>
+<li>
+<p><strong>Single linkage</strong>: the distance between cluster A and cluster B is defined as the smallest distance between each node in cluster A and each nodes in cluster B. In the above example, the distance between <code>[0]</code> and <code>[5,7]</code> is that between Node0 and Node7. And the distance between <code>[0]</code> and <code>[1,3]</code> is that between Node0 and Node3. Then we should merge <code>[0]</code> and <code>[5,7]</code> together because their distance is <strong>SMALLER</strong>.</p>
+</li>
+<li>
+<p><strong>Complete linkage</strong>: the distance between cluster A and cluster B is defined as the largest distance between each node in cluster A and each node in cluster B. In the above example, the distance between <code>[0]</code> and <code>[5,7]</code> is that between Node0 and Node5. And the distance between <code>[0]</code> and <code>[1,3]</code> is that between Node0 and Node1. Then we should merge <code>[0]</code> and <code>[1,3]</code> together because their distance is <strong>SMALLER</strong>.</p>
+</li>
+<li>
+<p><strong>Average linkage</strong>: the distance between cluster A and cluster B is defined as the average distance between each node in cluster A and each node in cluster B. In the above example, the distance between <code>[0]</code> and <code>[5,7]</code> is <code>$\frac{1}{2}(d_{0}^{1} + d_{5}^{7})$</code>. And the distance between <code>[0]</code> and <code>[1,3]</code> is <code>$\frac{1}{2}(d_{0}^{1} + d_{5}^{7})$</code>. Then we should merge <code>[0]</code> and <code>[1,3]</code> together because their distance is <strong>SMALLER</strong>.</p>
+</li>
+</ul>
+<p>I guess you will know how to compute the distance between <code>[5,7]</code> and <code>[1,3]</code>: we have four distance pairs: <code>$d_{5}^{1}$</code>, <code>$d_{5}^{3}$</code>, <code>$d_{7}^{1}$</code>, <code>$d_{7}^{3}$</code>. If we use single linkage, we use the smallest among the four. If we use complete linkage, we use the largest. For average linkage, we compute the mean of all four distances.</p>
+<h3 id=implementing-the-three-methods>Implementing the three methods<a href=#implementing-the-three-methods class=header-anchor arialabel=Anchor> # </a></h3>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:green;font-weight:700>def</span> <span style=color:#00f>single_linkage</span>(cluster1, cluster2, d_matrix):
+    dmin <span style=color:#666>=</span> <span style=color:#666>10</span><span style=color:#666>**</span><span style=color:#666>10</span>
+    <span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> cluster1:
+        <span style=color:green;font-weight:700>for</span> j <span style=color:#a2f;font-weight:700>in</span> cluster2:
+            <span style=color:green;font-weight:700>if</span> i <span style=color:#666>&lt;</span> j:
+                d <span style=color:#666>=</span> d_matrix[i,j]
+            <span style=color:green;font-weight:700>else</span>:
+                d <span style=color:#666>=</span> d_matrix[j,i]
+            <span style=color:green;font-weight:700>if</span> d <span style=color:#666>&lt;</span> dmin:
+                dmin <span style=color:#666>=</span> d
+    <span style=color:green;font-weight:700>return</span> dmin
+</code></pre></div><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:green;font-weight:700>def</span> <span style=color:#00f>complete_linkage</span>(cluster1, cluster2, d_matrix):
+    dmax <span style=color:#666>=</span> <span style=color:#666>0</span>
+    <span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> cluster1:
+        <span style=color:green;font-weight:700>for</span> j <span style=color:#a2f;font-weight:700>in</span> cluster2:
+            <span style=color:green;font-weight:700>if</span> i <span style=color:#666>&lt;</span> j:
+                d <span style=color:#666>=</span> d_matrix[i,j]
+            <span style=color:green;font-weight:700>else</span>:
+                d <span style=color:#666>=</span> d_matrix[j,i]
+            <span style=color:green;font-weight:700>if</span> d <span style=color:#666>&gt;</span> dmax:
+                dmax <span style=color:#666>=</span> d
+    <span style=color:green;font-weight:700>return</span> dmax
+</code></pre></div><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:green;font-weight:700>def</span> <span style=color:#00f>average_linkage</span>(cluster1, cluster2, d_matrix):
+    d_list <span style=color:#666>=</span> []
+    <span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> cluster1:
+        <span style=color:green;font-weight:700>for</span> j <span style=color:#a2f;font-weight:700>in</span> cluster2:
+            <span style=color:green;font-weight:700>if</span> i <span style=color:#666>&lt;</span> j:
+                d <span style=color:#666>=</span> d_matrix[i,j]
+            <span style=color:green;font-weight:700>else</span>:
+                d <span style=color:#666>=</span> d_matrix[j,i]
+            d_list<span style=color:#666>.</span>append(d)
+    <span style=color:green;font-weight:700>return</span> np<span style=color:#666>.</span>mean(d_list)
+</code></pre></div><p>In fact, both single linkage and complete linkage can use the method like in <code>average_linkage</code>: get the list of all distances and get the min (for single linkage) or max (for complete linkage):</p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-py data-lang=py><span style=color:green;font-weight:700>def</span> <span style=color:#00f>single_linkage</span>(cluster1, cluster2, d_matrix):
+    d_list <span style=color:#666>=</span> []
+    <span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> cluster1:
+        <span style=color:green;font-weight:700>for</span> j <span style=color:#a2f;font-weight:700>in</span> cluster2:
+            <span style=color:green;font-weight:700>if</span> i <span style=color:#666>&lt;</span> j:
+                d <span style=color:#666>=</span> d_matrix[i,j]
+            <span style=color:green;font-weight:700>else</span>:
+                d <span style=color:#666>=</span> d_matrix[j,i]
+            d_list<span style=color:#666>.</span>append(d)
+    <span style=color:green;font-weight:700>return</span> <span style=color:green>min</span>(d_list)
+    
+<span style=color:green;font-weight:700>def</span> <span style=color:#00f>complete_linkage</span>(cluster1, cluster2, d_matrix):
+    d_list <span style=color:#666>=</span> []
+    <span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> cluster1:
+        <span style=color:green;font-weight:700>for</span> j <span style=color:#a2f;font-weight:700>in</span> cluster2:
+            <span style=color:green;font-weight:700>if</span> i <span style=color:#666>&lt;</span> j:
+                d <span style=color:#666>=</span> d_matrix[i,j]
+            <span style=color:green;font-weight:700>else</span>:
+                d <span style=color:#666>=</span> d_matrix[j,i]
+            d_list<span style=color:#666>.</span>append(d)
+    <span style=color:green;font-weight:700>return</span> <span style=color:green>max</span>(d_list)
+</code></pre></div><h2 id=algorithm>Algorithm<a href=#algorithm class=header-anchor arialabel=Anchor> # </a></h2>
+<p>Let&rsquo;s recap our algorithm. We start with 10 nodes. We consider each node as a separate cluster. Then we group two clusters with the smallest distances together. Then we keep doing the same, until the number of cluster is what we require.</p>
+<p>Let&rsquo;s implemente it. Exciting, isn&rsquo;t it?</p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#408080;font-style:italic># how we initiate clusters</span>
+clusters <span style=color:#666>=</span> [[i] <span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> <span style=color:green>range</span>(<span style=color:green>len</span>(M))]
+clusters
+</code></pre></div><pre><code>[[0], [1], [2], [3], [4], [5], [6], [7], [8], [9]]
+</code></pre>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#408080;font-style:italic># to understand the following function, you need to know:</span>
+[<span style=color:#666>0</span>] <span style=color:#666>+</span> [<span style=color:#666>1</span>]
+<span style=color:#408080;font-style:italic># will be:</span>
+</code></pre></div><pre><code>[0, 1]
+</code></pre>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:green;font-weight:700>def</span> <span style=color:#00f>hierarchical_clustering</span>(M, d_matrix, target_cluster_num, method<span style=color:#666>=</span><span style=color:#ba2121>&#39;single&#39;</span>):
+    clusters <span style=color:#666>=</span> [[i] <span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> <span style=color:green>range</span>(<span style=color:green>len</span>(M))]
+    <span style=color:green;font-weight:700>while</span> <span style=color:green>len</span>(clusters) <span style=color:#666>&gt;</span> target_cluster_num:
+        dmax <span style=color:#666>=</span> np<span style=color:#666>.</span>max(d_matrix) <span style=color:#666>+</span> <span style=color:#666>1</span>
+        dmin <span style=color:#666>=</span> dmax
+        min_cluster1 <span style=color:#666>=</span> <span style=color:green;font-weight:700>None</span>
+        min_cluster2 <span style=color:#666>=</span> <span style=color:green;font-weight:700>None</span>
+        <span style=color:green;font-weight:700>for</span> cluster1 <span style=color:#a2f;font-weight:700>in</span> clusters:
+            <span style=color:green;font-weight:700>for</span> cluster2 <span style=color:#a2f;font-weight:700>in</span> clusters:
+                <span style=color:green;font-weight:700>if</span> cluster1 <span style=color:#666>!=</span> cluster2:
+                    <span style=color:green;font-weight:700>assert</span> method <span style=color:#a2f;font-weight:700>in</span> [
+                        <span style=color:#ba2121>&#39;single&#39;</span>, <span style=color:#ba2121>&#39;complete&#39;</span>, <span style=color:#ba2121>&#39;average&#39;</span>], <span style=color:#ba2121>&#39;You have to choose from single, complete, and average&#39;</span>
+                    <span style=color:green;font-weight:700>if</span> method <span style=color:#666>==</span> <span style=color:#ba2121>&#39;single&#39;</span>:
+                        d <span style=color:#666>=</span> single_linkage(cluster1, cluster2, d_matrix)
+                    <span style=color:green;font-weight:700>elif</span> method <span style=color:#666>==</span> <span style=color:#ba2121>&#39;complete&#39;</span>:
+                        d <span style=color:#666>=</span> complete_linkage(cluster1, cluster2, d_matrix)
+                    <span style=color:green;font-weight:700>elif</span> method <span style=color:#666>==</span> <span style=color:#ba2121>&#39;average&#39;</span>:
+                        d <span style=color:#666>=</span> average_linkage(cluster1, cluster2, d_matrix)
+                        
+                    <span style=color:green;font-weight:700>if</span> d <span style=color:#666>&lt;</span> dmin:
+                        dmin <span style=color:#666>=</span> d
+                        min_cluster1 <span style=color:#666>=</span> cluster1
+                        min_cluster2 <span style=color:#666>=</span> cluster2
+        clusters<span style=color:#666>.</span>remove(min_cluster1)
+        clusters<span style=color:#666>.</span>remove(min_cluster2)
+        clusters<span style=color:#666>.</span>append(min_cluster1 <span style=color:#666>+</span> min_cluster2)
+    <span style=color:green;font-weight:700>return</span> clusters
+</code></pre></div><h2 id=testing>Testing<a href=#testing class=header-anchor arialabel=Anchor> # </a></h2>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>clusters <span style=color:#666>=</span> hierarchical_clustering(M, d_matrix, <span style=color:#666>3</span>, method<span style=color:#666>=</span><span style=color:#ba2121>&#39;complete&#39;</span>)
+clusters
+</code></pre></div><pre><code>[[1, 3, 0, 5, 7], [6, 4, 9], [2, 8]]
+</code></pre>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>clustering_result <span style=color:#666>=</span> []
+<span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> <span style=color:green>range</span>(<span style=color:green>len</span>(M)):
+    <span style=color:green;font-weight:700>for</span> c <span style=color:#a2f;font-weight:700>in</span> clusters:
+        c_index <span style=color:#666>=</span> clusters<span style=color:#666>.</span>index(c)
+        <span style=color:green;font-weight:700>if</span> i <span style=color:#a2f;font-weight:700>in</span> c:
+            clustering_result<span style=color:#666>.</span>append(c_index)
+</code></pre></div><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>clustering_result
+</code></pre></div><pre><code>[0, 0, 2, 0, 1, 0, 1, 0, 2, 1]
+</code></pre>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#408080;font-style:italic>## Scikit learn:</span>
+<span style=color:green;font-weight:700>from</span> <span style=color:#00f;font-weight:700>sklearn.cluster</span> <span style=color:green;font-weight:700>import</span> AgglomerativeClustering
+sklearn_clustering <span style=color:#666>=</span> AgglomerativeClustering(n_clusters<span style=color:#666>=</span><span style=color:#666>3</span>, affinity<span style=color:#666>=</span><span style=color:#ba2121>&#39;euclidean&#39;</span>,  linkage<span style=color:#666>=</span><span style=color:#ba2121>&#39;complete&#39;</span>)<span style=color:#666>.</span>fit(M)
+sklearn_clustering<span style=color:#666>.</span>labels_
+</code></pre></div><pre><code>array([2, 2, 0, 2, 1, 2, 1, 2, 0, 1])
+</code></pre>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#408080;font-style:italic># scipy</span>
+<span style=color:green;font-weight:700>from</span> <span style=color:#00f;font-weight:700>scipy.cluster.hierarchy</span> <span style=color:green;font-weight:700>import</span> linkage
+<span style=color:green;font-weight:700>from</span> <span style=color:#00f;font-weight:700>scipy.cluster.hierarchy</span> <span style=color:green;font-weight:700>import</span> cut_tree
+
+<span style=color:#408080;font-style:italic># cityblock will mean mahanttan</span>
+scipy_clustering <span style=color:#666>=</span> linkage(M, method <span style=color:#666>=</span> <span style=color:#ba2121>&#34;complete&#34;</span>, metric<span style=color:#666>=</span><span style=color:#ba2121>&#34;euclidean&#34;</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:green>print</span>(cut_tree(
+    scipy_clustering, n_clusters <span style=color:#666>=</span> <span style=color:#666>3</span>)<span style=color:#666>.</span>T)
+</code></pre></div><pre><code>[[0 0 1 0 2 0 2 0 1 2]]
+</code></pre>
+<p>The three results should be interpreted this way: those numbers are the cluster number for each node. For example, in my clustering result, i.e., <code>clustering_result</code>, Node0 is in Cluster0, Node1 is in Cluster0, Node2 is in Cluster2, etc. Although the three results look different, they are actually the same: they just use different clustering numbers.</p>
+<h2 id=tie-breaking>Tie breaking<a href=#tie-breaking class=header-anchor arialabel=Anchor> # </a></h2>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>np<span style=color:#666>.</span>random<span style=color:#666>.</span>seed(<span style=color:#666>1234</span>)
+N2 <span style=color:#666>=</span> <span style=color:#666>50</span> <span style=color:#408080;font-style:italic># number of points</span>
+matrix <span style=color:#666>=</span> np<span style=color:#666>.</span>random<span style=color:#666>.</span>rand(N2, <span style=color:#666>2</span>) <span style=color:#408080;font-style:italic># N points in 2 dimensional space</span>
+M2 <span style=color:#666>=</span> matrix <span style=color:#666>*</span> <span style=color:#666>10</span> <span style=color:#408080;font-style:italic># multiply ten so that the numbers are easier to understand. </span>
+<span style=color:#408080;font-style:italic># Otherwise, all numbers are between 0 and 1</span>
+M2
+</code></pre></div><pre><code>array([[1.9151945 , 6.22108771],
+       [4.37727739, 7.85358584],
+       [7.79975808, 2.72592605],
+       [2.76464255, 8.01872178],
+       [9.58139354, 8.75932635],
+       [3.5781727 , 5.00995126],
+       [6.83462935, 7.12702027],
+       [3.70250755, 5.61196186],
+       [5.03083165, 0.1376845 ],
+       [7.72826622, 8.82641191],
+       [3.64885984, 6.15396178],
+       [0.75381242, 3.68824006],
+       [9.33140102, 6.51378143],
+       [3.97202578, 7.88730143],
+       [3.16836122, 5.68098653],
+       [8.6912739 , 4.36173424],
+       [8.02147642, 1.43766825],
+       [7.04260971, 7.04581308],
+       [2.18792106, 9.24867629],
+       [4.42140755, 9.09315959],
+       [0.59809223, 1.84287084],
+       [0.47355279, 6.74880944],
+       [5.9462478 , 5.33310163],
+       [0.43324063, 5.6143308 ],
+       [3.29668446, 5.02966833],
+       [1.11894318, 6.07193706],
+       [5.65944643, 0.06764062],
+       [6.17441709, 9.12122886],
+       [7.90524133, 9.92081466],
+       [9.58801762, 7.91964135],
+       [2.8525096 , 6.24916705],
+       [4.78093796, 1.95675179],
+       [3.82317452, 0.53873685],
+       [4.51648408, 9.82004742],
+       [1.239427  , 1.19380898],
+       [7.38523056, 5.87303633],
+       [4.71632534, 1.07126817],
+       [2.29218565, 8.99965195],
+       [4.16753538, 5.35851663],
+       [0.06208517, 3.00641706],
+       [4.36893172, 6.12148997],
+       [9.18198075, 6.2573667 ],
+       [7.05997565, 1.49833716],
+       [7.46063409, 8.31006992],
+       [6.33725769, 4.38309881],
+       [1.52572775, 5.68409615],
+       [5.28224278, 9.51428764],
+       [4.80359179, 5.02559563],
+       [5.36878193, 8.19202067],
+       [0.57115638, 6.69421743]])
+</code></pre>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>X <span style=color:#666>=</span> M2[:, <span style=color:#666>0</span>]
+Y <span style=color:#666>=</span> M2[:, <span style=color:#666>1</span>]
+<span style=color:green;font-weight:700>from</span> <span style=color:#00f;font-weight:700>matplotlib.pyplot</span> <span style=color:green;font-weight:700>import</span> figure
+figure(figsize <span style=color:#666>=</span> (<span style=color:#666>10</span>,<span style=color:#666>10</span>), dpi <span style=color:#666>=</span> <span style=color:#666>100</span>)
+plt<span style=color:#666>.</span>scatter(X,Y)
+plt<span style=color:#666>.</span>xlabel(<span style=color:#ba2121>&#39;X&#39;</span>)
+plt<span style=color:#666>.</span>ylabel(<span style=color:#ba2121>&#39;Y&#39;</span>)
+<span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> <span style=color:green>range</span>(N2):
+    plt<span style=color:#666>.</span>text(X[i], Y[i], <span style=color:green>str</span>(i))
+</code></pre></div><p><img src=/en/blog/2022-08-24-hierarchical-clustering_files/2022-08-24-hierarchical-clustering_38_0.png alt=png></p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>d_matrix2 <span style=color:#666>=</span> np<span style=color:#666>.</span>zeros((N2, N2))
+<span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> <span style=color:green>range</span>(N2):
+    <span style=color:green;font-weight:700>for</span> j <span style=color:#a2f;font-weight:700>in</span> <span style=color:green>range</span>(N2):
+        <span style=color:green;font-weight:700>if</span> i <span style=color:#666>&lt;</span> j:
+            d_matrix2[i,j] <span style=color:#666>=</span> eu_distance(M2[i], M2[j])
+        <span style=color:green;font-weight:700>else</span>:
+            d_matrix2[i,j] <span style=color:#666>=</span> <span style=color:#666>10</span><span style=color:#666>**</span><span style=color:#666>5</span>
+</code></pre></div><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>all_ds2 <span style=color:#666>=</span> np<span style=color:#666>.</span>unique(d_matrix2) <span style=color:#408080;font-style:italic># all unique distances</span>
+<span style=color:green>len</span>(all_ds2)
+</code></pre></div><pre><code>1226
+</code></pre>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>((<span style=color:#666>1</span><span style=color:#666>+</span>N2)<span style=color:#666>*</span>N2)<span style=color:#666>/</span><span style=color:#666>2</span> <span style=color:#666>+</span> <span style=color:#666>1</span>
+</code></pre></div><pre><code>1276.0
+</code></pre>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>
+</code></pre></div>
+<a href=https://hongtaoh.com/tags/ml/>#ML</a>
+<p style=color:#777>Last modified on 2022-08-25</p>
+</div>
+<a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>
+</main>
+<footer class=footer>
+<script src=https://utteranc.es/client.js repo=hongtaoh/hongtaoh.github.io issue-term=pathname theme=github-light crossorigin=anonymous async></script>
+<script type=text/javascript src=/js/math-code.js></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type=text/javascript src=/js/center-img.js></script>
+<ul class=footer-links>
+<li><a href=/en/blog/index.xml type=application/rss+xml title="RSS feed">
+Subscribe </a>
+</li>
+<li>
+<a href=http://creativecommons.org/licenses/by-nc-sa/4.0/ target=_blank>
+License
+<i class="fa fa-cc" aria-hidden=true title="Attribution-NonCommercial-ShareAlike 4.0 International"></i>
+</a>
+</li>
+</ul>
+<div class=copyright-text>
+©
+Hongtao Hao
+2020-2022
+</div>
+</footer>
