@@ -1,0 +1,148 @@
+<a name=top></a><!doctype html>
+<html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>郝鸿涛：Hongtao Hao</title>
+<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css>
+<link rel=stylesheet href=/css/style.css>
+<link rel=stylesheet href=/css/fonts.css>
+<link href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css rel=stylesheet>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/bash.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/python.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/vega@5.17.0></script>
+<script src=https://cdn.jsdelivr.net/npm/vega-lite@4.17.0></script>
+<script src=https://cdn.jsdelivr.net/npm/vega-embed@6.12.2></script>
+<script>hljs.initHighlightingOnLoad()</script>
+<link rel=icon href=https://hongtaoh.com/ht10.ico>
+</head>
+<body>
+<div class=wrapper>
+<header class=header>
+<nav class=nav>
+<a href=/ class=nav-logo>
+<img src=/media/ht10.png width=50 height=50 alt="Hongtao Hao">
+</a>
+<ul class=nav-links>
+<li><a href=/>Home</a></li>
+<li><a href=/en/vitae/>Vitae</a></li>
+<li><a href=/en/projects/>Projects</a></li>
+<li><a href=/en/research/>Research</a></li>
+<li><a href=/en/blog/>Blog</a></li>
+<li><a href=/en/apad/>APAD</a></li>
+<li><a href=/cn/blog/>中文</a></li>
+</ul>
+</nav>
+</header>
+<main class=content role=main>
+<div style=text-align:center>
+<h1>Derivatives of 1/x and square root of x</h1>
+<p>Hongtao Hao
+/ 2022-08-29 </p>
+<hr>
+</div>
+<span class=article-toolbar>
+<a href=https://github.com/hongtaoh/hongtaoh.github.io/edit/sources/content/en/blog/2022-08-29-two-derivatives.md style=font-size:24px;color:#000 target=_blank><i class="fa fa-edit" aria-hidden=true title="Suggest an edit of this page"></i>
+</a>
+</span>
+<aside class=toc>
+Table of Contents:
+<nav id=TableOfContents>
+<ul>
+<li><a href=#1-y--frac1x>1. <code>$y = \frac{1}{x}$</code></a></li>
+<li><a href=#2-y--sqrtx>2. <code>$y = \sqrt{x}$</code></a>
+<ul>
+<li><a href=#intuitive-way>Intuitive way</a></li>
+<li><a href=#chain-rule>Chain rule</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+</aside>
+<div class="body-text list-text">
+<h2 id=1-y--frac1x>1. <code>$y = \frac{1}{x}$</code><a href=#1-y--frac1x class=header-anchor arialabel=Anchor> # </a></h2>
+<p>The derivative of <code>$y = \frac{1}{x}$</code> can be computed in the following way.</p>
+<p>First, I highly recommend to watch <a href="https://youtu.be/S0_qX4VJhMQ?list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr&t=605" target=_blank rel="noreferrer noopener">here</a>
+, where 3blue1brown visualizes this function.</p>
+<figure itemprop=associatedMedia itemscope itemtype=http://schema.org/ImageObject>
+<a href=/media/enblog/ml/1_x.png itemprop=contentUrl>
+<img itemprop=thumbnail src=/media/enblog/ml/1_x.png>
+</a>
+</figure>
+<p>The key part of the proof is that Since A and B are both on the curve of <code>$y = \frac{1}{x}$</code>, the x coordinate times the y coordinate is 1. That is to say: <code>$A_x \cdot A_y = 1$</code> and <code>$B_x \cdot B_y = 1$</code>. If you know if, then you&rsquo;ll know that the areas of the two shaded areas are equal. Therefore,</p>
+<p>$$dx \cdot (\frac{1}{x} - df) = x \cdot df$$</p>
+<p>We have:</p>
+<p>$$x\cdot df = \frac{dx}{x} - dx\cdot df$$</p>
+<p>So:</p>
+<p>$$x = \frac{dx}{x \cdot df} - dx$$</p>
+<p>Because $dx$ is extremely small, we can safely ignore it, and therefore, we have:</p>
+<p>$$x^2 = \frac{dx}{df}$$</p>
+<p>So we have:</p>
+<p>$$\frac{df}{dx} = \frac{1}{x^2} = x^{-2}$$</p>
+<p>Because $df$ is negative, the derivative should be negative as well, so:</p>
+<p>$$\frac{df}{dx} = - \frac{1}{x^2} = - x^{-2}$$</p>
+<p>This method is inspired by <a href=https://i.imgur.com/R1cxqsm.png target=_blank rel="noreferrer noopener">F J</a>
+.</p>
+<h2 id=2-y--sqrtx>2. <code>$y = \sqrt{x}$</code><a href=#2-y--sqrtx class=header-anchor arialabel=Anchor> # </a></h2>
+<p>It can be proven in two ways.</p>
+<h3 id=intuitive-way>Intuitive way<a href=#intuitive-way class=header-anchor arialabel=Anchor> # </a></h3>
+<p>First, let&rsquo;s use the way suggested by 3blue1brown.</p>
+<figure itemprop=associatedMedia itemscope itemtype=http://schema.org/ImageObject>
+<a href=/media/enblog/ml/sqrt_x.png itemprop=contentUrl>
+<img itemprop=thumbnail src=/media/enblog/ml/sqrt_x.png alt="Source: Chapter 3 of Essence of calculus by 3blue1brown">
+</a>
+<figcaption>
+<p>
+Source: Chapter 3 of Essence of calculus by 3blue1brown
+</p>
+</figcaption>
+</figure>
+<p>I&rsquo;ll write <code>$d\sqrt{x}$</code> as <code>$dy$</code>.</p>
+<p>We have</p>
+<p>$$dx = 2\sqrt{x}\cdot dy + (dy)^2$$</p>
+<p>Divide the equation by <code>$dy$</code> and we have:</p>
+<p>$$2\sqrt{x} + dy = \frac{dx}{dy}$$</p>
+<p>Therefore,</p>
+<p>$$\frac{dy}{dx} = \frac{1}{2\sqrt{x} + dy}$$</p>
+<p>Because <code>$dy$</code> is approaching zero, we can safely ignore it and we have</p>
+<p>$$\frac{dy}{dx} = \frac{1}{2\sqrt{x}} = \frac{1}{2}x^{-\frac{1}{2}}$$</p>
+<h3 id=chain-rule>Chain rule<a href=#chain-rule class=header-anchor arialabel=Anchor> # </a></h3>
+<p>Let&rsquo;s say we have <code>$f(x) = \sqrt{x}$</code>, <code>$g(x) = x^2$</code>, and <code>$h(x) = g(f(x)) = (\sqrt{x})^2 = x$</code>.</p>
+<p>We have:</p>
+<p>\begin{align}
+h^\prime(x) & = 1 = g^\prime(f(x)) \cdot f^\prime(x)\\<br>
+& = 2\cdot f(x) \cdot f^\prime(x) \\<br>
+& = 2\sqrt{x} \cdot f^\prime(x) \\<br>
+\end{align}</p>
+<p>So we have</p>
+<p>$$f^\prime(x) = \frac{1}{2\sqrt{x}}$$</p>
+<p>The method by chain rule is inspired by Yifan Wei.</p>
+<a href=https://hongtaoh.com/tags/ml/>#ML</a>
+<p style=color:#777>Last modified on 2022-08-29</p>
+</div>
+<a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>
+</main>
+<footer class=footer>
+<script src=https://utteranc.es/client.js repo=hongtaoh/hongtaoh.github.io issue-term=pathname theme=github-light crossorigin=anonymous async></script>
+<script type=text/javascript src=/js/math-code.js></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type=text/javascript src=/js/center-img.js></script>
+<ul class=footer-links>
+<li><a href=/en/blog/index.xml type=application/rss+xml title="RSS feed">
+Subscribe </a>
+</li>
+<li>
+<a href=http://creativecommons.org/licenses/by-nc-sa/4.0/ target=_blank>
+License
+<i class="fa fa-cc" aria-hidden=true title="Attribution-NonCommercial-ShareAlike 4.0 International"></i>
+</a>
+</li>
+</ul>
+<div class=copyright-text>
+©
+Hongtao Hao
+2020-2022
+</div>
+</footer>
