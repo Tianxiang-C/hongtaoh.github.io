@@ -71,6 +71,7 @@ Table of Contents:
 <li><a href=#修改-configtoml>修改 config.toml</a></li>
 <li><a href=#更新网站>更新网站</a></li>
 <li><a href=#只用一种语言>只用一种语言</a></li>
+<li><a href=#中文为主英文为辅>中文为主，英文为辅</a></li>
 <li><a href=#新添加内容>新添加内容</a></li>
 <li><a href=#自定义域名>自定义域名</a></li>
 </ul>
@@ -129,6 +130,9 @@ Table of Contents:
     └── bin
         └── hugo
 </code></pre><p>完成后，在 Terminal 中输入 <code>hugo version</code>, 如果显示 <code>Hugo Static Site Generator...</code> 证明安装成功。</p>
+<p><div class=info>
+如果你的苹果电脑比较新，而且你是用上面这种拖动的方法（而不是 brew hugo) 这种方式，那么 <code>hugo version</code> 可能会显示软件不安全，无法打开。这时候，你需要做的是在 Terminal 中输入 <code>open -a Finder /usr/local/bin</code>，然后找到 Hugo，接着右键 &lsquo;Open&rsquo;，选择同意，之后就没事了。
+</div></p>
 <h3 id=微软系统-windows>微软系统 (Windows)<a href=#微软系统-windows class=header-anchor arialabel=Anchor> # </a></h3>
 <p>到 <a href=https://github.com/gohugoio/hugo/releases target=_blank rel="noreferrer noopener">Hugo releases</a>
 ，找到类似 <code>hugo_0.81.0_Windows-64bit.zip</code> 的文件，点击下载，并解压。解压后的文件夹中你能看到一个 <code>hugo.exe</code> 文件。</p>
@@ -416,7 +420,40 @@ defaultLang = <span style=color:#ba2121>&#34;en&#34;</span>
 </code></pre></div><p>改成</p>
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-toml data-lang=toml>singleLang = <span style=color:green;font-weight:700>true</span>
 defaultLang = <span style=color:#ba2121>&#34;cn&#34;</span> <span style=color:#408080;font-style:italic>#如果你只用英文，则用 &#34;en&#34;</span>
-</code></pre></div><h3 id=新添加内容>新添加内容<a href=#新添加内容 class=header-anchor arialabel=Anchor> # </a></h3>
+</code></pre></div><h3 id=中文为主英文为辅>中文为主，英文为辅<a href=#中文为主英文为辅 class=header-anchor arialabel=Anchor> # </a></h3>
+<p>现在的设定是英文为主，如果你想把中文设置成主页，英文为辅，那么可以参考下面的步骤：</p>
+<h4 id=1-修改-configtoml>1. 修改 config.toml<a href=#1-修改-configtoml class=header-anchor arialabel=Anchor> # </a></h4>
+<p>比如：</p>
+<pre tabindex=0><code>[[menu.cn]]
+    name = &quot;主页&quot;
+    url = &quot;/&quot;
+    weight = 1
+[[menu.cn]]
+    name = &quot;关于&quot;
+    url = &quot;/cn/about/&quot;
+    weight = 2
+[[menu.cn]]
+    name = &quot;English&quot;
+    url = &quot;/en/about&quot;
+    weight = 3
+[[menu.en]]
+    name = &quot;About&quot;
+    url = &quot;/en/about&quot;
+    weight = 1
+[[menu.en]]
+    name = &quot;中文&quot;
+    url = &quot;/&quot;
+    weight = 2
+</code></pre><p>然后把预设语言改成中文：</p>
+<pre tabindex=0><code>defaultLang = &quot;cn&quot;
+</code></pre><ol start=2>
+<li>修改 <code>themes/hugo-ht/layouts/partials/nav.html</code></li>
+</ol>
+<p>把</p>
+<pre tabindex=0><code>{{ range .Site.Menus.en }}
+</code></pre><p>改为</p>
+<pre tabindex=0><code>{{ range .Site.Menus.cn }}
+</code></pre><h3 id=新添加内容>新添加内容<a href=#新添加内容 class=header-anchor arialabel=Anchor> # </a></h3>
 <h4 id=新加一篇博客>新加一篇博客<a href=#新加一篇博客 class=header-anchor arialabel=Anchor> # </a></h4>
 <p>先在终端 cd 到你的 Hugo 文件夹，然后在终端输入：</p>
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>hugo new cn/posts/2021-04-06-a-new-post.md
@@ -484,7 +521,7 @@ open content/cn/hobby/_index.md -a TextEdit
 </span><span style=color:#bbb>          </span><span style=color:green;font-weight:700>cname</span>:<span style=color:#bbb> </span>example.com<span style=color:#bbb>
 </span></code></pre></div>
 <a href=https://hongtaoh.com/tags/%E7%BC%96%E7%A8%8B/>#编程</a>
-<p style=color:#777>最后一次修改于 2022-08-29</p>
+<p style=color:#777>最后一次修改于 2022-09-02</p>
 </div>
 <a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>
 </main>
