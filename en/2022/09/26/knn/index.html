@@ -63,7 +63,7 @@ Table of Contents:
 </nav>
 </aside>
 <div class="body-text list-text">
-<p>To me, K Nearest Neighbors (KNN) is very intuitive. Take classification tasks as an example, what KNN does is to find K training examples that are &ldquo;closest&rdquo; to the test example. These K training examples have K labels. We find the most common label and it is the predicted label for the test example in question.</p>
+<p>To me, K Nearest Neighbors (KNN) is very intuitive. Take classification tasks as an example. What KNN does is to find K training examples that are &ldquo;closest&rdquo; to the test example. These K training examples have K labels. We find the most common label, and it is the predicted label for the test example in question.</p>
 <p>How to quantify &ldquo;closest&rdquo;? Two simple methods are Euclidean distance or Manhattan distance.</p>
 <p>I&rsquo;ll take the MNIST dataset as an example.</p>
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:green;font-weight:700>import</span> <span style=color:#00f;font-weight:700>pandas</span> <span style=color:green;font-weight:700>as</span> <span style=color:#00f;font-weight:700>pd</span>
@@ -80,13 +80,13 @@ Table of Contents:
 </code></pre>
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#408080;font-style:italic># df.head()</span>
 </code></pre></div><p><img src=/en/blog/2022-09-26-knn_files/knn-df-head.png alt></p>
-<p>The above is the MNIST dataset. it has close to 60K training examples, i.e., images. Each training example has 785 columns. The first column is the label and the rest 784 (28 <code>$\times$</code> 28) columns are the input. Each of these 784 columns correspondes to a pixel, which I will explain later.</p>
+<p>The above is the MNIST dataset. it has close to 60K training examples, i.e., images. Each training example has 785 columns. The first column is the label and the remaining 784 (28 <code>$\times$</code> 28) columns are the input. Each of these 784 columns correspondes to a pixel, which I will explain later.</p>
 <p>The raw inputs are RGB values which range from 0 to 255:</p>
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>np<span style=color:#666>.</span>max(df<span style=color:#666>.</span>to_numpy())
 </code></pre></div><pre><code>255
 </code></pre>
 <p>We normally would <a href=https://stackoverflow.com/a/37421202 target=_blank rel="noreferrer noopener">normalize the inputs</a>
-so that they values are between 0 (black) and 1 (white). So do that, we divide each pixel value by the number of 255.</p>
+so that they values are between 0 (black) and 1 (white). To do that, we divide each pixel value by the number of 255.</p>
 <p>Let&rsquo;s take a look at one example.</p>
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>example_to_draw <span style=color:#666>=</span> df<span style=color:#666>.</span>iloc[<span style=color:#666>0</span>, <span style=color:#666>1</span>:]<span style=color:#666>.</span>to_numpy()<span style=color:#666>.</span>reshape(<span style=color:#666>28</span>,<span style=color:#666>28</span>)
 plt<span style=color:#666>.</span>imshow(example_to_draw, cmap<span style=color:#666>=</span><span style=color:#ba2121>&#39;gray&#39;</span>)
@@ -120,6 +120,7 @@ sns<span style=color:#666>.</span>barplot(data <span style=color:#666>=</span> l
 </code></pre>
 <p><img src=/en/blog/2022-09-26-knn_files/2022-09-26-knn_19_1.png alt=png></p>
 <h3 id=test-examples>Test examples<a href=#test-examples class=header-anchor arialabel=Anchor> # </a></h3>
+<p>I will have 100 images as test examples.</p>
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>testing_samples <span style=color:#666>=</span> df[<span style=color:#666>~</span>df<span style=color:#666>.</span>index<span style=color:#666>.</span>isin(training_indices)]<span style=color:#666>.</span>sample(<span style=color:#666>100</span>, random_state <span style=color:#666>=</span> <span style=color:#666>300</span>)
 </code></pre></div><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>x_test <span style=color:#666>=</span> (testing_samples<span style=color:#666>.</span>iloc[:, <span style=color:#666>1</span>:]<span style=color:#666>/</span><span style=color:#666>255</span>)<span style=color:#666>.</span>to_numpy()
 y_test <span style=color:#666>=</span> testing_samples<span style=color:#666>.</span>iloc[:, <span style=color:#666>0</span>]<span style=color:#666>.</span>to_numpy()
@@ -155,7 +156,7 @@ sns<span style=color:#666>.</span>barplot(data <span style=color:#666>=</span> l
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#408080;font-style:italic>## example 1:</span>
 eg1 <span style=color:#666>=</span> x_test[<span style=color:#666>1</span>]
 plt<span style=color:#666>.</span>imshow(eg1<span style=color:#666>.</span>reshape(<span style=color:#666>28</span>, <span style=color:#666>28</span>), cmap<span style=color:#666>=</span><span style=color:#ba2121>&#39;gray&#39;</span>)
-</code></pre></div><pre><code>&lt;matplotlib.image.AxesImage at 0x11be8fa90&gt;
+</code></pre></div><pre><code>&lt;matplotlib.image.AxesImage at 0x11492a3b0&gt;
 </code></pre>
 <p><img src=/en/blog/2022-09-26-knn_files/2022-09-26-knn_29_1.png alt=png></p>
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#408080;font-style:italic># Let&#39;s say k = 3</span>
@@ -172,13 +173,17 @@ knn_results
     result <span style=color:#666>=</span> knn_results[i]
     axs[i]<span style=color:#666>.</span>imshow(x_train[result]<span style=color:#666>.</span>reshape(<span style=color:#666>28</span>,<span style=color:#666>28</span>), cmap<span style=color:#666>=</span><span style=color:#ba2121>&#39;gray&#39;</span>)
 </code></pre></div><p><img src=/en/blog/2022-09-26-knn_files/2022-09-26-knn_31_0.png alt=png></p>
+<p>These three nearest neighbors have the label of &lsquo;6&rsquo;, so the label for <code>eg1</code> should be &lsquo;6&rsquo; as well.</p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>y_train[knn_results]
+</code></pre></div><pre><code>array([6, 6, 6])
+</code></pre>
 <p>Let&rsquo;s have another example:</p>
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#408080;font-style:italic># example 2</span>
 eg2 <span style=color:#666>=</span> x_test[<span style=color:#666>90</span>]
 plt<span style=color:#666>.</span>imshow(eg2<span style=color:#666>.</span>reshape(<span style=color:#666>28</span>, <span style=color:#666>28</span>), cmap<span style=color:#666>=</span><span style=color:#ba2121>&#39;gray&#39;</span>)
-</code></pre></div><pre><code>&lt;matplotlib.image.AxesImage at 0x11a8f2470&gt;
+</code></pre></div><pre><code>&lt;matplotlib.image.AxesImage at 0x11439f070&gt;
 </code></pre>
-<p><img src=/en/blog/2022-09-26-knn_files/2022-09-26-knn_33_1.png alt=png></p>
+<p><img src=/en/blog/2022-09-26-knn_files/2022-09-26-knn_35_1.png alt=png></p>
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#408080;font-style:italic># Let&#39;s say k = 3</span>
 k <span style=color:#666>=</span> <span style=color:#666>3</span>
 knn_results <span style=color:#666>=</span> knn(eg2, x_train, k)
@@ -192,7 +197,11 @@ knn_results
 <span style=color:green;font-weight:700>for</span> i <span style=color:#a2f;font-weight:700>in</span> <span style=color:green>range</span>(k):
     result <span style=color:#666>=</span> knn_results[i]
     axs[i]<span style=color:#666>.</span>imshow(x_train[result]<span style=color:#666>.</span>reshape(<span style=color:#666>28</span>,<span style=color:#666>28</span>), cmap<span style=color:#666>=</span><span style=color:#ba2121>&#39;gray&#39;</span>)
-</code></pre></div><p><img src=/en/blog/2022-09-26-knn_files/2022-09-26-knn_35_0.png alt=png></p>
+</code></pre></div><p><img src=/en/blog/2022-09-26-knn_files/2022-09-26-knn_37_0.png alt=png></p>
+<p>These three nearest neighbors have the label of &lsquo;7&rsquo;, so the label for <code>eg2</code> should be &lsquo;7&rsquo; as well.</p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>y_train[knn_results]
+</code></pre></div><pre><code>array([7, 7, 7])
+</code></pre>
 <a href=https://hongtaoh.com/tags/ml/>#ML</a>
 <p style=color:#777>Last modified on 2022-09-26</p>
 </div>
