@@ -80,7 +80,7 @@ Table of Contents:
 </code></pre>
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#408080;font-style:italic># df.head()</span>
 </code></pre></div><p><img src=/en/blog/2022-09-26-knn_files/knn-df-head.png alt></p>
-<p>The above is the MNIST dataset. it has close to 60K training examples, i.e., images. Each training example has 785 columns. The first column is the label and the remaining 784 (28 <code>$\times$</code> 28) columns are the input. Each of these 784 columns correspondes to a pixel, which I will explain later.</p>
+<p>The above is the MNIST dataset. It has close to 60K training examples, i.e., images. Each training example has 785 columns. The first column is the label and the remaining 784 (28 <code>$\times$</code> 28) columns are the input. Each of these 784 columns correspondes to a pixel, which I will explain later.</p>
 <p>The raw inputs are RGB values which range from 0 to 255:</p>
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>np<span style=color:#666>.</span>max(df<span style=color:#666>.</span>to_numpy())
 </code></pre></div><pre><code>255
