@@ -47,6 +47,16 @@
 <a href=https://github.com/hongtaoh/hongtaoh.github.io/edit/sources/content/en/blog/2022-05-11-obsedian-to-hugo-mathjax.md style=font-size:24px;color:#000 target=_blank><i class="fa fa-edit" aria-hidden=true title="Suggest an edit of this page"></i>
 </a>
 </span>
+<aside class=toc>
+Table of Contents:
+<nav id=TableOfContents>
+<ul>
+<li><a href=#mathjax>Mathjax</a></li>
+<li><a href=#images>Images</a></li>
+<li><a href=#script>Script</a></li>
+</ul>
+</nav>
+</aside>
 <div class="body-text list-text">
 <p>In Obsedian, you just use:</p>
 <figure itemprop=associatedMedia itemscope itemtype=http://schema.org/ImageObject>
@@ -65,6 +75,7 @@
 </code></pre><p>needs to become</p>
 <pre tabindex=0><code>`$$Something here$$`
 </code></pre><p>Then Obsedian and Hugo are the same.</p>
+<h2 id=mathjax>Mathjax<a href=#mathjax class=header-anchor arialabel=Anchor> # </a></h2>
 <p>So, how to convert MathJax in Obsedian to that in Hugo?</p>
 <p>We can use Python.</p>
 <div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:green;font-weight:700>import</span> <span style=color:#00f;font-weight:700>re</span> 
@@ -100,8 +111,37 @@ txt <span style=color:#666>=</span> re<span style=color:#666>.</span>sub(<span s
 txt <span style=color:#666>=</span> re<span style=color:#666>.</span>sub(<span style=color:#ba2121>r</span><span style=color:#ba2121>&#39;!\[\[&#39;</span>, <span style=color:#ba2121>&#39;![](/image/&#39;</span>, txt)
 <span style=color:#408080;font-style:italic># replace ]] with )</span>
 txt <span style=color:#666>=</span> re<span style=color:#666>.</span>sub(<span style=color:#ba2121>r</span><span style=color:#ba2121>&#39;\]\]&#39;</span>, <span style=color:#ba2121>&#39;)&#39;</span>, txt)
-</code></pre></div><blockquote>
-</blockquote>
+</code></pre></div>
+<h2 id=script>Script<a href=#script class=header-anchor arialabel=Anchor> # </a></h2>
+<p>This is the script:</p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-py data-lang=py><span style=color:green;font-weight:700>import</span> <span style=color:#00f;font-weight:700>re</span> 
+
+<span style=color:#408080;font-style:italic># the input obsedian file name</span>
+input_fname <span style=color:#666>=</span> <span style=color:#ba2121>&#39;calc.md&#39;</span>
+
+<span style=color:#408080;font-style:italic># output file name</span>
+output_fname <span style=color:#666>=</span> <span style=color:#ba2121>&#39;txt.md&#39;</span>
+
+<span style=color:#408080;font-style:italic># image directory</span>
+image_dir <span style=color:#666>=</span> <span style=color:#ba2121>&#39;/media/enblog/calc-pics/&#39;</span>
+
+<span style=color:#408080;font-style:italic># reaf file</span>
+f <span style=color:#666>=</span> <span style=color:green>open</span>(input_fname, <span style=color:#ba2121>&#39;r&#39;</span>)
+txt <span style=color:#666>=</span> f<span style=color:#666>.</span>read()
+
+<span style=color:#408080;font-style:italic># this line is from 4castle: https://stackoverflow.com/a/38645273</span>
+txt <span style=color:#666>=</span> re<span style=color:#666>.</span>sub(<span style=color:#ba2121>r</span><span style=color:#ba2121>&#39;\$([^$]*)\$&#39;</span>, <span style=color:#ba2121>r</span><span style=color:#ba2121>&#39;`$\1$`&#39;</span>, txt)
+
+txt <span style=color:#666>=</span> re<span style=color:#666>.</span>sub(<span style=color:#ba2121>r</span><span style=color:#ba2121>&#39;`\$\$`([^$]*)`\$\$`&#39;</span>, <span style=color:#ba2121>r</span><span style=color:#ba2121>&#39;`$$\1$$`&#39;</span>, txt)
+
+<span style=color:#408080;font-style:italic># replace ![[ with ![](/image/</span>
+txt <span style=color:#666>=</span> re<span style=color:#666>.</span>sub(<span style=color:#ba2121>r</span><span style=color:#ba2121>&#39;!\[\[&#39;</span>, <span style=color:#ba2121>f</span><span style=color:#ba2121>&#39;![](</span><span style=color:#b68;font-weight:700>{</span>image_dir<span style=color:#b68;font-weight:700>}</span><span style=color:#ba2121>&#39;</span>, txt)
+<span style=color:#408080;font-style:italic># replace ]] with )</span>
+txt <span style=color:#666>=</span> re<span style=color:#666>.</span>sub(<span style=color:#ba2121>r</span><span style=color:#ba2121>&#39;\]\]&#39;</span>, <span style=color:#ba2121>&#39;)&#39;</span>, txt)
+
+<span style=color:green;font-weight:700>with</span> <span style=color:green>open</span>(output_fname, <span style=color:#ba2121>&#39;w&#39;</span>) <span style=color:green;font-weight:700>as</span> f:
+    f<span style=color:#666>.</span>write(txt)
+</code></pre></div>
 <p style=color:#777>Last modified on 2022-09-30</p>
 </div>
 <a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>

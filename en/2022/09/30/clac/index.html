@@ -1,0 +1,433 @@
+<a name=top></a><!doctype html>
+<html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>郝鸿涛：Hongtao Hao</title>
+<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css>
+<link rel=stylesheet href=/css/style.css>
+<link rel=stylesheet href=/css/fonts.css>
+<link href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css rel=stylesheet>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/bash.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/python.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/vega@5.17.0></script>
+<script src=https://cdn.jsdelivr.net/npm/vega-lite@4.17.0></script>
+<script src=https://cdn.jsdelivr.net/npm/vega-embed@6.12.2></script>
+<script>hljs.initHighlightingOnLoad()</script>
+<link rel=icon href=https://hongtaoh.com/ht10.ico>
+</head>
+<body>
+<div class=wrapper>
+<header class=header>
+<nav class=nav>
+<a href=/ class=nav-logo>
+<img src=/media/ht10.png width=50 height=50 alt="Hongtao Hao">
+</a>
+<ul class=nav-links>
+<li><a href=/>Home</a></li>
+<li><a href=/en/vitae/>Vitae</a></li>
+<li><a href=/en/projects/>Projects</a></li>
+<li><a href=/en/research/>Research</a></li>
+<li><a href=/en/blog/>Blog</a></li>
+<li><a href=/en/apad/>APAD</a></li>
+<li><a href=/cn/blog/>中文</a></li>
+</ul>
+</nav>
+</header>
+<main class=content role=main>
+<div style=text-align:center>
+<h1>Notes on 3blue1brown Essence of Calculus</h1>
+<p>Hongtao Hao
+/ 2022-09-30 </p>
+<hr>
+</div>
+<span class=article-toolbar>
+<a href=https://github.com/hongtaoh/hongtaoh.github.io/edit/sources/content/en/blog/2022-09-30-calc.md style=font-size:24px;color:#000 target=_blank><i class="fa fa-edit" aria-hidden=true title="Suggest an edit of this page"></i>
+</a>
+</span>
+<aside class=toc>
+Table of Contents:
+<nav id=TableOfContents>
+<ul>
+<li><a href=#lesson-1-preview>Lesson 1: Preview</a>
+<ul>
+<li><a href=#moving-further>Moving further</a></li>
+</ul>
+</li>
+<li><a href=#lesson-2-the-paradox-of-the-derivative>Lesson 2: The paradox of the derivative</a></li>
+<li><a href=#lesson-3-derivative-fomulas-through-geometry>Lesson 3: Derivative fomulas through geometry</a></li>
+<li><a href=#lesson-4-visualizing-the-chain-rule-and-product-rule>Lesson 4: Visualizing the chain rule and product rule</a>
+<ul>
+<li><a href=#sum-rule>Sum rule</a></li>
+<li><a href=#product-rule>Product rule</a></li>
+<li><a href=#chain-rule>Chain rule</a></li>
+</ul>
+</li>
+<li><a href=#lesson-5-whats-so-special-about-eulers-number-e>Lesson 5: What&rsquo;s so special about Euler&rsquo;s number e</a></li>
+<li><a href=#chapter-6-implicit-differentiation>Chapter 6: Implicit differentiation</a></li>
+<li><a href=#chapter-7-definition-of-and-computing-limits>Chapter 7 Definition of and Computing limits</a>
+<ul>
+<li><a href=#formal-definition-of-a-derivative>Formal definition of a derivative</a></li>
+<li><a href=#compute-limits-with-lhopitals-rule>Compute limits with L&rsquo;Hopital&rsquo;s rule</a></li>
+<li><a href=#epsilon-delta-definition-of-of-limits><code>$(\epsilon, \delta)$</code> definition of of limits</a></li>
+</ul>
+</li>
+<li><a href=#chapter-8-integration-and-the-fundamental-theorem-of-calculus>Chapter 8 Integration and the fundamental theorem of calculus</a></li>
+<li><a href=#chapter-9-what-does-area-have-to-do-with-slope>Chapter 9 What does area have to do with slope</a></li>
+<li><a href=#chapter-11-taylor-series>Chapter 11 Taylor series</a>
+<ul>
+<li><a href=#converging-versus-diverging>Converging versus diverging</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+</aside>
+<div class="body-text list-text">
+<h2 id=lesson-1-preview>Lesson 1: Preview<a href=#lesson-1-preview class=header-anchor arialabel=Anchor> # </a></h2>
+<p>Think about the area of a circile. We know that it&rsquo;s area is <code>$\pi R^2$</code>. But, why?</p>
+<p>We can solve the problem this way. Imagine that we divide a radius of this circle into many smaller pieces, each with a width of <code>$dr$</code>. Then this circle will be composed of many rings. If we tear a ring open and flatten it, it will become a rectangle-ish shape. The length of this &ldquo;rectangle&rdquo; is the circumference of this ring and the width is <code>$dr$</code>. The area of this ring is the area of this &ldquo;rectangle&rdquo;. If we denote the radius of this ring as <code>$r$</code>, its circumference will be <code>$2\pi r$</code>, so the area of it is <code>$2\pi r \cdot dr$</code>.</p>
+<p><img src=/media/enblog/calc-pics/Snip20220708_14.png alt></p>
+<p>You can also image stacking every ring vertically, sorted by their length. When <code>$dr$</code> is small enough, the area of all these vertically stacked rings will be a triangle, and the area of the circle can be approximated by the area of this triangle. The base of this triangle is the radius of the circle, <code>$R$</code>, and the hight of this triangle is the length of the biggest ring, which is <code>$2\pi R$</code>. Therefore, the area of this triangle, or this circle, is <code>$\frac{2\pi R \cdot R}{2} = \pi R^2$</code>.</p>
+<p><img src=/media/enblog/calc-pics/Snip20220708_15.png alt></p>
+<h3 id=moving-further>Moving further<a href=#moving-further class=header-anchor arialabel=Anchor> # </a></h3>
+<p>What if we want to know the area of the graph of this function: <code>$y = x^2$</code>?</p>
+<p>Let&rsquo;s define a function: the area of the graph between <code>$x=0$</code> and <code>$x$</code> is <code>$A(x)$</code>. With this function, we want to know what the area is at any <code>$x$</code> value. We call this <code>$A(x)$</code> as the &ldquo;<strong>integral</strong>&rdquo; of <code>$x^2$</code>. It&rsquo;s a difficult problem to know what <code>$A(x)$</code> is but we know it should have this property. If we increase <code>$x$</code> a little bit, say, by <code>$dx$</code>, the increase in area, which we denote as <code>$dA$</code>, can be approximated by the rectangle whose area is <code>$x^2 dx$</code>. By the way, <code>$dx$</code> means &ldquo;difference in <code>$x$</code>&rdquo; and <code>$dA$</code> means difference in Area. Since <code>$dA \approx x^2 dx$</code>, we have:</p>
+<p><code>$$\frac{dA}{dx} \approx x^2$$</code></p>
+<p><img src=/media/enblog/calc-pics/Snip20220708_16.png alt></p>
+<p>A concrete example:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220708_17.png alt></p>
+<p>In fact, the graph can be one of any functions and what we discussed above remains true. For example,</p>
+<p><img src=/media/enblog/calc-pics/Snip20220708_18.png alt></p>
+<h2 id=lesson-2-the-paradox-of-the-derivative>Lesson 2: The paradox of the derivative<a href=#lesson-2-the-paradox-of-the-derivative class=header-anchor arialabel=Anchor> # </a></h2>
+<p>Derivative can been seen as the approximation of the rate of change.</p>
+<p>Let&rsquo;s say a car is moving. We plot how much distance the car moves against time. That is to say, we plot this function: <code>$Distance = f(Time)$</code>. Note that we use the cumulative distance.</p>
+<p><img src=/media/enblog/calc-pics/Snip20220708_19.png alt></p>
+<p>For example, the distance when <code>$t=2$</code> tells us the total distance the car has travelled after 2 seconds. Let&rsquo;s denote the distance as <code>$s(t)$</code>.</p>
+<p>We can also plot the speed, or velocity, of this car against time as well:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220708_20.png alt></p>
+<p>The velocity curve is definitly related to the <code>$s(t)$</code> curve:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220708_21.png alt></p>
+<p>Now, a question is: what does velocity really mean? Say, we can know the velocity at <code>$t=3$</code>. But how can you tell the speed of a car at a single moment? Suppose you saw a picture of car moving without any referencing point, how can you know the speed of it?</p>
+<p><img src=/media/enblog/calc-pics/Snip20220708_22.png alt></p>
+<p>No, you cannot. The speed is about change, so we need to compare two time points.</p>
+<p><img src=/media/enblog/calc-pics/Snip20220708_23.png alt></p>
+<p>In fact, this is how car companies calculate the speed: they look at the distance travelled after a tiny amount of time. For example, we can look at how much distance is travelled between <code>$t=3$</code> and <code>$t=3.01$</code>. We devide that change in distance by the change in time, then we get the velocity, or speed.</p>
+<p><img src=/media/enblog/calc-pics/Snip20220708_24.png alt></p>
+<p>Okay, let&rsquo;s go back to our question: what does velocity at <code>$t = 3$</code> mean? It means the distance between <code>$t=3$</code> and a tiny amount of time after that, say, <code>$t=3.01$</code>.</p>
+<p>When we calculate the speed, we use this: <code>$\frac{ds}{dt}$</code>. This is almost derivative, but not quite yet. The real derivative is that which you are approaching when <code>$t$</code> is approaching <code>$0$</code>:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220708_25.png alt></p>
+<p>Then, what is this ratio, i.e., <code>$\frac{ds}{dt}$</code>, approaching? Let&rsquo;s take a look.</p>
+<p>The change in distance over change in time is the slope of line connecting the two points we are comparing:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220708_26.png alt></p>
+<p>When <code>$dt$</code> approaches zero, the two points get closer and closer and the line is almost the line that is tangent to the graph at the point <code>$t$</code> we are looking at.</p>
+<p><img src=/media/enblog/calc-pics/Snip20220708_27.png alt></p>
+<p>However, <code>$t$</code> is only <strong>approaching</strong> zero, but never will be zero. So we should interpret the velocity at <code>$t$</code> as the best approximation of its speed at that time point.</p>
+<p>Let&rsquo;s compute for a concrete example.</p>
+<p>Let&rsquo;s say the function of time and distance is this: <code>$s(t) = t^3$</code>. And we look at <code>$t=2$</code>. This will be it&rsquo;s speed:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220708_29.png alt></p>
+<p>When you calculate it, the result will be:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220708_30.png alt></p>
+<p>As <code>$dt$</code> approaches zero, we can ignore the last two terms and the speed at any <code>$t$</code> is approximately <code>$3\cdot2^2$</code>.</p>
+<p><img src=/media/enblog/calc-pics/Snip20220708_31.png alt></p>
+<p>This applies to any time point. That is to say, if the function of time and distance is <code>$s(t) = t^3$</code>, the speed at any time can be approximated as <code>$3t^2$</code>.</p>
+<p>Wait, what about <code>$t=0$</code> ? The speed is zero. But does that mean that the car i s not moving at <code>$t=0$</code>?</p>
+<p>No. What it says is that when we compare two time moments, <code>$t=0$</code> and <code>$t=0+dt$</code>, when <code>$dt$</code> is approaching zero, the change in distance over the change in time, is also approaching zero.</p>
+<p>We can use the calculation above to know why.</p>
+<p><code>$$\frac{ds}{dt} (0) = 3\cdot0^2 + 3\cdot0\cdot dt + (dt)^2 = (dt)^2$$</code></p>
+<p>So, as <code>$dt$</code> approaches zero, the speed at <code>$t=0$</code> also approaches zero.</p>
+<p>So the speed of 0 is only an approximation.</p>
+<h2 id=lesson-3-derivative-fomulas-through-geometry>Lesson 3: Derivative fomulas through geometry<a href=#lesson-3-derivative-fomulas-through-geometry class=header-anchor arialabel=Anchor> # </a></h2>
+<p>&ldquo;Tiny nudges are the heart of derivatives.&rdquo;</p>
+<p>How to compute the derivative of a given function?</p>
+<p>Let&rsquo;s take a concrete example: <code>$f(x) = x^2$</code>. Let&rsquo;s denote the tiny change in <code>$x$</code> as <code>$dx$</code> and the resulting change in <code>$f(x)$</code> as <code>$df$</code>.</p>
+<p><img src=/media/enblog/calc-pics/y_x_square_derivative_concrete.png alt></p>
+<p>So we have: <code>$df = 2x\cdot dx + (dx)^2$</code>. Then we devide it by <code>$dx$</code> and we have:</p>
+<p><code>$$\frac{df}{dx}= 2x + {dx}$$</code></p>
+<p>Because <code>$dx$</code> is approaching zero, we can safely ignore <code>$dx$</code> and say that the derivative of <code>$f(x)=2x$</code> is <code>$2x$</code>.</p>
+<p>The same is for <code>$f(x) = x^3$</code>.</p>
+<p><img src=/media/enblog/calc-pics/y_x_cubed_derivative.png alt></p>
+<p>We have: <code>$df = 3x^2\cdot dx + 3x\cdot(dx)^2 + (dx)^3$</code>. Then we devide the whole thing by <code>$dx$</code> and we have:</p>
+<p><code>$$\frac{df}{dx} = 3x^2 + 3x\cdot dx + {dx}^2$$</code>
+Again, we can safely ignore <code>$3x\cdot dx + {dx}^2$</code> and say that the derivative of <code>$f(x)=x^3$</code> is <code>$3x^2$</code>.</p>
+<p>What this means is that in the graph of <code>$f(x)=x^3$</code>, the slope at any <code>$x$</code> is exactly <code>$3x^2$</code>:</p>
+<p><img src=/media/enblog/calc-pics/slope_of_y_x_cubed.png alt></p>
+<p>Based on this, we have the &ldquo;power rule&rdquo;:</p>
+<p><img src=/media/enblog/calc-pics/power-rule.png alt></p>
+<p><img src=/media/enblog/calc-pics/prove-power-rule.png alt></p>
+<p>For the derivative of <code>$f(x) = \frac{1}{x}$</code>: https://hongtaoh.com/en/2022/08/29/two-derivatives/</p>
+<p>For the derivative of <code>$f(x) = \sqrt{x}$</code>: https://hongtaoh.com/en/2022/08/29/two-derivatives/</p>
+<p>But I don&rsquo;t understand the derivative of <code>$sin(\theta)$</code>. I&rsquo;ll revisit it, maybe also look at <a href="https://www.khanacademy.org/math/ap-calculus-ab/ab-differentiation-1-new/ab-diff-1-optional/v/derivative-of-sin-x?modal=1" target=_blank rel="noreferrer noopener">https://www.khanacademy.org/math/ap-calculus-ab/ab-differentiation-1-new/ab-diff-1-optional/v/derivative-of-sin-x?modal=1</a>
+</p>
+<h2 id=lesson-4-visualizing-the-chain-rule-and-product-rule>Lesson 4: Visualizing the chain rule and product rule<a href=#lesson-4-visualizing-the-chain-rule-and-product-rule class=header-anchor arialabel=Anchor> # </a></h2>
+<p>The previous lessons are on how to compute the derivative for a single function, but how about combined functions?</p>
+<p>There are three ways to combine two or more functions:</p>
+<ol>
+<li>Add them together, e.g., <code>$sin(x) + x^2$</code></li>
+<li>Multplication, e.g., <code>$sin(x)x^2$</code></li>
+<li>Throw one into another, called &ldquo;function composition&rdquo;, e.g., <code>$sin(x^2)$</code></li>
+</ol>
+<p>Let&rsquo;s compute their derivatives.</p>
+<h3 id=sum-rule>Sum rule<a href=#sum-rule class=header-anchor arialabel=Anchor> # </a></h3>
+<p>First, <code>$f(x) = sin(x) + x^2$</code>. Let&rsquo;s say <code>$g(x) = sin(x)$</code> and <code>$h(x) = x^2$</code>. So, <code>$f(x) = g(x) + h(x)$</code>. If we have an increase in <code>$x$</code>: <code>$dx$</code>. Then the associated increase in <code>$sin(x)$</code> is <code>$dg = sin(x+dx) - sin(x) = cos(x)dx$</code>. Why? Because</p>
+<p><code>$$\frac{dg}{dx} = cos(x)$$</code></p>
+<p>Similarly, we have:</p>
+<p><code>$$\frac{dh}{dx} = 2x$$</code></p>
+<p>Therefore, we have</p>
+<p><code>$$df = dg + dh = cos(x)dx + 2x\cdot dx$$</code>
+So</p>
+<p><code>$$\frac{df}{dx} = cos(x) + 2x$$</code></p>
+<p>That is to say, when we add two functions, the derivative of this combined function is the sum of each individual derivative.</p>
+<h3 id=product-rule>Product rule<a href=#product-rule class=header-anchor arialabel=Anchor> # </a></h3>
+<p>Let&rsquo;s look at the product of the two functions: <code>$$f(x) = g(x)h(x)$$</code>
+<img src=/media/enblog/calc-pics/product-rule-illustration.png alt></p>
+<p>We can think of the product of <code>$g(x)$</code> and <code>$h(x)$</code> as the area of a rectangle. When we have a tiny increase of <code>$dx$</code>, then we have an associated increase of <code>$dg$</code> and <code>$dh$</code> in <code>$g(x)$</code> and <code>$h(x)$</code> respectively. We have proved that <code>$dg = cos(x)dx$</code> and <code>$dh = 2xdx$</code>. So the increase in the &ldquo;area&rdquo; is:</p>
+<p><code>$$\begin{aligned} df &= dg\cdot x^2 + dh\cdot sin(x) + dg\cdot dh \\ &= cos(x)dx\cdot x^2 + 2xdx\cdot sin(x) + cos(x)dx\cdot 2xdx \\ \end{aligned}$$</code>
+Then we devide it by <code>$dx$</code> to calculate the derivative:</p>
+<p><code>$$\frac{df}{dx} = cos(x)x^2 + 2x\cdot sin(x) + cos(x)\cdot 2xdx$$</code>
+Because <code>$dx$</code> is approaching zero, we can safely ignore <code>$cos(x)\cdot 2xdx$</code> and conclud that the derivative of <code>$f(x)=g(x)h(x)$</code> is</p>
+<p><code>$$\frac{df}{dx} = cos(x)x^2 + 2x\cdot sin(x)$$</code></p>
+<p>This can be memorized as</p>
+<p><img src=/media/enblog/calc-pics/product-rule.png alt></p>
+<p>Then what about the derivative of <code>$f(x) = 2g(x)$</code>?</p>
+<p><img src=/media/enblog/calc-pics/product-rule-constant.png alt></p>
+<p>We have:</p>
+<p><code>$$df = 2dg$$</code></p>
+<p>Because <code>$dg = cos(x)dx$</code>, we have:</p>
+<p><code>$$\frac{df}{dx} = \frac{2dg}{dx} = 2cos(x)$$</code></p>
+<p>Yeah, that&rsquo;s the derivative. When we multiply a function by a constant, the derivative of this new function is the product of this constant and the derivative of the original function.</p>
+<h3 id=chain-rule>Chain rule<a href=#chain-rule class=header-anchor arialabel=Anchor> # </a></h3>
+<p><img src=/media/enblog/calc-pics/function-composition.png alt></p>
+<p>For <code>$f(x) = g(h(x))$</code>, we can represent it as:</p>
+<p><img src=/media/enblog/calc-pics/chain-rule-illustration.png alt></p>
+<p>In <code>$f(x) = g(h(x))$</code>, when we have an increase of <code>$dx$</code>, the increase in <code>$h(x)$</code> is <code>$dh = 2xdx$</code> because <code>$h(x) = x^2$</code>. That&rsquo;s easy to understand. Then, let&rsquo;s look at the whole function, <code>$g(h(x))$</code>. Let&rsquo;s represent <code>$h(x)$</code> as <code>$h$</code>. Because <code>$g(h) = sin(h)$</code>, we have <code>$dg = cos(h)dh = cos(h)2xdx$</code>.</p>
+<p>Because <code>$f(x) = g(h)$</code>, we have:</p>
+<p><code>$$\frac{df}{dx} = \frac{dg}{dx}=cos(h)2x=cos(x^2)2x$$</code></p>
+<p>So we know that if <code>$f(x) = g(h(x))$</code>, then the derivate of <code>$f(x)$</code> is <code>$dOuter(inner)\cdot dInner$</code>.</p>
+<p><img src=/media/enblog/calc-pics/calc-pics/chain-rule.png alt></p>
+<h2 id=lesson-5-whats-so-special-about-eulers-number-e>Lesson 5: What&rsquo;s so special about Euler&rsquo;s number e<a href=#lesson-5-whats-so-special-about-eulers-number-e class=header-anchor arialabel=Anchor> # </a></h2>
+<p>What&rsquo;s the derivative of <code>$f(t) = 2^t$</code>?</p>
+<p>Let&rsquo;s see:</p>
+<p><code>$$df = 2^{t+dt} - 2^t = 2^t2^{dt} - 2^t = (2^{dt} - 1) 2^t$$</code></p>
+<p>So we have:</p>
+<p><code>$$\frac{df}{dt} = 2^t \cdot \frac{2^{dt}-1}{dt}$$</code></p>
+<p>As <code>$dt$</code> approaches zero, we will find that <code>$\frac{2^{dt}-1}{dt}$</code> is approaching a constant:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220810_62.png alt></p>
+<p>Therefore, the derivative of <code>$2^t$</code> is itself multiplied by a constant.</p>
+<p>The same is for <code>$3^t$</code> and <code>$8^t$</code>, just that the constant is different:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220810_63.png alt></p>
+<p><img src=/media/enblog/calc-pics/Snip20220810_65.png alt></p>
+<p>And you may notice this as well:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220810_66.png alt></p>
+<p>One interesting question is whether there is a base, denoted as <code>$e$</code> and the derivative of <code>$e^t$</code> is itself multiplied by <code>$1$</code>. There is. And that&rsquo;s the definition of <code>$e$</code>.</p>
+<p><img src=/media/enblog/calc-pics/Snip20220810_67.png alt></p>
+<p>With this, we can gain a deeper understanding of what we have observed above.</p>
+<p>If you remember the chain rule, you&rsquo;ll know that the derivative of <code>$e^{ct}$</code> where <code>$c$</code> is a constant, is <code>$c\cdot e^{ct}$</code>.</p>
+<p>Then, we define <code>$ln(m)$</code> as &ldquo;e to the degree of what equals m&rdquo;. Then,</p>
+<p><code>$$2^t = e^{ln(2)t}$$</code></p>
+<p>This is because <code>$2 = e^{ln(2)}$</code>, and <code>$(e^2)^t = e^{2t}$</code>.</p>
+<p>And we know the derivative should be <code>$ln(2) e^{ln(2)t} = ln(2)\cdot2^t$</code>.</p>
+<p>And indeed, <code>$ln(2)$</code> is that constant around <code>$0.6931$</code>.</p>
+<p>What this tells us is that the derivative of <code>$c^t$</code> is <code>$ln(c)\cdot c^t$</code>.</p>
+<p>By the way,</p>
+<p><code>$$ln(2) = log_e^{(2)}$$</code></p>
+<h2 id=chapter-6-implicit-differentiation>Chapter 6: Implicit differentiation<a href=#chapter-6-implicit-differentiation class=header-anchor arialabel=Anchor> # </a></h2>
+<p>To be finished:</p>
+<p><a href="https://www.youtube.com/watch?v=qb40J4N1fa4&list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr&index=6" target=_blank rel="noreferrer noopener">https://www.youtube.com/watch?v=qb40J4N1fa4&list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr&index=6</a>
+</p>
+<h2 id=chapter-7-definition-of-and-computing-limits>Chapter 7 Definition of and Computing limits<a href=#chapter-7-definition-of-and-computing-limits class=header-anchor arialabel=Anchor> # </a></h2>
+<h3 id=formal-definition-of-a-derivative>Formal definition of a derivative<a href=#formal-definition-of-a-derivative class=header-anchor arialabel=Anchor> # </a></h3>
+<p><img src=/media/enblog/calc-pics/fromal_def_derivative.png alt></p>
+<h3 id=compute-limits-with-lhopitals-rule>Compute limits with L&rsquo;Hopital&rsquo;s rule<a href=#compute-limits-with-lhopitals-rule class=header-anchor arialabel=Anchor> # </a></h3>
+<p>First, plot this function:</p>
+<p><code>$$f(x) = \frac{(2+x)^3 - 2^3}{x}$$</code></p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-r data-lang=r>y <span style=color:#666>&lt;-</span> <span style=color:#00f>function</span>(x) {
+  ((<span style=color:#666>2</span><span style=color:#666>+</span>x)^3 <span style=color:#666>-</span> <span style=color:#666>2</span>^3)<span style=color:#666>/</span>x
+}
+
+<span style=color:#00f>curve</span>(y, from <span style=color:#666>=</span> <span style=color:#666>-8</span>, to <span style=color:#666>=</span> <span style=color:#666>2</span>, xlab <span style=color:#666>=</span> <span style=color:#ba2121>&#39;x&#39;</span>, ylab<span style=color:#666>=</span><span style=color:#ba2121>&#39;y&#39;</span>)
+</code></pre></div><p>The result will be:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220917_6.png alt></p>
+<p>You see that the function is not defined at <code>$x=0$</code>. What if I ask you, when <code>$x$</code> approaches 0, which value is <code>$y$</code> approaching?</p>
+<p>You may say we can compute the derivative of <code>$f(x)$</code>. But, what for? The derivative tells you the slope of the tangent line at <code>$x=0$</code>. However, since <code>$f(0)$</code> is not even defined, there is no tangent line at <code>$x=0$</code> at all.</p>
+<p>Dead end.</p>
+<p>We can, instead, think of this question this way. <code>$f(0)$</code> is not defined, okay, fine. But what if we have a tiny change in <code>$x$</code>: <code>$dx$</code>. We can compute <code>$f(dx)$</code>, and this is where <code>$f(0)$</code> is approaching, right? Then, the question now is, what is the value of <code>$f(dx)$</code>?</p>
+<p>If <code>$g(x) = (2+x)^3 - 2^3$</code> and <code>$h(x) = x$</code>, we have:</p>
+<p><code>$$f(x) = \frac{g(x)}{h(x)}$$</code></p>
+<p>So</p>
+<p><code>$$f(dx) = \frac{g(dx)}{h(dx)}$$</code></p>
+<p>Now, let&rsquo;s plot <code>$g(x)$</code> and <code>$h(x)$</code> first:</p>
+<p>Using <code>R</code>:</p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-r data-lang=r>y1 <span style=color:#666>&lt;-</span> <span style=color:#00f>function</span>(x) {(<span style=color:#666>2</span><span style=color:#666>+</span>x)^3 <span style=color:#666>-</span> <span style=color:#666>2</span>^3}
+y2 <span style=color:#666>&lt;-</span> <span style=color:#00f>function</span>(x) {x}
+<span style=color:#00f>curve</span>(y1, from <span style=color:#666>=</span> <span style=color:#666>-4</span>, to <span style=color:#666>=</span> <span style=color:#666>1</span>, xlab <span style=color:#666>=</span> <span style=color:#ba2121>&#39;x&#39;</span>, ylab<span style=color:#666>=</span><span style=color:#ba2121>&#39;y&#39;</span>, col<span style=color:#666>=</span><span style=color:#ba2121>&#39;red&#39;</span>)
+<span style=color:#00f>curve</span>(y2, col<span style=color:#666>=</span><span style=color:#ba2121>&#39;blue&#39;</span>, add<span style=color:#666>=</span><span style=color:green;font-weight:700>TRUE</span>)
+</code></pre></div><p><img src=/media/enblog/calc-pics/Snip20220917_8.png alt></p>
+<p>We see that <code>$g(0) = h(0) = 0$</code>.</p>
+<p>When <code>$x=0$</code> and we have a tiny increase of <code>$dx$</code>, the associated change in <code>$g(x)$</code> will be:</p>
+<p><code>$$dg = g(0+dx) - g(0) = g(dx) - 0 = g(dx)$$</code></p>
+<p>Because <code>$g(x) = (2+3)^3 - 8$</code>, we know that:</p>
+<p><code>$$\frac{dg}{dx} = 3 \cdot (x+2)^2$$</code></p>
+<p>So <code>$g(dx) = dg = 3 \cdot (x+2)^2 \cdot dx$</code></p>
+<p>When <code>$x=0$</code> and we have a tiny increase of <code>$dx$</code>, the associated change in <code>$h(x)$</code> will be:</p>
+<p><code>$$dh = h(0+dx) - h(0) = h(dx) - 0 = h(dx)$$</code></p>
+<p>Because <code>$h(x) = x$</code>, we know that</p>
+<p><code>$$\frac{dh}{dx} = 1$$</code>
+We have <code>$h(dx) = dh = dx$</code></p>
+<p>So</p>
+<p><code>$$f(dx) = \frac{g(dx)}{h(dx)} = \frac{dg}{dh} = \frac{3 \cdot (x+2)^2 \cdot dx}{dx} = 3 \cdot (x+2)^2$$</code></p>
+<p>Plug in <code>$x=0$</code> and we have <code>$f(dx) = 3 \times 2^2 = 12$</code>. So <code>$f(x)$</code> is approaching 12 at <code>$x=0$</code>.</p>
+<h3 id=epsilon-delta-definition-of-of-limits><code>$(\epsilon, \delta)$</code> definition of of limits<a href=#epsilon-delta-definition-of-of-limits class=header-anchor arialabel=Anchor> # </a></h3>
+<p>Some limits are defined whereas others are not. For example,</p>
+<p><code>$$\lim_{x \to 0} f(x) = \frac{(2+x)^3 - 2^3}{x}$$</code></p>
+<p>is defined whereas</p>
+<p><code>$$\lim_{x \to 0} g(x) = \frac{1}{x}$$</code>
+is not.</p>
+<p>Why? And how can you tell whether a limit is defined or not?</p>
+<p>The plot for <code>$f(x)$</code>:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220917_6.png alt></p>
+<p>The plot for <code>$g(x)$</code>:</p>
+<p><img src=/media/enblog/calc-pics/1-x-plot.png alt></p>
+<p>I think <a href=https://www.khanacademy.org/math/ap-calculus-ab/ab-limits-new/ab-limits-optional/v/epsilon-delta-definition-of-limits target=_blank rel="noreferrer noopener">Khan Academy explains</a>
+the <code>$(\epsilon, \delta)$</code> definition of of limits really well: you give me the number <code>$\epsilon$</code> which indicates how close you want to be to the limit of <code>$f(x)$</code> as <code>$x$</code> approaches <code>$c$</code>, which is denoted as <code>$L$</code>, and I can find a number <code>$\delta$</code> such that if <code>$x$</code> is within <code>$\delta$</code> of <code>$c$</code>, then <code>$f(x)$</code> is within <code>$\epsilon$</code> of <code>$L$</code>.</p>
+<p>This can be done for <code>$f(x)$</code> but not for <code>$g(x)$</code> because in <code>$g(x)$</code>, <code>$L$</code> is indefinite.</p>
+<p>Similarly, limit in the following function at <code>$x=0$</code> is not defined as well:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220917_9.png alt></p>
+<p>This is because, for example, if <code>$\epsilon = 0.5$</code>, and let&rsquo;s say <code>$f(1.8) = 2.5$</code>. Can you find a <code>$\delta$</code> such that</p>
+<p>if <code>$|x - 0| &lt; \delta$</code>, then <code>$|f(x) - L| &lt; 0.5$</code>? (See <a href=https://sites.und.edu/timothy.prescott/apex/web/apex.Ch1.S2.html target=_blank rel="noreferrer noopener">here</a>
+)</p>
+<p>You might say <code>$L = 2$</code> and <code>$\delta = 1.8-0 = 1.8$</code>. However, when <code>$-1.8 &lt; x &lt; 0$</code>, is <code>$|f(x) - L| &lt; 0.5$</code>? No.</p>
+<h2 id=chapter-8-integration-and-the-fundamental-theorem-of-calculus>Chapter 8 Integration and the fundamental theorem of calculus<a href=#chapter-8-integration-and-the-fundamental-theorem-of-calculus class=header-anchor arialabel=Anchor> # </a></h2>
+<p>This is the plot of the speed of a car moving as a function of time:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220917_10.png alt></p>
+<p>Based on this, I ask you, could you tell me the distance the car has covered at certain time, say, <code>$t = 4s$</code>?</p>
+<p>That&rsquo;s hard to solve, but let&rsquo;s say the car&rsquo;s speed is 0 from 0s to 1s, 7 from 1s to 2s, 12 from 2s to 3s, &mldr;:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220917_11.png alt></p>
+<p>Then, the distance the car has covered at <code>$t=3$</code> is the area of the first three bars (the first bar being empty):</p>
+<p><img src=/media/enblog/calc-pics/Snip20220917_12.png alt></p>
+<p>When we have smaller and smaller time gaps:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220917_13.png alt></p>
+<p><img src=/media/enblog/calc-pics/Snip20220917_14.png alt></p>
+<p>We will know that at any time of <code>$t$</code>, the distance the car has travelled is the area between <code>$v(0)$</code> and <code>$v(t)$</code>.</p>
+<p>We can view the area as a function of time: <code>$s(T)$</code>. We also call this the <strong>integral</strong> of <code>$v(t)$</code>. When we have a tiny change in time, denoted as <code>$dT$</code>, the associated change in area, or distance, denoted as <code>$ds$</code>, can be approximated as <code>$v(T) \cdot dT$</code>.</p>
+<p><img src=/media/enblog/calc-pics/Snip20220917_15.png alt></p>
+<p>So</p>
+<p><code>$$\frac{ds}{dT} = v(T)$$</code></p>
+<p>Therefore, the derivative of <code>$s(T)$</code> is <code>$v(T)$</code>. This, in fact, applies to every function: the derivative of the integral of a function is the function itself.</p>
+<p>We know the derivative of <code>$s(T)$</code> is <code>$v(T)$</code> and we know <code>$v(t)$</code>. Then, the question is, what function has a derivative of <code>$v(t) = t(8-t)$</code>?</p>
+<p>We know that it can be this</p>
+<p><code>$$s(t) = 4t^2 - \frac{1}{3}t^3 + c$$</code>
+where <code>$c$</code> is a constant.</p>
+<p>In our case, we know that <code>$t = 0$</code> because <code>$s(0) = 0$</code>. But, in other case, we might not know this but this shouldn&rsquo;t be a problem because if we want to know the distance travelled between <code>$t=5$</code> and <code>$t=0$</code>, we just <code>$s(5) - s(0)$</code> and this cancels out the effect of the unknown <code>$c$</code>.</p>
+<p>In the above example:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220917_10.png alt></p>
+<p>Where we know <code>$v(t)$</code>, and we want to know the area between <code>$v(0)$</code> and <code>$v(T)$</code>, how to represent this mathematically?</p>
+<p><code>$$\int_0^T = v(t)dt$$</code>
+and <code>$dt$</code> is approaching 0.</p>
+<h2 id=chapter-9-what-does-area-have-to-do-with-slope>Chapter 9 What does area have to do with slope<a href=#chapter-9-what-does-area-have-to-do-with-slope class=header-anchor arialabel=Anchor> # </a></h2>
+<p>Given this:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220917_10.png alt></p>
+<p>I ask you, what is the average of distance travelled from <code>$t=0$</code> to <code>$t=4$</code>?</p>
+<p>Imagine have very small <code>$dt$</code>:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220917_14.png alt></p>
+<p>Then the average distance will the sum of heights of all the small bars, divided by the number of bars up until <code>$t=4$</code>.</p>
+<p>How many bars do we have until <code>$t=4$</code>:</p>
+<p><code>$$N = \frac{4}{dt}$$</code></p>
+<p>So:</p>
+<p><code>$$\bar{s} = \frac{\sum bars}{N} = \frac{\sum bars \times dt}{4} = \frac{\int_0^4 v(t)dt}{4} = \frac{s(4) - s(0)}{4}$$</code>
+We know <code>$s(t) = 4t^2 - \frac{1}{3}t^3$</code>.</p>
+<p>It&rsquo;s plot is:</p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-r data-lang=r>y <span style=color:#666>&lt;-</span> <span style=color:#00f>function</span>(x) {
+  <span style=color:#666>4</span><span style=color:#666>*</span>x^2 <span style=color:#666>-</span> <span style=color:#666>1</span><span style=color:#666>/</span><span style=color:#666>3</span><span style=color:#666>*</span>x^3
+}
+
+<span style=color:#00f>curve</span>(y, from <span style=color:#666>=</span> <span style=color:#666>0</span>, to <span style=color:#666>=</span> <span style=color:#666>8</span>, xlab <span style=color:#666>=</span> <span style=color:#ba2121>&#39;t&#39;</span>, ylab<span style=color:#666>=</span><span style=color:#ba2121>&#39;s&#39;</span>)
+</code></pre></div><p><img src=/media/enblog/calc-pics/Snip20220917_17.png alt></p>
+<p>You can see that <code>$\frac{s(4) - s(0)}{4}$</code> is the slope:</p>
+<div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-r data-lang=r>y <span style=color:#666>&lt;-</span> <span style=color:#00f>function</span>(x) {
+  <span style=color:#666>4</span><span style=color:#666>*</span>x^2 <span style=color:#666>-</span> <span style=color:#666>1</span><span style=color:#666>/</span><span style=color:#666>3</span><span style=color:#666>*</span>x^3
+}
+
+<span style=color:#00f>curve</span>(y, from <span style=color:#666>=</span> <span style=color:#666>0</span>, to <span style=color:#666>=</span> <span style=color:#666>8</span>, xlab <span style=color:#666>=</span> <span style=color:#ba2121>&#39;t&#39;</span>, ylab<span style=color:#666>=</span><span style=color:#ba2121>&#39;s&#39;</span>)
+
+y1 <span style=color:#666>&lt;-</span> <span style=color:#00f>function</span>(x) {
+  y <span style=color:#666>=</span> <span style=color:#666>256</span> <span style=color:#666>*</span> x <span style=color:#666>/</span> <span style=color:#666>24</span>  
+}
+
+<span style=color:#00f>curve</span>(y1, from <span style=color:#666>=</span> <span style=color:#666>0</span>, to <span style=color:#666>=</span> <span style=color:#666>4</span>, add<span style=color:#666>=</span><span style=color:green;font-weight:700>TRUE</span>, col<span style=color:#666>=</span><span style=color:#ba2121>&#34;red&#34;</span>)
+</code></pre></div><p><img src=/media/enblog/calc-pics/Snip20220917_19.png alt></p>
+<p>When you think about it, you&rsquo;ll realize that when we ask about the average distance travelled between <code>$t=0$</code> and <code>$t=4$</code>, we calculate the area, and divide it by the number of <code>$dt$</code> we have. Because <code>$v(t)$</code> is the derivative of <code>$s(t)$</code>, the average distance is equivalent to the average slope of many points between <code>$t=0$</code> and <code>$t=4$</code> for <code>$s(t)$</code>. And this average slope is the slope between two points: <code>$t=0$</code> and <code>$t=4$</code>.</p>
+<h2 id=chapter-11-taylor-series>Chapter 11 Taylor series<a href=#chapter-11-taylor-series class=header-anchor arialabel=Anchor> # </a></h2>
+<p>Taylor series is about approximating non-polynomial functions with polynomial functions near some inputs, say, <code>$x=0$</code>.</p>
+<p>Let&rsquo;s try approximating <code>$f(x) = cos(x)$</code> with something like <code>$h(x) = c_0 + c_1 x + c_2 x^2 + c_3 x^3 ...$</code></p>
+<p><img src=/media/enblog/calc-pics/Snip20220923_31.png alt></p>
+<p>Because <code>$cos(0) = 1$</code>, <code>$c_0 = 1$</code>.</p>
+<p>Then, to further approximate <code>$f(x)$</code>, it&rsquo;s best if the tangent line at <code>$f(0)$</code> is the same as that at <code>$h(0)$</code>. This means <code>$f^{\prime}(0) = h^{\prime}(0)$</code>. We know that <code>$f^{\prime}(x) = sin(x)$</code>, so <code>$f^{\prime}(0) = sin(0) = 0$</code>. Because <code>$h^{\prime}(x) = c_1 + 2c_2 x + 3c_3 x^2 + ...$</code>, we know that <code>$c_1 = 0$</code>.</p>
+<p>The tangent line at <code>$f(0)$</code> indicates the rate of change for <code>$f(x)$</code> at <code>$0$</code>. Even though the rate of change itself is <code>$0$</code>, the rate of change for that rate of change, i.e., the second derivative, is decreasing at <code>$x=0$</code>. The second derivative is <code>$-cos(x)$</code>, which is <code>$-cos(0) = -1$</code> at <code>$x=0$</code>.</p>
+<p>To approximate <code>$f(x)$</code>, it&rsquo;s best if the second derivative of <code>$h(x)$</code> is the same. The second derivative of <code>$h(x)$</code> is <code>$2c_2 + 2\cdot3 c_3 x + ...$</code>. So we have <code>$c_2 = - \frac{1}{2}$</code>.</p>
+<p>Making sure that <code>$f(x)$</code> and <code>$h(x)$</code> share the same second derivative means that these two functions &ldquo;curve at the same rate&rdquo;, i.e., the slope of the polynomial does not move more quickly (or slowly) than that of <code>$f(x)$</code> at points nearing <code>$x=0$</code>:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220923_28.png alt></p>
+<p>We can stop here, and approximate <code>$f(x) = cos(x)$</code> with</p>
+<p><code>$$h(x) = 1 - \frac{1}{2}x^2$$</code></p>
+<p>Let&rsquo;s see:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220923_29.png alt></p>
+<p>When you watch the process closely, you&rsquo;ll see that at the level of first derivative, all elements before <code>$c_1$</code> will disappear and all elements after <code>$c_1$</code> will be <code>$0$</code> if we plug in <code>$x=0$</code>. That&rsquo;s why we can easily calculate <code>$c_1$</code>.</p>
+<p>For example, this is when we calculate <code>$c_1$</code>:</p>
+<p><code>$$c_1 + 2c_2 x + 3c_3 x^2 + ...$$</code></p>
+<p>This is when we calculate <code>$c_2$</code>:</p>
+<p><code>$$2\cdot 1 c_2 + 3 \cdot 2 c_3x + ...$$</code></p>
+<p>This is when we calcualte <code>$c_3$</code>:</p>
+<p><code>$$3\cdot2\cdot1c_3 + 4\cdot3\cdot2\cdot1c_4x + ...$$</code></p>
+<p>If we are approximating at inputs other than 0, say, at <code>$x=\pi$</code>, we can do this:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220923_30.png alt></p>
+<p>By the way, this is how we represent second derivative at <code>$x=0$</code>:</p>
+<p><code>$$\frac{d^2f}{dx^2}(0)$$</code>
+You can do similar things for third, fourth, fifth derivatives.</p>
+<p>This is the more general representation of Taylor Series:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220923_33.png alt></p>
+<p>Or, more generally</p>
+<p><img src=/media/enblog/calc-pics/Snip20220923_34.png alt></p>
+<p>This is the Taylor polynomials for <code>$e^x$</code>:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220923_35.png alt></p>
+<p>This is the graphical meaning of the second derivative:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220923_36.png alt></p>
+<p>The Base is easy to understand. What about the height? Well, you know that <code>$f(x)$</code> is the derative of <code>$f_{area}(x)$</code>. The slope of <code>$f(x)$</code> is <code>$\frac{f(x) - f(a)}{x-a} = \frac{Height}{x-a}$</code>. Therefore, the Height is <code>$slope \times (x-a)$</code>. The slope is the derivative of <code>$f(x)$</code>, so it is also the second derivative of <code>$f_{area}(x)$</code>.</p>
+<p>The area of the pink triangle is the same as that in the general representation of Taylor polynomials:</p>
+<p><code>$$\frac{d^2f}{dx^2}(a)\frac{x^2}{2!}$$</code></p>
+<p>If we know <code>$f(a)$</code>, how can we approximate <code>$f(x)$</code> with polynomials:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220923_37.png alt></p>
+<h3 id=converging-versus-diverging>Converging versus diverging<a href=#converging-versus-diverging class=header-anchor arialabel=Anchor> # </a></h3>
+<p>For <code>$e^x$</code>, Taylor series is approaching <code>$e^x$</code> at any given <code>$x$</code>:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220923_38.png alt></p>
+<p>But that&rsquo;s not always the case. For example, for this function, Taylor series is only approaching the function for inputs within a certain interval, for example, the natural log <code>$ln(x)$</code>:</p>
+<p><img src=/media/enblog/calc-pics/Snip20220923_41.png alt></p>
+<p>The approximation diverges for inputs <code>$x>2$</code>.</p>
+<p>The distance vetween the input you are using, and the maximum input where the series do converge (instead of diverging), is called the <strong>Radius of convergence</strong>.</p>
+<a href=https://hongtaoh.com/tags/math/>#math</a>
+<p style=color:#777>Last modified on 2022-09-30</p>
+</div>
+<a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>
+</main>
+<footer class=footer>
+<script src=https://utteranc.es/client.js repo=hongtaoh/hongtaoh.github.io issue-term=pathname theme=github-light crossorigin=anonymous async></script>
+<script type=text/javascript src=/js/math-code.js></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type=text/javascript src=/js/center-img.js></script>
+<ul class=footer-links>
+<li><a href=/en/blog/index.xml type=application/rss+xml title="RSS feed">
+Subscribe </a>
+</li>
+<li>
+<a href=http://creativecommons.org/licenses/by-nc-sa/4.0/ target=_blank>
+License
+<i class="fa fa-cc" aria-hidden=true title="Attribution-NonCommercial-ShareAlike 4.0 International"></i>
+</a>
+</li>
+</ul>
+<div class=copyright-text>
+©
+Hongtao Hao
+2020-2022
+</div>
+</footer>
