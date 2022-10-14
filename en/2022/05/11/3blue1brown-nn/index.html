@@ -158,17 +158,17 @@ If we use the ReLu function in hidden layers, does it mean that each activation 
 <p>This is how we calculate the cost: the sum of squares of the difference between each activation in the random result and its associated correct result.</p>
 <p><img src=/media/enblog/nn/cost-calculation.png alt></p>
 <p>We call this the cost of a training example. The cost is small when the system&rsquo;s guess is close to the actual result and big when the guess is totally off target.</p>
-<p>That cose is a measure of the accuracy of a training example. But how to measure the accuracy of our entire neural network ? We take the average of cost of all the training data.</p>
+<p>That cost is a measure of the accuracy of a training example. But how to measure the accuracy of our entire neural network ? We take the average of cost of all the training data.</p>
 <p><img src=/media/enblog/nn/average-cost.png alt></p>
 <p>The cost for a given neural network is actually a function: it takes in the result our system guesses and also the actual result, and spits out a number as an output, which is the cost of this neural network.</p>
 <p>In the video, 3Blue1Brown says that the cost function takes in 13K weights + biases, spits out a number that is the cost, and that training examples are the parameters. This interpretation is also reasonable.</p>
 <p><img src=/media/enblog/nn/cost-as-a-function.png alt></p>
 <p>In a function, for example, <code>$y = 2x^2 -1$</code>, the input, <code>$x$</code> in this example, is something that is always changing. Parameters, <code>$2$</code> and <code>$1$</code> in our example, are fixed. The output, <code>$y$</code> is depent on <code>$x$</code>, and that is why it is called a <em>dependent</em> variable, or an <em>outcome</em> variable.</p>
-<p>In terms of cost, no matter we are talking about a cost for a single training example, or the average cost for the entire neural network, what are fixed are the training examples. They are the parameters. The output is the cost. Given the training examples, what is the output depent on ? It is dependent on the over 13K weights and biases that we can adjust.</p>
+<p>In terms of cost, no matter whether we are talking about a cost for a single training example, or the average cost for the entire neural network, what are fixed are the training examples. They are the parameters. The output is the cost. Given the training examples, what is the output depent on ? It is dependent on the over 13K weights and biases that we can adjust.</p>
 <p>Essentially, the cost of our neural network is the errors that our model made (<a href=https://www.simplilearn.com/tutorials/machine-learning-tutorial/cost-function-in-machine-learning target=_blank rel="noreferrer noopener">simplilearn.com</a>
 ).</p>
 <p>It is therefore our job, or our computer&rsquo;s job, to minimize the cost, or the errors, by tweaking the over 13K weights and biases. <strong>The heart of machine learning to minimize the cost function</strong>. However, that&rsquo;s not a trivial task!</p>
-<p>The process of finding local minimum for the cost function is called gradient descent, which iinvolves calculus. It is beyond my ability to understand since I have never learnt calculus before. You may check out <a href=https://towardsdatascience.com/gradient-descent-algorithm-a-deep-dive-cf04e8115f21 target=_blank rel="noreferrer noopener">this explanation</a>
+<p>The process of finding local minimum for the cost function is called gradient descent, which involves calculus. It is beyond my ability to understand since I have never learnt calculus before. You may check out <a href=https://towardsdatascience.com/gradient-descent-algorithm-a-deep-dive-cf04e8115f21 target=_blank rel="noreferrer noopener">this explanation</a>
 .</p>
 <p>Now, go back to our intial hope: we hope that the 2nd and 3rd layer is picking up on some patterns. Specifically, we hope that the 2nd layer can identify small edges and the 3rd layer can identify larger components. The question is, are they really doing it ?</p>
 <p>The answer is, at least in our example, NO.</p>
@@ -213,7 +213,7 @@ on <a href=https://colah.github.io/ target=_blank rel="noreferrer noopener">cola
 <p>These averaged desired changes are very close to the vector of gradients we talked about earlier. We can at least consider them as something proportional to the gradients.</p>
 <p><img src=/media/enblog/nn/desired-changes-as-gradients.png alt></p>
 <p>It is computationally expensive to add up the impact of each training example. To make the process more efficient, we normally randomly shuffle our training dataset, and devide them into mini-batches. For example, if the whole training data consists of 10K examples, we can have 100 mini-batches each containing 100 training examples. For each mini-batch, we calculate the average desired changes for each weight and bias. The results won&rsquo;t be perfect, but each mini-batch gives us a rough sense of what the final gradients should be. This makes it easier for computers. This technique is called <strong>Stochastic gradient descent</strong>.</p>
-<p style=color:#777>Last modified on 2022-10-12</p>
+<p style=color:#777>Last modified on 2022-10-13</p>
 </div>
 <a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>
 </main>

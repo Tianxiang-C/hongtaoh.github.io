@@ -204,6 +204,9 @@ knn_results
 </code></pre></div><pre><code>array([7, 7, 7])
 </code></pre>
 <h2 id=curse-of-dimensionality>Curse of dimensionality<a href=#curse-of-dimensionality class=header-anchor arialabel=Anchor> # </a></h2>
+<p><div class=note>
+The following part was inspired by the homewook of CS760 (2022Fall) taught by Professor Ilias.
+</div></p>
 <p>A discussion on KNN is not complete without touching upon the curse of dimensionality. What this curse says is that if we have more features, the performance of KNN will decrease. This is because the K nearest neighbors will be <strong>more dissimilar to</strong> the testing example.</p>
 <p>I will explain in the following. Let us we only have one feature vector, whose values are uniformly distributed between 0 and 1. If we have 1,000 training examples, and for KNN we decide that <code>$K=100$</code>.</p>
 <p>Let us say for the testing example, its feature is 0.4. What will be its 100 nearest neighbors?</p>
@@ -245,7 +248,7 @@ plt<span style=color:#666>.</span>ylabel(<span style=color:#ba2121>&#39;X2&#39;<
 </code></pre>
 <p>That is extremely large, right? Because each feature is only between 0 and 1. This means that if we have 100 features, then the 100 nearest neighbors are very dissimilar to our tesing example.</p>
 <a href=https://hongtaoh.com/tags/ml/>#ML</a>
-<p style=color:#777>Last modified on 2022-10-12</p>
+<p style=color:#777>Last modified on 2022-10-13</p>
 </div>
 <a href=#top><i class="fa fa-chevron-up" style=font-size:30px;color:#000></i></a>
 </main>
